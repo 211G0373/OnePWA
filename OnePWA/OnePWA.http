@@ -1,0 +1,6 @@
+@OnePWA_HostAddress = http://localhost:5161
+
+GET {{OnePWA_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
