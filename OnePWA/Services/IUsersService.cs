@@ -1,6 +1,6 @@
 ﻿namespace OnePWA.Services
 {
-    public interface ISignalrService
+    public interface IUsersService
     {
     }
 }
