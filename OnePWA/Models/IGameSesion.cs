@@ -4,11 +4,11 @@
     {
         string Name { get; }
         List<IPlayer> Players { get; }
+        bool Started { get; set; }
+        bool IsPublic { get; set; }
+        List<int> UsedCards { get; set; }
+        List<int> NotUsed { get; set; }
 
-        void AddPlayer(IPlayer player);
-        void RemovePlayer(IPlayer player);
-
-        void StartGame();
 
 
 

@@ -6,15 +6,18 @@ namespace OnePWA.Services
 {
     public interface ISesionsService
     {
-        IEnumerable<IGameSesion> Sesions { get; set; }
-
+        IGameService GameService { get; }
         string CreateSesion(ICreateSesionDTO sesionDTO, int idHost);
 
         ISesionDTO JoinSesionByCode(string code,int id);
 
-        ISesionDTO GetSesionByCode();
+        ISesionDTO JoinRandomSesion(int id);
 
+        ISesionDTO PlayAgain(int id);
 
+        void RemovePlayerFromSesion(int idPlayer, int idPlayerForRemove);
+
+        void LeaveSesion(int idPlayer);
 
 
     }
