@@ -9,7 +9,7 @@
 
         int PlayerCount { get; }
 
-
+        IEnumerable<IPlayerDTO> Players { get; }
 
     }
 }
