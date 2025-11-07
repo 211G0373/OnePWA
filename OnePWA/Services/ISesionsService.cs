@@ -8,17 +8,10 @@ namespace OnePWA.Services
     {
         IGameService GameService { get; }
         string CreateSesion(ICreateSesionDTO sesionDTO, int idHost);
-
         ISesionDTO JoinSesionByCode(string code,int id);
-
         ISesionDTO JoinRandomSesion(int id);
-
         ISesionDTO PlayAgain(int id);
-
         void RemovePlayerFromSesion(int idPlayer, int idPlayerForRemove);
-
         void LeaveSesion(int idPlayer);
-
-
     }
 }

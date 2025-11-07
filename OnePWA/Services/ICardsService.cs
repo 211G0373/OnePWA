@@ -8,7 +8,6 @@ namespace OnePWA.Services
     public interface ICardsService
     {
         IMapper Mapper { get; }
-
         IRepository<Cards> Repository { get; }
         IEnumerable<ICardDTO> GetAllCards();
         Cards? GetCardById(int id);
