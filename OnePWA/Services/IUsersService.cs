@@ -12,5 +12,7 @@ namespace OnePWA.Services
 
         string Login(ILoginDTO dto);
         void SignUpUsuario(ISignUpDTO dto);
+
+
     }
 }
