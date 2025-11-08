@@ -3,9 +3,12 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using OnePWA.Helpers;
 using OnePWA.Mappers;
+using OnePWA.Models.DTOs;
 using OnePWA.Models.Entities;
 using OnePWA.Providers;
+using OnePWA.Repositories;
 using OnePWA.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,6 +39,14 @@ builder.Services.AddAutoMapper(config =>
 });
 
 
+builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+builder.Services.AddTransient<IUsersService, UsersService>();
+builder.Services.AddTransient<ISignUpDTO, SignUpDTO>();
+builder.Services.AddTransient<ILoginDTO, LoginDTO>();
+
+//builder.Services.AddTransient<ITareasService, TareasService>();
+builder.Services.AddTransient<JwtHelper>();
+
 
 // Add services to the container.
 
@@ -62,7 +73,15 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
 
 var app = builder.Build();
 // Configure the HTTP request pipeline.
@@ -72,9 +91,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
+app.UseFileServer();
+
 app.UseAuthorization();
 app.MapControllers();
-app.MapHub<ISignalrService>("/hubs/notificaciones");
+app.MapHub<SignalrService>("/hubs/notificaciones");
 
 app.Run();

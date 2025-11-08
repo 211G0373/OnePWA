@@ -278,7 +278,7 @@
     padding: 14px;
     /* background: linear-gradient(135deg, #7209b7 0%, #4361ee 100%); */
     background: var(--secondary-color-blue);
-    background-color: var();
+    /*background-color: var();*/
     color: #fff;
     border: none;
     border-radius: 8px;

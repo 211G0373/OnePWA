@@ -11,7 +11,7 @@ namespace OnePWA.Services
         IRepository<Users> Repository { get; }
 
         string Login(ILoginDTO dto);
-        void SignUpUsuario(ISignUpDTO dto);
+        void SignUp(ISignUpDTO dto);
 
 
     }
