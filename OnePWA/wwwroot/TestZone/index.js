@@ -22,17 +22,25 @@ else {
 
 
     function obtenerDatosDelToken() {
+        console.log("d");
+
         const token = localStorage.getItem('jwtToken');
+        console.log(token);
         const payload = token.split('.')[1];
+        console.log(payload);
+
+
         const decoded = JSON.parse(atob(payload));
+
+        console.log(decoded);
         return decoded;
     }
 
     function cargarDatosUsuario() {
         const datos = obtenerDatosDelToken();
-        document.getElementById('name').textContent = datos.Nombre;
-        document.getElementById('email').textContent = datos.Email;
-        document.getElementById('id').textContent = datos.Id;
+        document.getElementById('name').textContent = datos.unique_name;
+        document.getElementById('email').textContent = datos.email;
+        document.getElementById('id').textContent = datos.nameid;
     }
 
 

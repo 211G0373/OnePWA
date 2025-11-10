@@ -17,7 +17,7 @@ namespace OnePWA.Services
 
         public UsersService(IRepository<Users> repository, IMapper mapper, JwtHelper jwtHelper)
         {
-            Repository = repository; 
+            Repository = repository;
             Mapper = mapper;
             this.jwtHelper = jwtHelper;
         }
@@ -38,17 +38,15 @@ namespace OnePWA.Services
             {
                 //Crear las claims, elegir entre ClaimType o nombre personalizado
                 //No se usan las dos formas, aqui estan con proposito de ejemplo
-                List<Claim> claims = [
-                    new Claim(ClaimTypes.Name, entidad.Name),
-                    new Claim("Nombre", entidad.Name),
+                var claims = new List<Claim>
+                     {
+                         new Claim(ClaimTypes.Name, entidad.Name),
+                         new Claim(ClaimTypes.NameIdentifier, entidad.Id.ToString()),
+                         new Claim(ClaimTypes.Email, entidad.Email)
+                      };
 
-                    new Claim(ClaimTypes.NameIdentifier,entidad.Id.ToString()),
-                    new Claim("Id", entidad.Id.ToString()),
-
-                    new Claim("Email", entidad.Email)];
-                //Generar el token
+                // Generar token
                 var token = jwtHelper.GenerateJwtToken(claims);
-                //Regresa el token
                 return token;
             }
         }

@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.SignalR;
@@ -13,20 +14,39 @@ using OnePWA.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 // Configuración de JWT
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(x => x.TokenValidationParameters =
-    new Microsoft.IdentityModel.Tokens.TokenValidationParameters
-    {
-        ValidateAudience = true,
-        ValidateIssuer = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidAudience = builder.Configuration["JwtSettings:Audience"],
-        ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
-        IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:SecretKey"] ?? ""))
-    });
+JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); //evita el mapeo automático de claims
 
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateAudience = true,
+            ValidateIssuer = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidAudience = builder.Configuration["JwtSettings:Audience"],
+            ValidIssuer = builder.Configuration["JwtSettings:Issuer"],
+            IssuerSigningKey = new SymmetricSecurityKey(
+                Encoding.UTF8.GetBytes(builder.Configuration["JwtSettings:SecretKey"] ?? ""))
+        };
+
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                var accessToken = context.Request.Query["access_token"];
+
+                var path = context.HttpContext.Request.Path;
+                if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/hubs/Signalr"))
+                {
+                    context.Token = accessToken;
+                }
+
+                return Task.CompletedTask;
+            }
+        };
+    });
 
 // Conexión a BD
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -44,6 +64,7 @@ builder.Services.AddTransient<IUsersService, UsersService>();
 builder.Services.AddTransient<ISignUpDTO, SignUpDTO>();
 builder.Services.AddTransient<ILoginDTO, LoginDTO>();
 
+
 //builder.Services.AddTransient<ITareasService, TareasService>();
 builder.Services.AddTransient<JwtHelper>();
 
@@ -53,6 +74,8 @@ builder.Services.AddTransient<JwtHelper>();
 builder.Services.AddControllers();
 builder.Services.AddSignalR();
 builder.Services.AddSingleton<IUserIdProvider, NameIdentifierUserIdProvider>();
+builder.Services.AddSingleton<ISessionsService, SessionsService>();
+builder.Services.AddSingleton<IGameService, GameService>();
 
 
 
@@ -93,9 +116,9 @@ if (app.Environment.IsDevelopment())
 
 //app.UseHttpsRedirection();
 app.UseFileServer();
-
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
-app.MapHub<SignalrService>("/hubs/notificaciones");
+app.MapHub<SignalrService>("/hubs/Signalr");
 
 app.Run();

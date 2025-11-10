@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OnePWA.Models.DTOs;
@@ -16,14 +17,18 @@ namespace OnePWA.Controllers.Api
             this.service = service;
         }
 
+       
         [HttpPost]
-        public IActionResult New(CreateSessionDTO dTO)
-        {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier)    // "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
-                   ?? User.FindFirst("sub")?.Value                  // JWT "sub"
-                   ?? User.FindFirst("id")?.Value;
+        public IActionResult New(CreateSessionDTO dto)
+        { 
+            var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            return Ok();
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized(new { message = "No se encontró el ID del usuario en el token." });
+
+            var session = service.CreateSession(dto, int.Parse(userId));
+
+            return Ok(session);
         }
 
 
