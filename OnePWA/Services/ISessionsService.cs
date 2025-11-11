@@ -8,12 +8,16 @@ namespace OnePWA.Services
 {
     public interface ISessionsService
     {
-        IRepository<Cards> Repository { get; }
-        IGameService GameService { get; }
-        ISesionDTO CreateSession(ICreateSesionDTO sesionDTO, int idHost);
-        ISesionDTO JoinSessionByCode(string code,int id);
-        ISesionDTO JoinRandomSession(int id);
-        ISesionDTO PlayAgain(int id);
+        IRepository<Users> usersRepository { get; }
+        ISessionsRepository sessionsRepository { get; }
+
+        SignalrService signalrService { get; }
+
+        ISessionDTO PlayerSession(int id);
+        bool CreateSession(ICreateSesionDTO sesionDTO, int idHost);
+        bool JoinSessionByCode(string code,int id);
+        void JoinRandomSession(int id);
+        void PlayAgain(int id);
         void RemovePlayerFromSession(int idPlayer, int idPlayerForRemove);
         void LeaveSession(int idPlayer);
     }

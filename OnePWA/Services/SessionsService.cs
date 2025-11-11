@@ -8,37 +8,95 @@ namespace OnePWA.Services
 {
     public class SessionsService : ISessionsService
     {
-        public IRepository<Cards> Repository { get; }
+      
 
-        public IGameService GameService { get; }
+        public IRepository<Users> usersRepository { get; }
+        public ISessionsRepository sessionsRepository { get; }
 
-        public SessionsService( IGameService gameService)
+        public SignalrService signalrService { get; }
+        public SessionsService(IRepository<Users> repository, ISessionsRepository sessionsRepository, SignalrService signalrService)
         {
-         //  Repository = repository;
-            GameService = gameService;
+            usersRepository = repository;
+            this.sessionsRepository = sessionsRepository;
+            this.signalrService = signalrService;
         }
 
-        public ISesionDTO CreateSession(ICreateSesionDTO sesionDTO, int idHost)
+        public ISessionDTO PlayerSession(int id)
         {
-              GameSession newSession = new GameSession
-              {
-                  Name = sesionDTO.Name,
-                  IsPublic = !sesionDTO.Private,
-                  Started = false,
-                  IdHost = idHost,
-              };
-              
-             newSession.Players
+            var session = sessionsRepository.GetByPlayerId(id);
+
+            return new SessionDTO
+            {
+                Name = session.Name,
+                Code = session.Code,
+                IdHost = session.IdHost,
+                Players = session.Players.Select(p => new PlayerDTO
+                {
+                    Id = p.Id,
+                    UserName = usersRepository.Get(p.Id).Name
+                }).ToList()
+            };
         }
 
-        public ISesionDTO JoinRandomSession(int id)
+        public bool CreateSession(ICreateSesionDTO sesionDTO, int idHost)
+        {
+            GameSession newSession = new GameSession
+            {
+                Name = sesionDTO.Name,
+                Private = sesionDTO.Private,
+                NewRules = sesionDTO.NewRules,
+                IdHost = idHost,
+            };
+            Player hostPlayer = new Player
+            {
+                Id = idHost
+            };
+            newSession.Code = Guid.NewGuid().ToString().Substring(0, 5).ToUpper();
+            newSession.Players.Add(hostPlayer);
+
+            sessionsRepository.Insert(newSession);
+            return true;
+
+        }
+
+        public void JoinRandomSession(int id)
         {
             throw new NotImplementedException();
         }
 
-        public ISesionDTO JoinSessionByCode(string code, int id)
+        public bool JoinSessionByCode(string code, int id)
         {
-            throw new NotImplementedException();
+            var session = sessionsRepository.GetByCode(code);
+            if (session == null)
+            {
+                throw new Exception("Session not found");
+            }
+            Player newPlayer = new Player
+            {
+                Id = id
+            };
+
+
+
+            session.Players.Add(newPlayer);
+
+            foreach(var player in session.Players)
+            {
+                if (player.Id != id)
+                {
+                    var playerDTO = new PlayerDTO
+                    {
+                        Id = newPlayer.Id,
+                        UserName = usersRepository.Get(newPlayer.Id).Name
+                    };
+                    signalrService.PlayerJoined(player.Id.ToString(), playerDTO);
+                }
+            }
+
+
+            return true;
+
+
         }
 
         public void LeaveSession(int idPlayer)
@@ -46,7 +104,7 @@ namespace OnePWA.Services
             throw new NotImplementedException();
         }
 
-        public ISesionDTO PlayAgain(int id)
+        public void PlayAgain(int id)
         {
             throw new NotImplementedException();
         }

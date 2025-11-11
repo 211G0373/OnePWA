@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using OnePWA.Helpers;
 using OnePWA.Mappers;
+using OnePWA.Models;
 using OnePWA.Models.DTOs;
 using OnePWA.Models.Entities;
 using OnePWA.Providers;
@@ -52,6 +53,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<OnecgdbContext>(x =>
     x.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
+builder.Services.AddSingleton<ISessionContext,SessionContext>();
+builder.Services.AddSingleton<SignalrService>();
 
 builder.Services.AddAutoMapper(config =>
 {
@@ -61,11 +64,14 @@ builder.Services.AddAutoMapper(config =>
 
 builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
 
-OnecgdbContext context = new OnecgdbContext();
 
+builder.Services.AddTransient<ISessionsRepository, SessionsRepository>();
 builder.Services.AddTransient<IUsersService, UsersService>();
 builder.Services.AddTransient<ISignUpDTO, SignUpDTO>();
 builder.Services.AddTransient<ILoginDTO, LoginDTO>();
+builder.Services.AddTransient<ISessionsService, SessionsService>();
+builder.Services.AddTransient<IGameService, GameService>();
+
 
 
 //builder.Services.AddTransient<ITareasService, TareasService>();
@@ -76,9 +82,7 @@ builder.Services.AddTransient<JwtHelper>();
 
 builder.Services.AddControllers();
 builder.Services.AddSignalR();
-builder.Services.AddSingleton<IUserIdProvider, NameIdentifierUserIdProvider>();
-builder.Services.AddSingleton<ISessionsService, SessionsService>();
-builder.Services.AddSingleton<IGameService, GameService>();
+//builder.Services.AddSingleton<IUserIdProvider, NameIdentifierUserIdProvider>();
 
 
 

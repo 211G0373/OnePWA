@@ -21,36 +21,73 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
     <script>
-        const token = localStorage.getItem("jwtToken"); // o tu token JWT directamente
+        const token = localStorage.getItem('jwtToken');
+        console.log(token);
 
-        //const connection = new signalR.HubConnectionBuilder()
-        //    .withUrl("https://localhost:44355/hubs/Signalr", {
-        //        accessTokenFactory: () => token
-        //    })
-        //    .configureLogging(signalR.LogLevel.Information)
-        //    .build();
+        if (!token) {
+           window.location.href = 'login.html';
+        }
+        else {
+            let Session;
+            const headers = {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            };
+
+            //const connection = new signalR.HubConnectionBuilder()
+            //    .withUrl("https://localhost:44355/hubs/Signalr", {
+            //        accessTokenFactory: () => token
+            //    })
+            //    .configureLogging(signalR.LogLevel.Information)
+            //    .build();
+
+            //const response = await fetch('/api/Sessions/', {
+            //    method: 'POST',
+            //    headers,
+            //    body: JSON.stringify(formData)
+            //});
+            async function cargar(){
+                const response = await fetch('/api/Sessions', {
+                    method: 'GET',
+                    headers
+
+                });
+                if (response.ok) {
+                    Session = await response.json;
+                    console.log('Sesión creada:', Session);
+                    // window.location.href = 'index.html';
+                }
+                //else {
+                //    window.location.href = 'index.html';
+                //}
+            }
+
+            cargar();
 
 
-        const connection = new signalR.HubConnectionBuilder()
-            .withUrl("https://localhost:44355/hubs/Signalr?access_token=" + token)
-            .configureLogging(signalR.LogLevel.Information)
-            .build();
 
-        connection.start()
-            .then(() => {
-                console.log("✅ Conectado correctamente al servidor SignalR");
-                document.body.innerHTML += "<p>✅ Conexión establecida</p>";
-            })
-            .catch(err => {
-                console.error("❌ Error de conexión:", err);
-                document.body.innerHTML += "<p>❌ Error de conexión: " + err + "</p>";
+            const connection = new signalR.HubConnectionBuilder()
+                .withUrl("https://localhost:7230/hubs/Signalr?access_token=" + token)
+                .configureLogging(signalR.LogLevel.Information)
+                .build();
+
+            connection.start()
+                .then(() => {
+                    console.log("✅ Conectado correctamente al servidor SignalR");
+                    document.body.innerHTML += "<p>✅ Conexión establecida</p>";
+                })
+                .catch(err => {
+                    console.error("❌ Error de conexión:", err);
+                    document.body.innerHTML += "<p>❌ Error de conexión: " + err + "</p>";
+                });
+
+
+            connection.on("PlayerJoined", (player) => {
+                console.log(player);
             });
 
+        }
 
-        connection.on("PlayerJoined", (player) => {
-         
-        });
-       
     </script>
 
 

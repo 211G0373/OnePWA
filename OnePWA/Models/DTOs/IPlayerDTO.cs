@@ -4,6 +4,7 @@
     {
         int Id { get; set; }
         string UserName { get; set; }
+        int CardsCount { get; set; }
 
     }
 }

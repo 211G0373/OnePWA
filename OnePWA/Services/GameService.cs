@@ -4,7 +4,7 @@ namespace OnePWA.Services
 {
     public class GameService : IGameService
     {
-        public IEnumerable<IGameSesion> Sesions { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public List<IGameSesion> Sesions { get ; set; }= new List<IGameSesion>();
 
         public ICardsService CardsService => throw new NotImplementedException();
 

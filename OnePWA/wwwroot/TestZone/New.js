@@ -35,15 +35,16 @@ else {
                 body: JSON.stringify(formData)
             });
 
-            //if (response.ok) {
-            //    const token = await response.text();
-            //    localStorage.setItem('jwtToken', token);
-            //    window.location.href = 'index.html';
-            //} else {
-            //    const emailInput = document.getElementById('email');
-            //    emailInput.setCustomValidity('Credenciales incorrectas');
-            //    emailInput.reportValidity();
-            //}
+            if (response.ok) {
+                //    const token = await response.text();
+                //    localStorage.setItem('jwtToken', token);
+                window.location.href = 'waiting.html';
+                //} else {
+                //    const emailInput = document.getElementById('email');
+                //    emailInput.setCustomValidity('Credenciales incorrectas');
+                //    emailInput.reportValidity();
+                //}
+            }
         } catch (error) {
             //const emailInput = document.getElementById('email');
             //emailInput.setCustomValidity('Error de conexión');
