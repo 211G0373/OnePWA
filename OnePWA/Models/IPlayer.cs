@@ -1,11 +1,13 @@
-﻿namespace OnePWA.Models
+﻿using OnePWA.Models.Entities;
+
+namespace OnePWA.Models
 {
     public interface IPlayer
     {
         int Id { get; set; }
         string Username { get; set; }
         byte turnOrder { get; set; }
-        List<int> Cards { get; set; }
+        List<Cards> Cards { get; set; }
 
     }
 }

@@ -60,6 +60,9 @@ builder.Services.AddAutoMapper(config =>
 
 
 builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+
+OnecgdbContext context = new OnecgdbContext();
+
 builder.Services.AddTransient<IUsersService, UsersService>();
 builder.Services.AddTransient<ISignUpDTO, SignUpDTO>();
 builder.Services.AddTransient<ILoginDTO, LoginDTO>();
