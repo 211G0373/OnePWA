@@ -7,10 +7,16 @@
 <body>
     <h1>Esperando</h1>
 
+    
+    <h2>Host</h2>
+    <label id="host">El jefe es</label>
 
     <ul id="playerlist">
         <li>Jugador 1</li>
     </ul>
+
+
+    <div id="qrcode"></div>
 
 
 
@@ -18,6 +24,7 @@
     <button id="leave">abandonar</button>
 
 
+    <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
     <script>
@@ -25,7 +32,7 @@
         console.log(token);
 
         if (!token) {
-           window.location.href = 'login.html';
+            window.location.href = 'login.html';
         }
         else {
             let Session;
@@ -46,20 +53,45 @@
             //    headers,
             //    body: JSON.stringify(formData)
             //});
-            async function cargar(){
+            async function cargar() {
                 const response = await fetch('/api/Sessions', {
                     method: 'GET',
                     headers
 
                 });
                 if (response.ok) {
-                    Session = await response.json;
+                    Session = await response.json();
+
+
                     console.log('Sesión creada:', Session);
+
+                    new QRCode(document.getElementById("qrcode"), {
+                        text: Session.code,
+                        width: 128,
+                        height: 128,
+                        colorDark: "#000000",
+                        colorLight: "#ffffff",
+                        correctLevel: QRCode.CorrectLevel.H
+                    });
+
+                    for (let i = 0; i < Session.players.length; i++) {
+                        const li = document.createElement("li");
+                        li.textContent = Session.players[i].userName;
+                        document.getElementById("playerlist").appendChild(li);
+                    };
+                    document.getElementById("host").textContent = "El jefe es " + Session.players.find(u => u.id === Session.idHost).userName;
+
+
+
                     // window.location.href = 'index.html';
                 }
                 //else {
                 //    window.location.href = 'index.html';
                 //}
+
+
+
+
             }
 
             cargar();
@@ -84,6 +116,10 @@
 
             connection.on("PlayerJoined", (player) => {
                 console.log(player);
+                Session.players.push(player);
+                const li = document.createElement("li");
+                li.textContent = player.userName;
+                document.getElementById("playerlist").appendChild(li);
             });
 
         }
