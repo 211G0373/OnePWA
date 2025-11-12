@@ -24,7 +24,10 @@ namespace OnePWA.Services
         public ISessionDTO PlayerSession(int id)
         {
             var session = sessionsRepository.GetByPlayerId(id);
-
+            if (session == null)
+            {
+                throw new Exception("Player is not in a session");
+            }
             return new SessionDTO
             {
                 Name = session.Name,
@@ -66,7 +69,10 @@ namespace OnePWA.Services
 
         public bool JoinSessionByCode(string code, int id)
         {
-            
+            if(PlayerSession(id) != null)
+            {
+                throw new Exception("Player already in a session");
+            }
 
             var session = sessionsRepository.GetByCode(code);
             if (session == null)

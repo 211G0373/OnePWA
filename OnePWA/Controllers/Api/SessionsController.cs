@@ -25,9 +25,15 @@ namespace OnePWA.Controllers.Api
 
             if (string.IsNullOrEmpty(userId))
                 return Unauthorized(new { message = "No se encontró el ID del usuario en el token." });
-
-            var sesion = service.PlayerSession(int.Parse(userId));
-            return Ok(sesion);
+            try{
+                var sesion = service.PlayerSession(int.Parse(userId));
+                return Ok(sesion);
+            }
+            catch(Exception ex)
+            {
+                return NotFound( new { message = ex.Message });
+            }
+           
 
 
         }
