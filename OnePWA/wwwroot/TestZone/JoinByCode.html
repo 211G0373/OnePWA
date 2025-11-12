@@ -3,12 +3,110 @@
 <head>
     <meta charset="utf-8" />
     <title></title>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+
 </head>
 <body>
     <h1>Join By Code</h1>
     <input type="text" id="code" placeholder="Enter code here" />
     <button id="joinButton">Join</button>
     <script src="JoinByCode.js"></script>
+    <h2>📷 Escanear código QR</h2>
+    <div id="reader"></div>
+    <p id="resultado">Esperando código...</p>
+
+    <script>
+        const resultDiv = document.getElementById('resultado');
+        
+
+        async function onScanSuccess(decodedText) {
+            // Mostrar el texto decodificado
+            resultDiv.textContent = `✅ Código detectado: ${decodedText}`;
+
+            // Opcional: detener escaneo para no repetir
+            html5QrCode.stop().then(() => {
+                console.log("Escaneo detenido");
+            }).catch(err => console.error("Error al detener el escaneo", err));
+
+            // Opcional: redirigir si el código es una URL
+            
+            try {
+                //submitButton.textContent = 'Iniciando sesión...';
+                //submitButton.disabled = true;
+
+                //const formData = {
+                //    Name: document.getElementById('name').value,
+                //    Private: document.getElementById('private').checked,
+                //    NewRules: document.getElementById('newrules').checked
+                //};
+                //document.getElementById('code').value
+                const token = localStorage.getItem('jwtToken');
+
+                const headers = {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                };
+                const response = await fetch('/api/Sessions/joinByCode/' + decodedText, {
+                    method: 'POST',
+                    headers
+
+                });
+
+                if (response.ok) {
+                    //   const token = await response.json;
+                    //   sessionStorage.setItem('session', token);
+                    window.location.href = 'waiting.html';
+
+                }
+                //            else {
+                //    const emailInput = document.getElementById('email');
+                //    emailInput.setCustomValidity('Credenciales incorrectas');
+                //    emailInput.reportValidity();
+                //}
+            } catch (error) {
+                //const emailInput = document.getElementById('email');
+                //emailInput.setCustomValidity('Error de conexión');
+                //emailInput.reportValidity();
+            } finally {
+                //submitButton.textContent = originalText;
+                //submitButton.disabled = false;
+            }
+
+
+        }
+
+        function onScanError(errorMessage) {
+            // Errores normales mientras escanea (ignorar)
+        }
+
+        const html5QrCode = new Html5Qrcode("reader");
+
+        // Obtener cámaras disponibles
+        Html5Qrcode.getCameras().then(devices => {
+            if (devices && devices.length) {
+                // Usa la cámara trasera si existe (ideal en móviles)
+                const cameraId = devices.length > 1
+                    ? devices[devices.length - 1].id
+                    : devices[0].id;
+
+                html5QrCode.start(
+                    cameraId,
+                    {
+                        fps: 10,        // cuadros por segundo
+                        qrbox: { width: 250, height: 250 } // área visible
+                    },
+                    onScanSuccess,
+                    onScanError
+                );
+            } else {
+                resultDiv.textContent = "No se encontraron cámaras 😢";
+            }
+        }).catch(err => {
+            console.error(err);
+            resultDiv.textContent = "Error al acceder a la cámara";
+        });
+    </script>
+
 
 </body>
 </html>

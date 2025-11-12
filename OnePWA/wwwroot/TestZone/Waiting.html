@@ -30,6 +30,7 @@
     <script>
         const token = localStorage.getItem('jwtToken');
         console.log(token);
+        QRCode.prototype.makeImage = true;
 
         if (!token) {
             window.location.href = 'login.html';
@@ -65,6 +66,14 @@
 
                     console.log('Sesión creada:', Session);
 
+                     
+
+                    for (let i = 0; i < Session.players.length; i++) {
+                        const li = document.createElement("li");
+                        li.textContent = Session.players[i].userName;
+                        document.getElementById("playerlist").appendChild(li);
+                    };
+                    document.getElementById("host").textContent = "El jefe es " + Session.players.find(u => u.id === Session.idHost).userName;
                     new QRCode(document.getElementById("qrcode"), {
                         text: Session.code,
                         width: 128,
@@ -73,14 +82,6 @@
                         colorLight: "#ffffff",
                         correctLevel: QRCode.CorrectLevel.H
                     });
-
-                    for (let i = 0; i < Session.players.length; i++) {
-                        const li = document.createElement("li");
-                        li.textContent = Session.players[i].userName;
-                        document.getElementById("playerlist").appendChild(li);
-                    };
-                    document.getElementById("host").textContent = "El jefe es " + Session.players.find(u => u.id === Session.idHost).userName;
-
 
 
                     // window.location.href = 'index.html';
@@ -99,14 +100,14 @@
 
 
             const connection = new signalR.HubConnectionBuilder()
-                .withUrl("https://localhost:7230/hubs/Signalr?access_token=" + token)
+                .withUrl("https://fastgoldpen11.conveyor.cloud/hubs/Signalr?access_token=" + token)
                 .configureLogging(signalR.LogLevel.Information)
                 .build();
 
             connection.start()
                 .then(() => {
                     console.log("✅ Conectado correctamente al servidor SignalR");
-                    document.body.innerHTML += "<p>✅ Conexión establecida</p>";
+                  //  document.body.innerHTML += "<p>✅ Conexión establecida</p>";
                 })
                 .catch(err => {
                     console.error("❌ Error de conexión:", err);

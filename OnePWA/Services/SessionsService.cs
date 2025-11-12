@@ -66,6 +66,8 @@ namespace OnePWA.Services
 
         public bool JoinSessionByCode(string code, int id)
         {
+            
+
             var session = sessionsRepository.GetByCode(code);
             if (session == null)
             {
