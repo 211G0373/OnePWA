@@ -355,3 +355,73 @@
         font-size: 1.75rem;
     }
 }
+
+
+/* ---------------------------------------------------INDEX PAGE STYLES --------------------------------------------------- */
+.index-page {
+    background: white;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+    .index-page .container {
+        width: 100%;
+        max-width: 430px;
+        /* background: #a56e6e; */
+        border-radius: 20px;
+        padding: 40px 26px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 24px;
+    }
+
+.main-btns {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5em;
+    /* background-color: #0066cc; */
+}
+
+    .main-btns .main-btn {
+        height: 4em;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: start;
+        flex-wrap: wrap;
+        border-radius: 1.5em;
+    }
+
+.main-btn img {
+    margin-left: 5rem;
+}
+
+.main-btn .btn-icon {
+    width: 2.5em;
+    height: auto;
+    margin-right: 1em;
+}
+
+.main-btn .btn-text {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: white;
+}
+
+.main-btn:nth-of-type(1) {
+    background-color: var(--main-color-red);
+}
+
+.main-btn:nth-of-type(2) {
+    background-color: var(--color--blue-light);
+}
+
+.main-btn:nth-of-type(3) {
+    background-color: var(--color-green);
+}
