@@ -13,9 +13,11 @@ namespace OnePWA.Controllers.Api
     public class SessionsController : ControllerBase
     {
         private readonly ISessionsService service;
+
         public SessionsController(ISessionsService service)
         {
             this.service = service;
+           
         }
         [HttpGet]
         public IActionResult Get()
@@ -59,9 +61,24 @@ namespace OnePWA.Controllers.Api
             var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userId))
                 return Unauthorized(new { message = "No se encontró el ID del usuario en el token." });
-            var session = service.JoinSessionByCode(code, int.Parse(userId));
+            service.JoinSessionByCode(code, int.Parse(userId));
            
             return Ok();
         }
+
+        [HttpPost]
+        [Route("start")]
+        public IActionResult Start()
+        {
+            var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized(new { message = "No se encontró el ID del usuario en el token." });
+            service.StartGame(int.Parse(userId));
+
+            return Ok();
+        }
+
+
+
     }
 }

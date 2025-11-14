@@ -45,11 +45,19 @@ namespace OnePWA.Services
 
 
         //carta movida
-        public async Task SendMovement(string targetUserId, IMovementDTO dTO)
+        public async Task PlayerColocoCard(string targetUserId, IMovementDTO dTO)
         {
             if (Users.TryGetValue(targetUserId, out var connId))
-                await Clients.Client(connId).SendAsync("Movement", dTO);
+                await Clients.Client(connId).SendAsync("PlayerColocoCard", dTO);
         }
+
+        public async Task PlayerTakeCard(string targetUserId)
+        {
+            if (Users.TryGetValue(targetUserId, out var connId))
+                await Clients.Client(connId).SendAsync("Movement", int.Parse(targetUserId));
+        }
+
+        
 
 
         public async Task PlayerJoined(string targetUserId, IPlayerDTO dTO)
@@ -58,10 +66,10 @@ namespace OnePWA.Services
                 await Clients.Client(connId).SendAsync("PlayerJoined", dTO);
         }
 
-        public async Task PlayerLeft(string targetUserId, IPlayerDTO dTO)
+        public async Task PlayerLeft(string targetUserId, int idplayer)
         {
             if (Users.TryGetValue(targetUserId, out var connId))
-                await Clients.Client(connId).SendAsync("PlayerJoined", dTO);
+                await Clients.Client(connId).SendAsync("PlayerLeft",idplayer);
         }
 
 

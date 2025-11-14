@@ -67,10 +67,11 @@ builder.Services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
 
 builder.Services.AddTransient<ISessionsRepository, SessionsRepository>();
 builder.Services.AddTransient<IUsersService, UsersService>();
+builder.Services.AddTransient<ICardsService, CardsService>();
 builder.Services.AddTransient<ISignUpDTO, SignUpDTO>();
 builder.Services.AddTransient<ILoginDTO, LoginDTO>();
 builder.Services.AddTransient<ISessionsService, SessionsService>();
-builder.Services.AddTransient<IGameService, GameService>();
+//builder.Services.AddSingleton<IGameService, GameService>();
 
 
 

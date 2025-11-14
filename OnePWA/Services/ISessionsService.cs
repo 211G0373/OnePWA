@@ -15,7 +15,10 @@ namespace OnePWA.Services
 
         ISessionDTO PlayerSession(int id);
         bool CreateSession(ICreateSesionDTO sesionDTO, int idHost);
-        bool JoinSessionByCode(string code,int id);
+        void JoinSessionByCode(string code,int id);
+
+        void StartGame(int id);
+
         void JoinRandomSession(int id);
         void PlayAgain(int id);
         void RemovePlayerFromSession(int idPlayer, int idPlayerForRemove);

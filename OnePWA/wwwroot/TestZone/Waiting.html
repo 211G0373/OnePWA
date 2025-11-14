@@ -10,6 +10,7 @@
     
     <h2>Host</h2>
     <label id="host">El jefe es</label>
+    <label id="code"></label>
 
     <ul id="playerlist">
         <li>Jugador 1</li>
@@ -41,6 +42,19 @@
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             };
+
+
+
+            document.getElementById("start").addEventListener("click",async function () {
+                console.log("xd")
+                const response = await fetch('/api/Sessions/Start', {
+                    method: 'POST',
+                    headers
+
+                });
+            });
+
+
 
             //const connection = new signalR.HubConnectionBuilder()
             //    .withUrl("https://localhost:44355/hubs/Signalr", {
@@ -74,6 +88,7 @@
                         document.getElementById("playerlist").appendChild(li);
                     };
                     document.getElementById("host").textContent = "El jefe es " + Session.players.find(u => u.id === Session.idHost).userName;
+                    document.getElementById("code").textContent = Session.code;
                     new QRCode(document.getElementById("qrcode"), {
                         text: Session.code,
                         width: 128,
@@ -82,6 +97,10 @@
                         colorLight: "#ffffff",
                         correctLevel: QRCode.CorrectLevel.H
                     });
+
+
+                   
+
 
 
                     // window.location.href = 'index.html';
@@ -101,7 +120,7 @@
 
 
             const connection = new signalR.HubConnectionBuilder()
-                .withUrl("https://fastgoldpen11.conveyor.cloud/hubs/Signalr?access_token=" + token)
+                .withUrl("https://localhost:7230/hubs/Signalr?access_token=" + token)
                 .configureLogging(signalR.LogLevel.Information)
                 .build();
 
@@ -123,7 +142,9 @@
                 li.textContent = player.userName;
                 document.getElementById("playerlist").appendChild(li);
             });
-
+            connection.on("PlayerLeft", (player) => {
+                console.log(player);
+            });
         }
 
     </script>

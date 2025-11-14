@@ -14,11 +14,14 @@ namespace OnePWA.Services
         public ISessionsRepository sessionsRepository { get; }
 
         public SignalrService signalrService { get; }
-        public SessionsService(IRepository<Users> repository, ISessionsRepository sessionsRepository, SignalrService signalrService)
+        public ICardsService Cards { get; }
+
+        public SessionsService(IRepository<Users> repository, ISessionsRepository sessionsRepository, SignalrService signalrService, ICardsService cards)
         {
             usersRepository = repository;
             this.sessionsRepository = sessionsRepository;
             this.signalrService = signalrService;
+            Cards = cards;
         }
 
         public ISessionDTO PlayerSession(int id)
@@ -43,19 +46,26 @@ namespace OnePWA.Services
 
         public bool CreateSession(ICreateSesionDTO sesionDTO, int idHost)
         {
-            GameSession newSession = new GameSession
+            GameSession newSession = new GameSession(signalrService)
             {
                 Name = sesionDTO.Name,
                 Private = sesionDTO.Private,
                 NewRules = sesionDTO.NewRules,
                 IdHost = idHost,
             };
+
+            foreach (var card in Cards.GetAll())
+            {
+                newSession.Cards.Add(card);
+            }
+
+
             Player hostPlayer = new Player
             {
                 Id = idHost
             };
             newSession.Code = Guid.NewGuid().ToString().Substring(0, 5).ToUpper();
-            newSession.Players.Add(hostPlayer);
+            newSession.Players.AddLast(hostPlayer);
 
             sessionsRepository.Insert(newSession);
             return true;
@@ -67,12 +77,12 @@ namespace OnePWA.Services
             throw new NotImplementedException();
         }
 
-        public bool JoinSessionByCode(string code, int id)
+        public void JoinSessionByCode(string code, int id)
         {
-            if(PlayerSession(id) != null)
-            {
-                throw new Exception("Player already in a session");
-            }
+            //if(PlayerSession(id) != null)
+            //{
+            //    throw new Exception("Player already in a session");
+            //}
 
             var session = sessionsRepository.GetByCode(code);
             if (session == null)
@@ -86,7 +96,7 @@ namespace OnePWA.Services
 
 
 
-            session.Players.Add(newPlayer);
+            session.Players.AddLast(newPlayer);
 
             foreach(var player in session.Players)
             {
@@ -102,9 +112,22 @@ namespace OnePWA.Services
             }
 
 
-            return true;
 
+        }
 
+        public void StartGame(int id)
+        {
+
+            var session = sessionsRepository.GetByPlayerId(id);
+            if (session == null)
+            {
+                throw new Exception("Session not found");
+            }
+            if(session.IdHost != id)
+            {
+                throw new Exception("Only the host can start the game");
+            }
+            session.StartGame();
         }
 
         public void LeaveSession(int idPlayer)
