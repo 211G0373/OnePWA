@@ -45,14 +45,20 @@
 
 
 
-            document.getElementById("start").addEventListener("click",async function () {
+            document.getElementById("start").addEventListener("click", async function () {
                 console.log("xd")
                 const response = await fetch('/api/Sessions/Start', {
                     method: 'POST',
                     headers
 
                 });
-             
+                if (response.ok) {
+                    window.location.href = 'game.html';
+                }
+                else {
+                    console.log("Error al iniciar la partida");
+                }
+
             });
 
 
@@ -81,7 +87,7 @@
 
                     console.log('Sesión creada:', Session);
 
-                     
+
 
                     for (let i = 0; i < Session.players.length; i++) {
                         const li = document.createElement("li");
@@ -100,7 +106,7 @@
                     });
 
 
-                   
+
 
 
 
@@ -128,7 +134,7 @@
             connection.start()
                 .then(() => {
                     console.log("✅ Conectado correctamente al servidor SignalR");
-                  //  document.body.innerHTML += "<p>✅ Conexión establecida</p>";
+                    //  document.body.innerHTML += "<p>✅ Conexión establecida</p>";
                 })
                 .catch(err => {
                     console.error("❌ Error de conexión:", err);

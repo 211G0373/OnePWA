@@ -42,15 +42,20 @@ namespace OnePWA.Controllers.Api
         [Route("Playing")]
         public IActionResult GetPlaying()
         {
-            //var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier);
-            //if (string.IsNullOrEmpty(userId))
-            //    return Unauthorized(new { message = "No se encontró el ID del usuario en el token." });
-            //try
-            //{
-            //    service.PlayerSession(int.Parse(userId));
+            var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            //}
-            return Ok();
+
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized(new { message = "No se encontró el ID del usuario en el token." });
+            try
+            {
+                var sesion = service.PlayingSession(int.Parse(userId));
+                return Ok(sesion);
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
         }
 
             [HttpPost]
@@ -76,6 +81,17 @@ namespace OnePWA.Controllers.Api
                 return Unauthorized(new { message = "No se encontró el ID del usuario en el token." });
             service.JoinSessionByCode(code, int.Parse(userId));
            
+            return Ok();
+        }
+        [HttpPost]
+        [Route("joinRandom")]
+        public IActionResult JoinRandom()
+        {
+            var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized(new { message = "No se encontró el ID del usuario en el token." });
+            service.JoinRandomSession(int.Parse(userId));
+
             return Ok();
         }
 

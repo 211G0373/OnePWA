@@ -9,13 +9,13 @@
 
 
     <button id="leave">abandonar</button>
+    <div class="myCards"></div>
 
     <div class="players">
         <template>
             <div>
                 <label class="name"></label>
                 <label class="cardsCount"></label>
-               
             </div>
         </template>
     </div>
@@ -28,7 +28,8 @@
         const token = localStorage.getItem('jwtToken');
         console.log(token);
         const playersDiv = document.querySelector(".players");
-        const template = playersDiv.querySelector("template");
+        const template = document.querySelector("template");
+        const myCards = document.querySelector(".myCards");
 
         if (!token) {
             window.location.href = 'login.html';
@@ -44,7 +45,7 @@
 
 
             async function cargar() {
-                const response = await fetch('/api/Sessions', {
+                const response = await fetch('/api/Sessions/Playing', {
                     method: 'GET',
                     headers
 
@@ -57,11 +58,21 @@
 
                     for (let i = 0; i < Session.players.length; i++) {
                         let clone = template.content.cloneNode(true);
-                       // clone.data.id = Session.players[i].id;
+                        // clone.data.id = Session.players[i].id;
                         clone.querySelector(".name").textContent = Session.players[i].userName;
                         clone.querySelector(".cardsCount").textContent = Session.players[i].cardsCount;
                         playersDiv.appendChild(clone);
                     };
+
+                    for (let j = 0; j < Session.myCards.length; j++) {
+                        let card = document.createElement("div");
+                        card.textContent = Session.myCards[j];
+                        card.dataset.id = Session.myCards[j];
+                        console.log("ss");
+                        console.log(card);
+                        myCards.appendChild(card);
+                    };
+
 
 
                     // window.location.href = 'index.html';

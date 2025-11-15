@@ -45,10 +45,10 @@ namespace OnePWA.Repositories
             return session;
         }
 
-        public IEnumerable<IGameSesion> GetPublic()
+        public IGameSesion GetPublic()
         {
-            var sessions = Context.Sesions.Where(x => !x.Private);
-            return sessions;
+            var session = Context.Sesions.FirstOrDefault(x => !x.Private);
+            return session;
         }
 
         public void Insert(IGameSesion entity)

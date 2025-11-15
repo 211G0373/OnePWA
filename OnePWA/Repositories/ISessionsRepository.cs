@@ -5,7 +5,7 @@ namespace OnePWA.Repositories
     public interface ISessionsRepository
     {
         IEnumerable<IGameSesion> GetAll();
-        IEnumerable<IGameSesion> GetPublic();
+        IGameSesion GetPublic();
 
         IGameSesion GetById(int id);
         IGameSesion GetByPlayerId(int id);

@@ -102,7 +102,12 @@ namespace OnePWA.Services
 
         public void JoinRandomSession(int id)
         {
-            throw new NotImplementedException();
+            var session = sessionsRepository.GetPublic();
+            if (session == null)
+            {
+                throw new Exception("No public sessions available");
+            }
+            JoinSessionByCode(session.Code, id);
         }
 
         public void JoinSessionByCode(string code, int id)
@@ -125,16 +130,17 @@ namespace OnePWA.Services
 
 
             session.Players.AddLast(newPlayer);
+            var playerDTO = new PlayerDTO
+            {
+                Id = newPlayer.Id,
+                UserName = usersRepository.Get(newPlayer.Id).Name
+            };
 
-            foreach(var player in session.Players)
+            foreach (var player in session.Players)
             {
                 if (player.Id != id)
                 {
-                    var playerDTO = new PlayerDTO
-                    {
-                        Id = newPlayer.Id,
-                        UserName = usersRepository.Get(newPlayer.Id).Name
-                    };
+                    
                     signalrService.PlayerJoined(player.Id.ToString(), playerDTO);
                 }
             }
@@ -155,11 +161,15 @@ namespace OnePWA.Services
             {
                 throw new Exception("Only the host can start the game");
             }
-            session.StartGame();
-            foreach(var player in session.Players)
+            if (session.Started == false)
             {
-                await signalrService.GameStarted(player.Id.ToString());
+                session.StartGame();
+                foreach (var player in session.Players)
+                {
+                    await signalrService.GameStarted(player.Id.ToString());
+                }
             }
+
         }
 
         public void LeaveSession(int idPlayer)
