@@ -13,11 +13,12 @@ namespace OnePWA.Services
 
         SignalrService signalrService { get; }
 
-        ISessionDTO PlayerSession(int id);
+        IWaittingSessionDTO PlayerSession(int id);
+        IPlayingSessionDTO PlayingSession(int id);
         bool CreateSession(ICreateSesionDTO sesionDTO, int idHost);
         void JoinSessionByCode(string code,int id);
 
-        void StartGame(int id);
+        Task StartGame(int id);
 
         void JoinRandomSession(int id);
         void PlayAgain(int id);

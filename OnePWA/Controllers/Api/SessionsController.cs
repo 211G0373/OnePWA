@@ -35,12 +35,25 @@ namespace OnePWA.Controllers.Api
             {
                 return NotFound( new { message = ex.Message });
             }
-           
-
-
         }
 
-        [HttpPost]
+
+        [HttpGet]
+        [Route("Playing")]
+        public IActionResult GetPlaying()
+        {
+            //var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier);
+            //if (string.IsNullOrEmpty(userId))
+            //    return Unauthorized(new { message = "No se encontró el ID del usuario en el token." });
+            //try
+            //{
+            //    service.PlayerSession(int.Parse(userId));
+
+            //}
+            return Ok();
+        }
+
+            [HttpPost]
         public IActionResult New(CreateSessionDTO dto)
         {
             var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier);

@@ -52,6 +52,7 @@
                     headers
 
                 });
+             
             });
 
 
@@ -134,6 +135,10 @@
                     document.body.innerHTML += "<p>❌ Error de conexión: " + err + "</p>";
                 });
 
+
+            connection.on("GameStarted", () => {
+                window.location.href = 'game.html';
+            });
 
             connection.on("PlayerJoined", (player) => {
                 console.log(player);

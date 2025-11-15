@@ -73,7 +73,11 @@ namespace OnePWA.Services
         }
 
 
-
+        public async Task GameStarted(string targetUserId)
+        {
+            if (Users.TryGetValue(targetUserId, out var connId))
+                await Clients.Client(connId).SendAsync("GameStarted");
+        }
 
 
 

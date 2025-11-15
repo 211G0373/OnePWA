@@ -3,6 +3,7 @@ using OnePWA.Models;
 using OnePWA.Models.DTOs;
 using OnePWA.Models.Entities;
 using OnePWA.Repositories;
+using System.Threading.Tasks;
 
 namespace OnePWA.Services
 {
@@ -24,14 +25,15 @@ namespace OnePWA.Services
             Cards = cards;
         }
 
-        public ISessionDTO PlayerSession(int id)
+
+        public IWaittingSessionDTO PlayerSession(int id)
         {
             var session = sessionsRepository.GetByPlayerId(id);
             if (session == null)
             {
                 throw new Exception("Player is not in a session");
             }
-            return new SessionDTO
+            return new WaittingSessionDTO
             {
                 Name = session.Name,
                 Code = session.Code,
@@ -39,8 +41,34 @@ namespace OnePWA.Services
                 Players = session.Players.Select(p => new PlayerDTO
                 {
                     Id = p.Id,
-                    UserName = usersRepository.Get(p.Id).Name
+                    UserName = usersRepository.Get(p.Id).Name,
+                    CardsCount = p.Cards.Count()
                 }).ToList()
+            };
+        }
+        public IPlayingSessionDTO PlayingSession(int id)
+        {
+            var session = sessionsRepository.GetByPlayerId(id);
+            if (session == null)
+            {
+                throw new Exception("Player is not in a session");
+            }
+            var player = session.Players.FirstOrDefault(p => p.Id == id);
+            if (player == null)
+            {
+                throw new Exception("Player not found in session");
+            }
+            return new PlayingSessionDTO
+            {
+                Name = session.Name,
+                PlayerCount = session.Players.Count(),
+                Players = session.Players.Select(p => new PlayerDTO
+                {
+                    Id = p.Id,
+                    UserName = usersRepository.Get(p.Id).Name,
+                    CardsCount = p.Cards.Count()
+                }).ToList(),
+                MyCards = player.Cards.Select(c => c.Id).ToList()
             };
         }
 
@@ -115,7 +143,7 @@ namespace OnePWA.Services
 
         }
 
-        public void StartGame(int id)
+        public async Task StartGame(int id)
         {
 
             var session = sessionsRepository.GetByPlayerId(id);
@@ -128,6 +156,10 @@ namespace OnePWA.Services
                 throw new Exception("Only the host can start the game");
             }
             session.StartGame();
+            foreach(var player in session.Players)
+            {
+                await signalrService.GameStarted(player.Id.ToString());
+            }
         }
 
         public void LeaveSession(int idPlayer)
