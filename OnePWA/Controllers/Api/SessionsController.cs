@@ -107,7 +107,17 @@ namespace OnePWA.Controllers.Api
             return Ok();
         }
 
+        [HttpPost]
+        [Route("PLayCard/{id}")]
+        public IActionResult PlayCard(int id)
+        {
+            var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized(new { message = "No se encontró el ID del usuario en el token." });
+            service.PlayCard(int.Parse(userId), id);
+            return Ok();
 
 
-    }
+
+        }
 }

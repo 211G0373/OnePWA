@@ -62,13 +62,15 @@ namespace OnePWA.Services
             {
                 Name = session.Name,
                 PlayerCount = session.Players.Count(),
+                IdTurn = session.IdTurn,
                 Players = session.Players.Select(p => new PlayerDTO
                 {
                     Id = p.Id,
                     UserName = usersRepository.Get(p.Id).Name,
-                    CardsCount = p.Cards.Count()
+                    CardsCount = p.Cards.Count(),
+                    
                 }).ToList(),
-                MyCards = player.Cards.Select(c => c.Id).ToList()
+                MyCards = player.Cards.Select(c => new CardDTO() { Id=c.Id, Name=Cards.GetCardById(c.Id).Name }).ToList()
             };
         }
 
@@ -98,6 +100,27 @@ namespace OnePWA.Services
             sessionsRepository.Insert(newSession);
             return true;
 
+        }
+
+        public void PlayCard(int idPlayer, int cardId)
+        {
+            var session = sessionsRepository.GetByPlayerId(idPlayer);
+            if (session == null)
+            {
+                throw new Exception("Session not found");
+            }
+            session.PlayCard(idPlayer, cardId);
+        }
+
+        public void ChangeColor(int idPlayer,ChangeColorDTO dto)
+        {
+            var session = sessionsRepository.GetByPlayerId(idPlayer);
+            if (session == null)
+            {
+                throw new Exception("Session not found");
+            }
+            session.ChangeColor(idPlayer, dto);
+            
         }
 
         public void JoinRandomSession(int id)

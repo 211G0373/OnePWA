@@ -16,6 +16,8 @@ namespace OnePWA.Models
         public bool Started { get ; set ; }
         public bool Private { get ; set ; }
         public bool NewRules { get ; set ; }
+        public Cards TopCard { get ; set ; }
+        public string LastColor { get ; set ; }
         public System.Timers.Timer Timer { get ; set ; } = new System.Timers.Timer();
         public int IdTurn { get ; set ; }
         public List<int> UsedCards { get ; set ; }
@@ -31,9 +33,47 @@ namespace OnePWA.Models
         }
 
 
-        public void DoMovement(int idPlayer, int card)
+        public void PlayCard(int idPlayer, int card)
         {
             var p= Players.FirstOrDefault(pl => pl.Id == idPlayer);
+
+            if(!p.Cards.Any(c => c.Id == card))
+            {
+               throw new Exception("El jugador no tiene esa carta");
+            }
+            var c= Cards.First(c => c.Id == card);
+            p.Cards.Remove(c);
+            UsedCards.Add(card);
+
+            if (c.Color == "black")
+            {
+                TopCard = c;
+                LastColor = c.Color;
+
+            }
+            else if(c.Color == LastColor || c.Name == TopCard.Name)
+            {
+                TopCard = c;
+                LastColor = c.Color;
+                if (c.Name == "Skip")
+                {
+                    SkipTurn();
+                    NextTurn();
+
+                }
+                if (c.Name == "Reverse")
+                {
+                    ReverseTurn();
+                    NextTurn();
+                }
+            }
+            else
+            {
+                throw new Exception("Movimiento invalido");
+            }
+
+
+            
 
             if (p == null)
                 return;
@@ -43,9 +83,40 @@ namespace OnePWA.Models
                 Timer.Stop();
             }
 
-
             
         }
+
+
+        public void ChangeColor(int idPlayer, ChangeColorDTO dto)
+        {
+            var p = Players.FirstOrDefault(pl => pl.Id == idPlayer);
+            if (!p.Cards.Any(c => c.Id == dto.IdCard))
+            {
+                throw new Exception("El jugador no tiene esa carta");
+            }
+           
+            if (Cards.FirstOrDefault(x=>x.Id==dto.IdCard).Name=="Wild")
+            {
+                var c = Cards.First(c => c.Id == dto.IdCard);
+                p.Cards.Remove(c);
+                UsedCards.Add(dto.IdCard);
+                TopCard = c;
+                LastColor = dto.Color;
+            }
+            else
+            {
+                throw new Exception("Movimiento invalido");
+            }
+            if (p == null)
+                return;
+            if (p.Id == IdTurn)
+            {
+                Timer.Stop();
+            }
+        }
+
+
+
 
         public void NextTurn()
         {
@@ -78,7 +149,19 @@ namespace OnePWA.Models
 
         public void SkipTurn()
         {
-            //notificar
+            var node = Players.First;
+
+            // Buscar el nodo que coincide con el jugador actual
+            while (node != null && node.Value.Id != IdTurn)
+            {
+                node = node.Next;
+            }
+
+            if (node != null)
+            {
+                var nextNode = node.Next ?? Players.First;
+                IdTurn = nextNode.Value.Id;
+            }
         }
 
         public void StartGame()

@@ -1,4 +1,5 @@
-﻿using OnePWA.Models.Entities;
+﻿using OnePWA.Models.DTOs;
+using OnePWA.Models.Entities;
 using System.Timers;
 using Timer = System.Timers.Timer;
 
@@ -15,6 +16,7 @@ namespace OnePWA.Models
         bool Private { get; set; }
         bool NewRules { get; set; }
         Timer Timer { get; set; }
+        Cards TopCard { get; set; }
         public int IdTurn { get; set; }
         List<int> UsedCards { get; set; }
         List<int> NotUsed { get; set; }
@@ -22,7 +24,9 @@ namespace OnePWA.Models
 
 
         List<Cards> Cards { get; set; }
-        void DoMovement(int idPlayer, int card);
+        void PlayCard(int idPlayer, int card);
+        void ChangeColor(int idPlayer, ChangeColorDTO dto);
+
 
         void NextTurn();
 

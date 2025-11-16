@@ -27,9 +27,7 @@
     <script>
         const token = localStorage.getItem('jwtToken');
         console.log(token);
-        const playersDiv = document.querySelector(".players");
-        const template = document.querySelector("template");
-        const myCards = document.querySelector(".myCards");
+
 
         if (!token) {
             window.location.href = 'login.html';
@@ -41,7 +39,22 @@
                 'Authorization': `Bearer ${token}`
             };
 
+            const playersDiv = document.querySelector(".players");
+            const template = document.querySelector("template");
+            const myCards = document.querySelector(".myCards");
 
+
+            myCards.addEventListener("click", async function (e) {
+                if (e.target.tagName === "BUTTON") {
+                    console.log("Carta jugada:", e.target.dataset.id);
+                    const response = await fetch('/api/Sessions/PlayCard' + e.target.dataset.id, {
+                        method: 'POST',
+                        headers
+        
+                    });
+
+                }
+            });
 
 
             async function cargar() {
@@ -65,13 +78,14 @@
                     };
 
                     for (let j = 0; j < Session.myCards.length; j++) {
-                        let card = document.createElement("div");
+                        let card = document.createElement("button");
                         card.textContent = Session.myCards[j];
                         card.dataset.id = Session.myCards[j];
                         console.log("ss");
                         console.log(card);
                         myCards.appendChild(card);
                     };
+
 
 
 
@@ -91,6 +105,8 @@
 
 
 
+
+
             const connection = new signalR.HubConnectionBuilder()
                 .withUrl("https://localhost:7230/hubs/Signalr?access_token=" + token)
                 .configureLogging(signalR.LogLevel.Information)
@@ -106,14 +122,6 @@
                     document.body.innerHTML += "<p>❌ Error de conexión: " + err + "</p>";
                 });
 
-
-            //connection.on("PlayerJoined", (player) => {
-            //    console.log(player);
-            //    Session.players.push(player);
-            //    const li = document.createElement("li");
-            //    li.textContent = player.userName;
-            //    document.getElementById("playerlist").appendChild(li);
-            //});
             connection.on("PlayerLeft", (player) => {
                 console.log(player);
             });
