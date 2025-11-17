@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -17,7 +18,7 @@ namespace OnePWA.Controllers.Api
         public SessionsController(ISessionsService service)
         {
             this.service = service;
-           
+
         }
         [HttpGet]
         public IActionResult Get()
@@ -27,13 +28,14 @@ namespace OnePWA.Controllers.Api
 
             if (string.IsNullOrEmpty(userId))
                 return Unauthorized(new { message = "No se encontró el ID del usuario en el token." });
-            try{
+            try
+            {
                 var sesion = service.PlayerSession(int.Parse(userId));
                 return Ok(sesion);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                return NotFound( new { message = ex.Message });
+                return NotFound(new { message = ex.Message });
             }
         }
 
@@ -58,7 +60,7 @@ namespace OnePWA.Controllers.Api
             }
         }
 
-            [HttpPost]
+        [HttpPost]
         public IActionResult New(CreateSessionDTO dto)
         {
             var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -80,7 +82,7 @@ namespace OnePWA.Controllers.Api
             if (string.IsNullOrEmpty(userId))
                 return Unauthorized(new { message = "No se encontró el ID del usuario en el token." });
             service.JoinSessionByCode(code, int.Parse(userId));
-           
+
             return Ok();
         }
         [HttpPost]
@@ -97,13 +99,20 @@ namespace OnePWA.Controllers.Api
 
         [HttpPost]
         [Route("start")]
-        public IActionResult Start()
+        public async Task<IActionResult> Start()
         {
             var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userId))
                 return Unauthorized(new { message = "No se encontró el ID del usuario en el token." });
-            service.StartGame(int.Parse(userId));
 
+            try
+            {
+               await service.StartGame(int.Parse(userId));
+            }
+            catch (Exception ex)
+            {
+                return Unauthorized(new { message = ex.Message });
+            }
             return Ok();
         }
 
@@ -114,10 +123,18 @@ namespace OnePWA.Controllers.Api
             var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userId))
                 return Unauthorized(new { message = "No se encontró el ID del usuario en el token." });
-            service.PlayCard(int.Parse(userId), id);
+            try
+            {
+                service.PlayCard(int.Parse(userId), id);
+
+            }catch(Exception ex)
+            {
+                return Unauthorized(new { message = ex.Message });
+            }
             return Ok();
 
 
 
         }
+    }
 }

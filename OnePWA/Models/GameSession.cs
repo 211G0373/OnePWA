@@ -16,12 +16,12 @@ namespace OnePWA.Models
         public bool Started { get ; set ; }
         public bool Private { get ; set ; }
         public bool NewRules { get ; set ; }
-        public Cards TopCard { get ; set ; }
+        public Cards TopCard { get; set; } = new Cards();
         public string LastColor { get ; set ; }
         public System.Timers.Timer Timer { get ; set ; } = new System.Timers.Timer();
         public int IdTurn { get ; set ; }
-        public List<int> UsedCards { get ; set ; }
-        public List<int> NotUsed { get ; set ; }
+        public List<int> UsedCards { get ; set ; } = new List<int>();
+        public List<int> NotUsed { get ; set ; } = new List<int>();
         public List<Cards> Cards { get ; set ; }= new List<Cards>();
         public SignalrService Notifications { get; }
 
@@ -42,8 +42,7 @@ namespace OnePWA.Models
                throw new Exception("El jugador no tiene esa carta");
             }
             var c= Cards.First(c => c.Id == card);
-            p.Cards.Remove(c);
-            UsedCards.Add(card);
+           
 
             if (c.Color == "black")
             {
@@ -71,16 +70,18 @@ namespace OnePWA.Models
             {
                 throw new Exception("Movimiento invalido");
             }
+            p.Cards.Remove(c);
+            UsedCards.Add(card);
 
 
-            
+
 
             if (p == null)
                 return;
 
             if (p.Id == IdTurn)
             {
-                Timer.Stop();
+                //Timer.Stop();
             }
 
             
@@ -132,7 +133,7 @@ namespace OnePWA.Models
             {
                 var nextNode = node.Next ?? Players.First;
                 IdTurn = nextNode.Value.Id;
-                Timer.Start();
+                //Timer.Start();
             }
 
             //notificar
@@ -186,7 +187,7 @@ namespace OnePWA.Models
             Timer.Elapsed += playerOut;
             Timer.AutoReset = false;
             Timer.Interval = 10000; // 60 segundos
-            Timer.Start();
+           // Timer.Start();
 
 
         }

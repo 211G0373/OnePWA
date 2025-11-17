@@ -22,14 +22,14 @@ namespace OnePWA.Services
             return Repository.GetAll();
         }
 
-        public IEnumerable<ICardDTO> GetAllCardsDTOs()
+        public IEnumerable<CardDTO> GetAllCardsDTOs()
         {
-            throw new NotImplementedException();
+            return Repository.GetAll().Select(card => new CardDTO() { Id = card.Id, Name = card.Name});
         }
 
         public Cards? GetCardById(int id)
         {
-            throw new NotImplementedException();
+            return Repository.Get(id);
         }
     }
 }

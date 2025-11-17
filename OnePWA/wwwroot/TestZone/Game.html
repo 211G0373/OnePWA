@@ -47,11 +47,12 @@
             myCards.addEventListener("click", async function (e) {
                 if (e.target.tagName === "BUTTON") {
                     console.log("Carta jugada:", e.target.dataset.id);
-                    const response = await fetch('/api/Sessions/PlayCard' + e.target.dataset.id, {
+                    const response = await fetch('/api/Sessions/PlayCard/' + e.target.dataset.id, {
                         method: 'POST',
                         headers
         
                     });
+                    
 
                 }
             });
@@ -79,8 +80,10 @@
 
                     for (let j = 0; j < Session.myCards.length; j++) {
                         let card = document.createElement("button");
-                        card.textContent = Session.myCards[j];
-                        card.dataset.id = Session.myCards[j];
+                        card.textContent = Session.myCards[j].name;
+                        card.dataset.id = Session.myCards[j].id;
+                        card.dataset.name = Session.myCards[j].id;
+
                         console.log("ss");
                         console.log(card);
                         myCards.appendChild(card);

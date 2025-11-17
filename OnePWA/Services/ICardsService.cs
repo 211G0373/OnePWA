@@ -9,7 +9,7 @@ namespace OnePWA.Services
     {
         IMapper Mapper { get; }
         IRepository<Cards> Repository { get; }
-        IEnumerable<ICardDTO> GetAllCardsDTOs();
+        IEnumerable<CardDTO> GetAllCardsDTOs();
 
         IEnumerable<Cards> GetAll();
 

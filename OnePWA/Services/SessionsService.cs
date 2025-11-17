@@ -58,6 +58,7 @@ namespace OnePWA.Services
             {
                 throw new Exception("Player not found in session");
             }
+            
             return new PlayingSessionDTO
             {
                 Name = session.Name,
@@ -72,6 +73,7 @@ namespace OnePWA.Services
                 }).ToList(),
                 MyCards = player.Cards.Select(c => new CardDTO() { Id=c.Id, Name=Cards.GetCardById(c.Id).Name }).ToList()
             };
+
         }
 
         public bool CreateSession(ICreateSesionDTO sesionDTO, int idHost)
@@ -108,6 +110,10 @@ namespace OnePWA.Services
             if (session == null)
             {
                 throw new Exception("Session not found");
+            }
+            if(session.IdTurn != idPlayer)
+            {
+                throw new Exception("It's not your turn");
             }
             session.PlayCard(idPlayer, cardId);
         }
