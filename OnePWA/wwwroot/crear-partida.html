@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ONE - Crear Partida</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="create-match-page">
+
+    <a href="index.html" class="back-btn-container">
+        <img src="Assets/Back.png" alt="Regresar" class="back-arrow-image">
+    </a>
+
+    <h1 class="page-title">Crear Partida</h1>
+
+    <div class="floating-card-index floating-card-1"></div>
+    <div class="floating-card-index floating-card-2"></div>
+    <div class="floating-card-index floating-card-3"></div>
+    <div class="floating-card-index floating-card-4"></div>
+
+    <div class="container match-config-container">
+
+        <div class="config-group">
+            <label for="match-name" class="config-label">Nombre de la partida:</label>
+            <input type="text" id="match-name" class="config-input" placeholder="Pelusas" value="Pelusas">
+        </div>
+
+        <div class="config-group">
+            <label for="player-count" class="config-label">Jugadores:</label>
+            <div class="player-counter">
+                <button type="button" class="counter-btn minus-btn">−</button>
+                <span class="counter-display">3</span>
+                <button type="button" class="counter-btn plus-btn">+</button>
+            </div>
+        </div>
+
+        <div class="config-group radio-group">
+            <label class="config-label">Tipo de Partida:</label>
+            <div class="radio-option">
+                <input type="radio" id="public" name="match-type" checked>
+                <label for="public">Pública</label>
+            </div>
+            <div class="radio-option">
+                <input type="radio" id="private" name="match-type">
+                <label for="private">Privada</label>
+            </div>
+        </div>
+
+        <div class="config-group radio-group">
+            <label class="config-label">Reglas:</label>
+            <div class="radio-option">
+                <input type="radio" id="standard" name="rules" checked>
+                <label for="standard">Standard</label>
+            </div>
+            <div class="radio-option">
+                <input type="radio" id="broken-friendship" name="rules">
+                <label for="broken-friendship">Rompe amistades</label>
+            </div>
+        </div>
+
+        <button class="create-match-btn">Crear</button>
+
+    </div>
+    <script src="/script.js"></script>
+</body>
+</html>
