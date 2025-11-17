@@ -541,3 +541,222 @@
         height: 40px;
     }
 }
+/* --------------------------------------------------- CREATE MATCH PAGE STYLES --------------------------------------------------- */
+
+.create-match-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: #f7f7f7; /* Un fondo muy claro para contraste */
+    position: relative;
+}
+
+/* Título de la página */
+.page-title {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 20px;
+    z-index: 2;
+}
+
+/* Contenedor principal de la tarjeta de configuración */
+.match-config-container {
+    max-width: 400px;
+    background: #fff;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    z-index: 5;
+}
+
+.config-group {
+    width: 100%;
+}
+
+.config-label {
+    display: block;
+    font-size: 1rem;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 8px;
+}
+
+/* Campo de Nombre de la Partida */
+.config-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #333;
+}
+
+    .config-input:focus {
+        outline: none;
+        border-color: var(--secondary-color-blue);
+        box-shadow: 0 0 0 3px rgba(77, 64, 227, 0.2);
+    }
+
+/* Contador de Jugadores */
+.player-counter {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 10px;
+}
+
+.counter-btn {
+    width: 35px;
+    height: 35px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    color: #333;
+    font-size: 1.5rem;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+    .counter-btn:hover {
+        background-color: var(--bright-gray);
+    }
+
+.counter-display {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #000;
+    width: 30px;
+    text-align: center;
+}
+
+/* Radio Buttons (Tipo de Partida y Reglas) */
+.radio-group {
+    padding-top: 5px;
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 5px;
+}
+
+    .radio-option label {
+        font-size: 1rem;
+        color: #333;
+        cursor: pointer;
+    }
+
+    /* Estilos personalizados para el radio button (como se ve en la imagen) */
+    .radio-option input[type="radio"] {
+        /* Ocultar el radio button nativo */
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        width: 18px;
+        height: 18px;
+        border: 2px solid #ccc;
+        border-radius: 50%;
+        cursor: pointer;
+        position: relative;
+        top: 2px;
+        transition: border-color 0.2s;
+    }
+
+        .radio-option input[type="radio"]:checked {
+            border-color: var(--secondary-color-blue);
+        }
+
+            .radio-option input[type="radio"]:checked::after {
+                content: '';
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: var(--secondary-color-blue);
+            }
+
+
+/* Botón Crear Partida */
+.create-match-btn {
+    width: 100%;
+    padding: 14px;
+    background-color: var(--secondary-color-blue); /* Color azul principal */
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.15rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.2s, box-shadow 0.2s, transform 0.2s;
+    box-shadow: 0 4px 15px rgba(77, 64, 227, 0.4);
+}
+
+    .create-match-btn:hover {
+        background-color: #5a4de6;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(77, 64, 227, 0.5);
+    }
+
+
+/* -------------------------- BOTÓN DE REGRESO (USANDO IMAGEN) -------------------------- */
+.back-btn-container {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #f0f0f0; /* Fondo gris claro */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+    text-decoration: none;
+    z-index: 10;
+}
+
+    .back-btn-container:hover {
+        background: #e0e0e0;
+    }
+
+/* Estilo para la imagen de flecha */
+.back-arrow-image {
+    width: 60%; /* Ajusta el tamaño de la imagen dentro del círculo */
+    height: 60%;
+    object-fit: contain; /* Asegura que la imagen se ajuste sin distorsionarse */
+}
+
+/* Media query para ajustar elementos en pantallas pequeñas */
+@media (max-width: 600px) {
+    .page-title {
+        font-size: 1.8rem;
+    }
+
+    .match-config-container {
+        padding: 25px;
+        gap: 20px;
+    }
+
+    .back-btn-container {
+        top: 20px;
+        left: 20px;
+        width: 35px;
+        height: 35px;
+    }
+}
