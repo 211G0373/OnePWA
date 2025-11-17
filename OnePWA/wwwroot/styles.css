@@ -388,6 +388,8 @@
     /* background-color: #0066cc; */
 }
 
+
+
     .main-btns .main-btn {
         height: 4em;
         width: 100%;
@@ -419,7 +421,7 @@
 }
 
 .main-btn:nth-of-type(2) {
-    background-color: var(--color--blue-light);
+    background-color: var(--color-link-blue);
 }
 
 .main-btn:nth-of-type(3) {
