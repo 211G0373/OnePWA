@@ -71,7 +71,7 @@ namespace OnePWA.Services
                     CardsCount = p.Cards.Count(),
                     
                 }).ToList(),
-                MyCards = player.Cards.Select(c => new CardDTO() { Id=c.Id, Name=Cards.GetCardById(c.Id).Name }).ToList()
+                MyCards = player.Cards.Select(c => new CardDTO() { Id=c.Id, Color=Cards.GetCardById(c.Id).Color }).ToList()
             };
 
         }
@@ -118,14 +118,14 @@ namespace OnePWA.Services
             session.PlayCard(idPlayer, cardId);
         }
 
-        public void ChangeColor(int idPlayer,ChangeColorDTO dto)
+        public void BlackCard(int idPlayer,ChangeColorDTO dto)
         {
             var session = sessionsRepository.GetByPlayerId(idPlayer);
             if (session == null)
             {
                 throw new Exception("Session not found");
             }
-            session.ChangeColor(idPlayer, dto);
+            session.BlackCard(idPlayer, dto);
             
         }
 

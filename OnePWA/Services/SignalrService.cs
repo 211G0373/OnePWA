@@ -20,12 +20,17 @@ namespace OnePWA.Services
 
             if (userId != null)
                 Users[userId] = Context.ConnectionId;
-
+          
             return base.OnConnectedAsync();
         }
 
         public override async Task OnDisconnectedAsync(Exception? exception)
         {
+            //eliminar del diccionario de usuarios conectados
+
+
+
+
             var userId = Context.User?.FindFirstValue(ClaimTypes.NameIdentifier)
                          ?? Context.User?.FindFirst("Id")?.Value
                          ?? Context.User?.FindFirst("id")?.Value;
@@ -51,17 +56,26 @@ namespace OnePWA.Services
                 await Clients.Client(connId).SendAsync("PlayerColocoCard", dTO);
         }
 
-        public async Task PlayerTakeCard(string targetUserId)
+        public async Task PlayerTakeCard(string targetUserId, TakedCard dto)
         {
             if (Users.TryGetValue(targetUserId, out var connId))
-                await Clients.Client(connId).SendAsync("Movement", int.Parse(targetUserId));
+                await Clients.Client(connId).SendAsync("PlayerTakeCard", dto);
         }
 
-        
+        public async Task YouTakeCard(string targetUserId,CardTaked dto)
+        {
+            if (Users.TryGetValue(targetUserId, out var connId))
+                await Clients.Client(connId).SendAsync("YouTakeCard", dto);
+        }
+
+
 
 
         public async Task PlayerJoined(string targetUserId, IPlayerDTO dTO)
         {
+
+
+
             if (Users.TryGetValue(targetUserId, out var connId))
                 await Clients.Client(connId).SendAsync("PlayerJoined", dTO);
         }

@@ -20,6 +20,7 @@ namespace OnePWA.Services
 
         Task StartGame(int id);
         void PlayCard(int idPlayer, int cardId);
+        void BlackCard(int idPlayer, ChangeColorDTO dto);
         void JoinRandomSession(int id);
         void PlayAgain(int id);
         void RemovePlayerFromSession(int idPlayer, int idPlayerForRemove);

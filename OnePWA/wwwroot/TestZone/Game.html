@@ -50,9 +50,9 @@
                     const response = await fetch('/api/Sessions/PlayCard/' + e.target.dataset.id, {
                         method: 'POST',
                         headers
-        
+
                     });
-                    
+
 
                 }
             });
@@ -80,7 +80,7 @@
 
                     for (let j = 0; j < Session.myCards.length; j++) {
                         let card = document.createElement("button");
-                        card.textContent = Session.myCards[j].name;
+                        card.textContent = Session.myCards[j].color;
                         card.dataset.id = Session.myCards[j].id;
                         card.dataset.name = Session.myCards[j].id;
 
@@ -127,6 +127,14 @@
 
             connection.on("PlayerLeft", (player) => {
                 console.log(player);
+            });
+            connection.on("PlayerTakeCard", (carta) => {
+                console.log("Carta jugada por otro jugador:", carta);
+
+            });
+            connection.on("YouTakeCard", (carta) => {
+                console.log("Carta jugada por otro jugador:", carta);
+
             });
         }
 

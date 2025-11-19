@@ -4,7 +4,7 @@
     public interface ICardDTO
     {
         int Id { get; set; }
-        string Name { get; set; }
+        string Color { get; set; }
     }
 
 }

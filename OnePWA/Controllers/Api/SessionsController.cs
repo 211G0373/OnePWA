@@ -132,9 +132,24 @@ namespace OnePWA.Controllers.Api
                 return Unauthorized(new { message = ex.Message });
             }
             return Ok();
-
-
-
         }
+
+        public IActionResult BlackCard(int id, ChangeColorDTO dto)
+        {
+            var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized(new { message = "No se encontró el ID del usuario en el token." });
+            try
+            {
+                service.BlackCard(int.Parse(userId), dto);
+            }
+            catch (Exception ex)
+            {
+                return Unauthorized(new { message = ex.Message });
+            }
+            return Ok();
+        }
+
+
     }
 }

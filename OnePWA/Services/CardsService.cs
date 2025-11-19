@@ -24,7 +24,7 @@ namespace OnePWA.Services
 
         public IEnumerable<CardDTO> GetAllCardsDTOs()
         {
-            return Repository.GetAll().Select(card => new CardDTO() { Id = card.Id, Name = card.Name});
+            return Repository.GetAll().Select(card => new CardDTO() { Id = card.Id, Color = card.Color });
         }
 
         public Cards? GetCardById(int id)

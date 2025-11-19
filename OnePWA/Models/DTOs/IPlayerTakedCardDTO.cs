@@ -1,15 +1,8 @@
 ﻿namespace OnePWA.Models.DTOs
 {
-
-
-    //Signalr
-    public interface IMovementDTO
+    public interface ITakedCardDTO
     {
         int IdPlayer { get; set; }
-       
         int IdTurn { get; set; }
-
-        CardDTO Card { get; set; }
     }
-
 }

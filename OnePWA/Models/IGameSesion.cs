@@ -24,8 +24,8 @@ namespace OnePWA.Models
 
 
         List<Cards> Cards { get; set; }
-        void PlayCard(int idPlayer, int card);
-        void ChangeColor(int idPlayer, ChangeColorDTO dto);
+        Task PlayCard(int idPlayer, int card);
+        Task BlackCard(int idPlayer, ChangeColorDTO dto);
 
 
         void NextTurn();
