@@ -10,7 +10,13 @@
     <Content Remove="wwwroot\Assets\Back.png" />
     <Content Remove="wwwroot\Assets\Back.svg" />
     <Content Remove="wwwroot\Assets\chevron-back-circle-outline.svg" />
+    <Content Remove="wwwroot\Assets\destello.svg" />
+    <Content Remove="wwwroot\Assets\destelloAzul.svg" />
+    <Content Remove="wwwroot\Assets\destelloRojo.svg" />
+    <Content Remove="wwwroot\Assets\destelloVerde.svg" />
+    <Content Remove="wwwroot\Assets\editProfile.svg" />
     <Content Remove="wwwroot\Assets\oneLogo.png" />
+    <Content Remove="wwwroot\Assets\profilePic.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -35,7 +41,13 @@
     <Resource Include="wwwroot\Assets\Back.png" />
     <Resource Include="wwwroot\Assets\Back.svg" />
     <Resource Include="wwwroot\Assets\chevron-back-circle-outline.svg" />
+    <Resource Include="wwwroot\Assets\destello.svg" />
+    <Resource Include="wwwroot\Assets\destelloAzul.svg" />
+    <Resource Include="wwwroot\Assets\destelloRojo.svg" />
+    <Resource Include="wwwroot\Assets\destelloVerde.svg" />
+    <Resource Include="wwwroot\Assets\editProfile.svg" />
     <Resource Include="wwwroot\Assets\oneLogo.png" />
+    <Resource Include="wwwroot\Assets\profilePic.png" />
   </ItemGroup>
 
 </Project>

@@ -8,17 +8,21 @@
 </head>
 <body class="index-page">
 
-    <div class="user-icon-container">
+    <a href="PerfilUsuario.html" class="user-icon-container">
         <img src="Assets/user.png" alt="Icono de Usuario" class="user-icon">
-    </div>
-    <div class="floating-card-index floating-card-1"></div>
-    <div class="floating-card-index floating-card-2"></div>
-    <div class="floating-card-index floating-card-3"></div>
-    <div class="floating-card-index floating-card-4"></div>
+    </a>
+    <img src="Assets/destello.svg" alt="" class="floating-card-index floating-card-1">
+    <img src="Assets/destelloVerde.svg" alt="" class="floating-card-index floating-card-2">
+    <img src="Assets/destelloRojo.svg" alt="" class="floating-card-index floating-card-3">
+    <img src="Assets/destelloAzul.svg" alt="" class="floating-card-index floating-card-4">
+    <img src="Assets/destello.svg" alt="" class="floating-card-index floating-card-5">
+    <img src="Assets/destelloVerde.svg" alt="" class="floating-card-index floating-card-6">
+    <img src="Assets/destelloRojo.svg" alt="" class="floating-card-index floating-card-7">
+    <img src="Assets/destelloAzul.svg" alt="" class="floating-card-index floating-card-8">
 
     <div class="container">
         <div class="logo">
-            <img src="Assets/oneLogo.png" alt="Logo de ONE" class="logo-image">
+            <img src="Assets/oneLogo.png" alt="Logo de ONE" class="logo-image logo-index">
         </div>
 
         <div class="welcome-section">
@@ -27,24 +31,29 @@
         </div>
 
         <div class="main-btns">
-            <div class="main-btn " >
-                <a href="crear-partida.html">
-                    <img src="Assets/game-controller.png" alt="Icono de control de videojuegos" class="btn-icon">
-                </a>
-                <span class="btn-text">Crear Partida</span>
-            </div>
-
-            <div class="main-btn ">
-                <img src="Assets/random.png" alt="Icono de control de videojuegos" class="btn-icon">
-                <span class="btn-text">Partida Aleatoria</span>
-            </div>
-            <div class="main-btn ">
-                <img src="Assets/cellphone.png" alt="Icono de control de videojuegos" class="btn-icon">
-                <span class="btn-text">Unirse por Código</span>
-            </div>
+            <a href="crear-partida.html">
+                <div class="main-btn">
+                    <ion-icon name="game-controller"></ion-icon>
+                    <span class="btn-text">Crear Partida</span>
+                </div>
+            </a>
+            <a href="#">
+                <div class="main-btn">
+                    <ion-icon name="shuffle"></ion-icon>
+                    <span class="btn-text">Partida Aleatoria</span>
+                </div>
+            </a>
+            <a href="#">
+                <div class="main-btn">
+                    <ion-icon name="phone-portrait-sharp"></ion-icon>
+                    <span class="btn-text">Unirse por Código</span>
+                </div>
+            </a>
         </div>
     </div>
-    <script src="/script.js"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="script.js"></script>
 
 </body>
 </html>
