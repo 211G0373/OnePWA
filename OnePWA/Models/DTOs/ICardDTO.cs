@@ -5,6 +5,8 @@
     {
         int Id { get; set; }
         string Color { get; set; }
+        string Name { get; set; }
+
     }
 
 }

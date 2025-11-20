@@ -17,6 +17,8 @@ namespace OnePWA.Models
         bool NewRules { get; set; }
         Timer Timer { get; set; }
         Cards TopCard { get; set; }
+
+        string LastColor { get; set; }
         public int IdTurn { get; set; }
         List<int> UsedCards { get; set; }
         List<int> NotUsed { get; set; }
@@ -28,7 +30,7 @@ namespace OnePWA.Models
         Task BlackCard(int idPlayer, ChangeColorDTO dto);
 
 
-        void NextTurn();
+        bool NextTurn();
 
         void ReverseTurn();
 

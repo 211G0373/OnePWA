@@ -21,6 +21,8 @@
     </div>
 
 
+
+
     <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
@@ -46,12 +48,31 @@
 
             myCards.addEventListener("click", async function (e) {
                 if (e.target.tagName === "BUTTON") {
-                    console.log("Carta jugada:", e.target.dataset.id);
-                    const response = await fetch('/api/Sessions/PlayCard/' + e.target.dataset.id, {
-                        method: 'POST',
-                        headers
+                    if (e.target.dataset.color != "black") {
+                        console.log("Carta jugada:", e.target.dataset.id);
+                        const response = await fetch('/api/Sessions/PlayCard/' + e.target.dataset.id, {
+                            method: 'POST',
+                            headers
 
-                    });
+                        });
+                    }
+                    else {
+                        console.log("Carta especial jugada:", e.target.dataset.id);
+                        const color = prompt("Elige un color: red, blue, green, yellow");
+                        const response = await fetch('/api/Sessions/BlackCard/',
+                            {
+                                method: 'POST',
+                                headers,
+                                body: JSON.stringify({
+                                    IdCard: e.target.dataset.id,
+                                    Color: color
+                                })
+                            })
+
+                    }
+
+
+
 
 
                 }
@@ -80,9 +101,12 @@
 
                     for (let j = 0; j < Session.myCards.length; j++) {
                         let card = document.createElement("button");
-                        card.textContent = Session.myCards[j].color;
+                        card.textContent = Session.myCards[j].color + " " + Session.myCards[j].name;
                         card.dataset.id = Session.myCards[j].id;
-                        card.dataset.name = Session.myCards[j].id;
+                        card.dataset.color = Session.myCards[j].color;
+
+                        card.dataset.name = Session.myCards[j].name;
+
 
                         console.log("ss");
                         console.log(card);
@@ -129,10 +153,15 @@
                 console.log(player);
             });
             connection.on("PlayerTakeCard", (carta) => {
-                console.log("Carta jugada por otro jugador:", carta);
+                console.log("jugador tomo carta:", carta);
 
             });
             connection.on("YouTakeCard", (carta) => {
+                console.log("tomaste la carta:", carta);
+
+            });
+
+            connection.on("PlayerPlaceCard", (carta) => {
                 console.log("Carta jugada por otro jugador:", carta);
 
             });

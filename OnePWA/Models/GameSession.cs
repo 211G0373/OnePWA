@@ -9,27 +9,25 @@ namespace OnePWA.Models
 {
     public class GameSession : IGameSesion
     {
-        public int Id { get ; set ; }
-        public string Name { get ; set ; }
-        public string Code { get ; set ; }
-        public int IdHost { get ; set ; }
-        public LinkedList<IPlayer> Players { get ; set ; } = new LinkedList<IPlayer>();
-        public bool Started { get ; set ; }
-        public bool Private { get ; set ; }
-        public bool NewRules { get ; set ; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Code { get; set; }
+        public int IdHost { get; set; }
+        public LinkedList<IPlayer> Players { get; set; } = new LinkedList<IPlayer>();
+        public bool Started { get; set; }
+        public bool Private { get; set; }
+        public bool NewRules { get; set; }
         public Cards TopCard { get; set; } = new Cards();
-        public string LastColor { get ; set ; }
-        public System.Timers.Timer Timer { get ; set ; } = new System.Timers.Timer();
-        public int IdTurn { get ; set ; }
-        public List<int> UsedCards { get ; set ; } = new List<int>();
-        public List<int> NotUsed { get ; set ; } = new List<int>();
-        public List<Cards> Cards { get ; set ; }= new List<Cards>();
+        public string LastColor { get; set; }
+        public System.Timers.Timer Timer { get; set; } = new System.Timers.Timer();
+        public int IdTurn { get; set; }
+        public List<int> UsedCards { get; set; } = new List<int>();
+        public List<int> NotUsed { get; set; } = new List<int>();
+        public List<Cards> Cards { get; set; } = new List<Cards>();
         public SignalrService Notifications { get; }
 
         public GameSession(SignalrService notifications)
         {
-
-           
             Notifications = notifications;
         }
 
@@ -57,92 +55,138 @@ namespace OnePWA.Models
                 if (c.Name == "Skip")
                 {
                     SkipTurn();
-                  
+
 
                 }
                 if (c.Name == "Reverse")
                 {
                     ReverseTurn();
-                  
+
                 }
             }
             else
             {
                 throw new Exception("Movimiento invalido");
             }
+
+
             p.Cards.Remove(c);
             UsedCards.Add(card);
+
 
             if (p.Id == IdTurn)
             {
                 //Timer.Stop();
             }
 
-            NextTurn();
-            
-
-            foreach (var player in Players)
+            if (NextTurn())
             {
-                if (player.Id == idPlayer)
+                foreach (var player in Players)
                 {
-                    continue;
-                }
-                await Notifications.PlayerColocoCard(player.Id.ToString(), new MovementDTO
-                {
-                    IdPlayer = idPlayer,
-                    Card = new CardDTO
+                    if (player.Id == idPlayer)
                     {
-                        Id = c.Id,
-                        Color = c.Color,
-                    },
-                    IdTurn = IdTurn
-                });
-
-
-
-            }
-
-            var currentPlayer = Players.FirstOrDefault(pl => pl.Id == IdTurn);
-            if (currentPlayer != null)
-            {
-                if (!currentPlayer.Cards.Any(x => x.Color == "black" || x.Color == LastColor || x.Name == TopCard.Name))
-                {
-                    //el siguiente jugador no tiene cartas validas, toma una carta
-                    ///aqui
-                    ///
-                    int tcard =TakeCard(currentPlayer.Id);
-                    if (!currentPlayer.Cards.Any(x => x.Color == "black" || x.Color == LastColor || x.Name == TopCard.Name))
-                    {
-                        //si aun asi no tiene cartas validas, saltar su turno
-                        NextTurn();
-                        //notificar de carta tomada y turno saltado
-                       // Notifications.PlayerTakeCard(ITakedCardDTO);
-
+                        continue;
                     }
-                    foreach (var player in Players)
+                    await Notifications.PlayerColocoCard(player.Id.ToString(), new MovementDTO
                     {
-                        if (player.Id == idPlayer)
+                        IdPlayer = idPlayer,
+                        Card = new CardDTO
                         {
-                            await Notifications.YouTakeCard(player.Id.ToString(), new CardTaked()
-                            {
-                                IdTurn = IdTurn,
-                                Card = new CardDTO
-                                {
-                                    Id = tcard,
-                                    Color = Cards.First(ca => ca.Id == tcard).Color
-                                }
-                            });
-                            continue;
-                        }
-                        await Notifications.PlayerTakeCard(player.Id.ToString(), new TakedCard() 
-                        { 
-                            IdPlayer=currentPlayer.Id,
-                            IdTurn=IdTurn
-                        });
-                    }
+                            Id = c.Id,
+                            Color = c.Color,
+                            Name = c.Name
+                        },
+                        IdTurn = IdTurn
+                    });
                 }
             }
 
+
+            else
+            {
+                foreach (var player in Players)
+                {
+                    if (player.Id == idPlayer)
+                    {
+                        continue;
+                    }
+                    await Notifications.PlayerColocoCard(player.Id.ToString(), new MovementDTO
+                    {
+                        IdPlayer = idPlayer,
+                        Card = new CardDTO
+                        {
+                            Id = c.Id,
+                            Color = c.Color,
+                            Name = c.Name
+                        },
+                        IdTurn = -1
+                    });
+                }
+                while (true)
+                {
+                    var currentPlayer = Players.FirstOrDefault(pl => pl.Id == IdTurn);
+                    if (currentPlayer != null)
+                    {
+                        int tcard = TakeCard(currentPlayer.Id);
+                        if (!currentPlayer.Cards.Any(x => x.Color == "black" || x.Color == LastColor || x.Name == TopCard.Name))
+                        {
+                            if (NextTurn())
+                            {
+                                foreach (var player in Players)
+                                {
+                                    if (player.Id == currentPlayer.Id)
+                                    {
+                                        await Notifications.YouTakeCard(player.Id.ToString(), new CardTaked()
+                                        {
+                                            IdTurn = IdTurn,
+                                            Card = new CardDTO
+                                            {
+                                                Id = tcard,
+                                                Color = Cards.First(ca => ca.Id == tcard).Color,
+                                                Name = Cards.First(ca => ca.Id == tcard).Name
+                                            }
+                                        });
+                                        continue;
+                                    }
+                                    await Notifications.PlayerTakeCard(player.Id.ToString(), new TakedCard()
+                                    {
+                                        IdPlayer = currentPlayer.Id,
+                                        IdTurn = IdTurn
+                                    });
+                                }
+                            }
+
+                        }
+                        else
+                        {
+                            //tiene carta valida, puede jugar
+                            foreach (var player in Players)
+                            {
+                                if (player.Id == currentPlayer.Id)
+                                {
+                                    await Notifications.YouTakeCard(player.Id.ToString(), new CardTaked()
+                                    {
+                                        IdTurn = IdTurn,
+                                        Card = new CardDTO
+                                        {
+                                            Id = tcard,
+                                            Color = Cards.First(ca => ca.Id == tcard).Color,
+                                            Name = Cards.First(ca => ca.Id == tcard).Name
+                                        }
+                                    });
+                                    continue;
+                                }
+                                await Notifications.PlayerTakeCard(player.Id.ToString(), new TakedCard()
+                                {
+                                    IdPlayer = currentPlayer.Id,
+                                    IdTurn = IdTurn
+                                });
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
         }
 
         public int TakeCard(int idPlayer)
@@ -172,7 +216,7 @@ namespace OnePWA.Models
         {
             var p = Players.FirstOrDefault(pl => pl.Id == idPlayer);
 
-            if( p == null)
+            if (p == null)
             {
                 throw new Exception("Jugador no encontrado");
             }
@@ -194,6 +238,50 @@ namespace OnePWA.Models
                 TopCard = c;
                 LastColor = dto.Color;
 
+                NextTurn();
+                //el siguiente jugador toma 4 cartas
+                var nextPlayer = Players.FirstOrDefault(pl => pl.Id == IdTurn);
+                int currentIdTurn = -1;
+                if (nextPlayer != null)
+                {
+                    for (int i = 0; i < 4; i++)
+                    {
+                        if (i == 3)
+                        {
+                            NextTurn();
+                            currentIdTurn = IdTurn;
+                        }
+                        int tcard = TakeCard(nextPlayer.Id);
+                        //notificar carta tomada
+                        foreach (var player in Players)
+                        {
+                            if (player.Id == nextPlayer.Id)
+                            {
+                                await Notifications.YouTakeCard(player.Id.ToString(), new CardTaked()
+                                {
+                                    IdTurn = IdTurn,
+                                    Card = new CardDTO
+                                    {
+                                        Id = tcard,
+                                        Color = Cards.First(ca => ca.Id == tcard).Color,
+                                        Name = Cards.First(ca => ca.Id == tcard).Name
+                                    }
+                                });
+                                continue;
+                            }
+                            await Notifications.PlayerTakeCard(player.Id.ToString(), new TakedCard()
+                            {
+                                IdPlayer = nextPlayer.Id,
+                                IdTurn = currentIdTurn
+                            });
+                        }
+
+                    }
+                }
+
+
+
+
                 //SkipTurn();
                 //NextTurn();
 
@@ -211,6 +299,7 @@ namespace OnePWA.Models
             p.Cards.Remove(c);
             UsedCards.Add(dto.IdCard);
 
+
             NextTurn();
             foreach (var player in Players)
             {
@@ -224,11 +313,15 @@ namespace OnePWA.Models
                     Card = new CardDTO
                     {
                         Id = c.Id,
-                        Color = c.Color,
+                        Color = dto.Color,
+                        Name = c.Name
                     },
                     IdTurn = IdTurn
                 });
             }
+
+
+
             var currentPlayer = Players.FirstOrDefault(pl => pl.Id == IdTurn);
             if (currentPlayer != null)
             {
@@ -251,7 +344,9 @@ namespace OnePWA.Models
         }
 
 
-        public void NextTurn()
+
+
+        public bool NextTurn()
         {
             var node = Players.First;
 
@@ -267,10 +362,16 @@ namespace OnePWA.Models
                 IdTurn = nextNode.Value.Id;
                 //Timer.Start();
             }
-
-
-            
-
+            var currentPlayer = Players.FirstOrDefault(pl => pl.Id == IdTurn);
+            if (currentPlayer == null)
+            {
+                throw new Exception("Jugador no encontrado");
+            }
+            if (currentPlayer.Cards.Any(x => x.Color == "black" || x.Color == LastColor || x.Name == TopCard.Name))
+            {
+                return true;
+            }
+            return false;
             //notificar
         }
 
@@ -321,17 +422,17 @@ namespace OnePWA.Models
                     NotUsed.RemoveAt(0);
                 }
             }
-            var firstcard = NotUsed.FirstOrDefault();
+            var firstcard = NotUsed.FirstOrDefault(x => Cards.FirstOrDefault(c => c.Id == x).Color != "black");
             UsedCards.Add(firstcard);
             NotUsed.Remove(firstcard);
 
-            TopCard = Cards.FirstOrDefault(x=>x.Id==UsedCards.First());
-            LastColor = TopCard.Color; 
+            TopCard = Cards.FirstOrDefault(x => x.Id == UsedCards.First());
+            LastColor = TopCard.Color;
 
             Timer.Elapsed += playerOut;
             Timer.AutoReset = false;
             Timer.Interval = 10000; // 60 segundos
-           // Timer.Start();
+                                    // Timer.Start();
 
 
         }
@@ -344,13 +445,13 @@ namespace OnePWA.Models
         public async void playerOut(object? sender, ElapsedEventArgs e)
         {
             /// eliminar jugador por inactividad
-            
+
             ///notificar a los demas jugadores
             ///si es su turno, pasar al siguiente
             ///
-            foreach(var p in Players)
+            foreach (var p in Players)
             {
-                await Notifications.PlayerLeft(p.Id.ToString(),IdTurn);
+                await Notifications.PlayerLeft(p.Id.ToString(), IdTurn);
 
             }
 

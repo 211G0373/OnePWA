@@ -53,7 +53,7 @@ namespace OnePWA.Services
         public async Task PlayerColocoCard(string targetUserId, IMovementDTO dTO)
         {
             if (Users.TryGetValue(targetUserId, out var connId))
-                await Clients.Client(connId).SendAsync("PlayerColocoCard", dTO);
+                await Clients.Client(connId).SendAsync("PlayerPlaceCard", dTO);
         }
 
         public async Task PlayerTakeCard(string targetUserId, TakedCard dto)

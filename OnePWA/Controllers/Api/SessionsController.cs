@@ -133,8 +133,9 @@ namespace OnePWA.Controllers.Api
             }
             return Ok();
         }
-
-        public IActionResult BlackCard(int id, ChangeColorDTO dto)
+        [HttpPost]
+        [Route("BlackCard")]
+        public IActionResult BlackCard(ChangeColorDTO dto)
         {
             var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userId))

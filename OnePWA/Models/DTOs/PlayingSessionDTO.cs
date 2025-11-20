@@ -7,6 +7,7 @@ namespace OnePWA.Models.DTOs
         public int PlayerCount { get ; set ; }
         public int IdTurn { get ; set ; }
         public IEnumerable<IPlayerDTO> Players { get ; set ; } = new List<IPlayerDTO>();
+        public CardDTO LastCard { get; set; }
         public List<CardDTO> MyCards { get ; set ; } = new List<CardDTO>();
     }
 }

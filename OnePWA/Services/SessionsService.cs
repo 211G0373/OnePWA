@@ -71,7 +71,8 @@ namespace OnePWA.Services
                     CardsCount = p.Cards.Count(),
                     
                 }).ToList(),
-                MyCards = player.Cards.Select(c => new CardDTO() { Id=c.Id, Color=Cards.GetCardById(c.Id).Color }).ToList()
+                MyCards = player.Cards.Select(c => new CardDTO() { Id=c.Id, Color=Cards.GetCardById(c.Id).Color, Name= Cards.GetCardById(c.Id).Name }).ToList(),
+                LastCard = new CardDTO() { Id=session.TopCard.Id, Color=session.LastColor, Name= Cards.GetCardById(session.TopCard.Id).Name }
             };
 
         }
