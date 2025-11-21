@@ -216,8 +216,8 @@ namespace OnePWA.Models
             var c = Cards.First(c => c.Id == dto.IdCard);
 
             if (c.Name == "Wild +4" && !NewRules && p.Cards.Any(x=>x.Name==TopCard.Name || x.Color==LastColor))
-            { 
-                throw new Exception("La carrta +4 solo puede ser utilizada como la ultima opcion en las reglas estandard")
+            {
+                throw new Exception("La carrta +4 solo puede ser utilizada como la ultima opcion en las reglas estandard");
             
             }
 
