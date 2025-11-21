@@ -107,7 +107,7 @@ namespace OnePWA.Models
                                 Id = c.Id,
                                 Name = c.Name
                             });
-                            _ = TakeXCards(IdTurn, 2);
+                            _ = TakeXCards(IdTurn, AcumulatedCards);
                         }
 
 
@@ -161,6 +161,7 @@ namespace OnePWA.Models
 
         public async Task TakeXCards(int playerid, int cards)
         {
+            AcumulatedCards = 0;
             for (int i = 0; i < cards - 1; i++)
             {
                 await NotifyPlayerTakeCard(playerid, -1, TakeCard(playerid));
@@ -268,7 +269,7 @@ namespace OnePWA.Models
                                 Id = c.Id,
                                 Name = c.Name
                             });
-                            _ = TakeXCards(IdTurn, 4);
+                            _ = TakeXCards(IdTurn, AcumulatedCards);
                         }
 
 
