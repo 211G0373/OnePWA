@@ -215,8 +215,14 @@ namespace OnePWA.Models
             }
             var c = Cards.First(c => c.Id == dto.IdCard);
 
+            if (c.Name == "Wild +4" && !NewRules && p.Cards.Any(x=>x.Name==TopCard.Name || x.Color==LastColor))
+            { 
+                throw new Exception("La carrta +4 solo puede ser utilizada como la ultima opcion en las reglas estandard")
+            
+            }
 
-            if (c.Color != "black")
+
+                if (c.Color != "black")
             {
                 throw new Exception("Esta carta no permite cambio de color");
 
@@ -231,6 +237,10 @@ namespace OnePWA.Models
                 {
                     //Timer.Stop();
                 }
+
+                //verificar que si son las reglas originales no
+                //la pueda agregar mas que como ultimo recurso
+                //pero que si son las nuevas reglas no pase nada
                 if (c.Name == "Wild +4")
                 {
                     //cambiar las reglas aqui
@@ -241,7 +251,7 @@ namespace OnePWA.Models
 
                         await NotifyPlayerPlaceCard(idPlayer, -1, new CardDTO()
                         {
-                            Color = c.Color,
+                            Color = dto.Color,
                             Id = c.Id,
                             Name = c.Name
                         });
@@ -251,11 +261,11 @@ namespace OnePWA.Models
                     {
 
                         var currentplayer = Players.FirstOrDefault(x => x.Id == IdTurn);
-                        if (currentplayer.Cards.Any(x => x.Name == "Wild +4" || x.Name == "Wild +2"))
+                        if (currentplayer.Cards.Any(x => x.Name == "Wild +4" || (x.Name == "+2" && x.Color==dto.Color)))
                         {
                             await NotifyPlayerPlaceCard(idPlayer, IdTurn, new CardDTO()
                             {
-                                Color = c.Color,
+                                Color = dto.Color,
                                 Id = c.Id,
                                 Name = c.Name
                             });
@@ -265,7 +275,7 @@ namespace OnePWA.Models
                         {
                             await NotifyPlayerPlaceCard(idPlayer, -1, new CardDTO()
                             {
-                                Color = c.Color,
+                                Color = dto.Color,
                                 Id = c.Id,
                                 Name = c.Name
                             });
