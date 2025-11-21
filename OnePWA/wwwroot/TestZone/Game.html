@@ -19,6 +19,9 @@
             </div>
         </template>
     </div>
+    <label id="historial"></label>
+    <label id="turnode"></label>
+
 
 
 
@@ -40,6 +43,9 @@
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             };
+
+            const histotial = document.querySelector("#historial");
+            const turnode= document.querySelector("#turnode")
 
             const playersDiv = document.querySelector(".players");
             const template = document.querySelector("template");
@@ -135,7 +141,7 @@
 
 
             const connection = new signalR.HubConnectionBuilder()
-                .withUrl("https://localhost:7230/hubs/Signalr?access_token=" + token)
+                .withUrl("https://differentsagetrail38.conveyor.cloud/hubs/Signalr?access_token=" + token)
                 .configureLogging(signalR.LogLevel.Information)
                 .build();
 
@@ -154,6 +160,8 @@
             });
             connection.on("PlayerTakeCard", (carta) => {
                 console.log("jugador tomo carta:", carta);
+                //budvst el contador de cartas del jugador
+
 
             });
             connection.on("YouTakeCard", (carta) => {
