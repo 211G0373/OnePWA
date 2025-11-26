@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -31,7 +31,7 @@
 
         <div class="profile-avatar">
             <img src="Assets/profilePic.png" alt="Foto de perfil" class="profile-avatar-img">
-            <button type="button" class="edit-avatar-btn" aria-label="Editar foto de perfil">
+            <button type="button" class="edit-avatar-btn" aria-label="Editar foto de perfil" onclick="openAvatarModal()">
                 <img src="Assets/editProfile.svg" alt="">
             </button>
         </div>
@@ -53,11 +53,50 @@
             </div>
 
             <div class="profile-actions">
-                <button type="submit" class="login-button profile-primary-btn">Guardar Cambios</button>
-                <button type="button" class="login-button profile-secondary-btn">Cerrar Sesión</button>
+                <a href="PerfilUsuario.html" class="login-button profile-primary-btn action-link">Guardar Cambios</a>
+                <a href="login.html" class="login-button profile-secondary-btn action-link">Cerrar Sesión</a>
             </div>
         </form>
 
+    </div>
+
+    <div id="avatarModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeAvatarModal()">&times;</span>
+            <h2 class="modal-title">Selecciona tu Avatar</h2>
+            <div class="avatar-grid">
+                <div class="avatar-option" data-avatar="1.png">
+                    <img src="Assets/Avatares/1.png" alt="Avatar 1">
+                </div>
+                <div class="avatar-option" data-avatar="2.png">
+                    <img src="Assets/Avatares/1.png" alt="Avatar 2">
+                </div>
+                <div class="avatar-option" data-avatar="3.png">
+                    <img src="Assets/Avatares/1.png" alt="Avatar 3">
+                </div>
+                <div class="avatar-option" data-avatar="4.png">
+                    <img src="Assets/Avatares/1.png" alt="Avatar 4">
+                </div>
+                <div class="avatar-option" data-avatar="5.png">
+                    <img src="Assets/Avatares/1.png" alt="Avatar 5">
+                </div>
+                <div class="avatar-option" data-avatar="6.png">
+                    <img src="Assets/Avatares/1.png" alt="Avatar 6">
+                </div>
+                <div class="avatar-option" data-avatar="7.png">
+                    <img src="Assets/Avatares/1.png" alt="Avatar 7">
+                </div>
+                <div class="avatar-option" data-avatar="8.png">
+                    <img src="Assets/Avatares/1.png" alt="Avatar 8">
+                </div>
+                <div class="avatar-option" data-avatar="9.png">
+                    <img src="Assets/Avatares/1.png" alt="Avatar 9">
+                </div>
+                <div class="avatar-option" data-avatar="10.png">
+                    <img src="Assets/Avatares/1.png" alt="Avatar 10">
+                </div>
+            </div>
+        </div>
     </div>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
