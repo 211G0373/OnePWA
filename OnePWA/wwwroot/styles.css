@@ -1075,3 +1075,129 @@
         height: 35px;
     }
 }
+
+
+/* --------------------------------------------------- MODAL DE SELECCIÓN DE AVATAR --------------------------------------------------- */
+
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 1000; 
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7); 
+    padding-top: 60px;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 30px;
+    border: 1px solid #888;
+    width: 90%; 
+    max-width: 500px; 
+    border-radius: 20px;
+    position: relative;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 0.3s ease-out;
+}
+
+.modal-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--secondary-color-blue);
+    margin-bottom: 25px;
+    text-align: center;
+}
+
+/* Botón de cerrar (X) */
+.close-btn {
+    color: #aaa;
+    float: right;
+    font-size: 36px;
+    font-weight: bold;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+    .close-btn:hover,
+    .close-btn:focus {
+        color: var(--main-color-red);
+        text-decoration: none;
+    }
+
+.avatar-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); 
+    gap: 15px;
+    justify-items: center;
+}
+
+.avatar-option {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    cursor: pointer;
+    border: 4px solid transparent;
+    transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+    
+
+    .avatar-option.selected {
+        border-color: var(--secondary-color-blue);
+        transform: scale(1.08);
+        box-shadow: 0 0 0 4px rgba(77, 64, 227, 0.4);
+    }
+
+    .avatar-option img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 450px) {
+    .modal-content {
+        margin: 20% auto;
+    }
+
+    .avatar-grid {
+        grid-template-columns: repeat(4, 1fr); 
+        gap: 12px;
+    }
+
+    .avatar-option {
+        width: 60px;
+        height: 60px;
+    }
+
+    .modal-title {
+        font-size: 1.4rem;
+    }
+}
+
+.profile-actions .action-link {
+    display: block;
+    text-decoration: none; 
+    text-align: center;
+    cursor: pointer;
+}
