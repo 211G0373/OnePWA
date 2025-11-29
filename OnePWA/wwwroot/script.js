@@ -1,6 +1,6 @@
 // toggle contra
-const passwordToggle = document.getElementById('passwordToggle');
-const passwordInput = document.getElementById('password');
+//const passwordToggle = document.getElementById('passwordToggle');
+//const passwordInput = document.getElementById('password');
 
 //passwordToggle.addEventListener('click', () => {
 //    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
@@ -42,7 +42,6 @@ if (passwordToggle && passwordInput) {
 
 /* --------------------------------------------------- FUNCIONALIDAD DEL MODAL DE AVATARES --------------------------------------------------- */
 
-}
 function openAvatarModal() {
     const modal = document.getElementById('avatarModal');
     if (modal) {

@@ -1,5 +1,6 @@
 /* FONTS */
 @import url('https://fonts.googleapis.com/css2?family=Cabin:ital,wght@0,400..700;1,400..700&display=swap');
+@import url('styles.css');
 
 * {
     margin: 0;
@@ -28,6 +29,7 @@
 .login-page {
     background: linear-gradient(135deg, #7209b7 0%, #4361ee 50%, #4D40E3 100%);
     min-height: 100vh;
+    min-height: 100dvh; /* dynamic viewport height para mobile */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -35,6 +37,7 @@
     padding: clamp(1rem, 3vw, 2rem);
     position: relative; /* para las floating cards */
     overflow: hidden; /* para las floating cards */
+    touch-action: pan-y; /* Permite scroll vertical pero evita zoom con gestos */
 }
 
 /*-------------------------- CARTAS FLOTANTES --------------------------------------------------- */
@@ -130,20 +133,16 @@
 
 /*-------------------------- END CARTAS FLOTANTES --------------------------------------------------- */
 
+/*--------------------------------------------- LOGIN STYLES  --------------------------------------------------- */
+
 .login-page .container {
     background: #fff;
-    /*width: 100%;*/
     width: clamp(320px, 90vw, 450px);
-    /*max-width: 450px;*/
-    /*padding: 1em;*/
     padding: clamp(1rem, 4vw, 2rem);
-    /*border-radius: 20px;*/
     border-radius: clamp(16px, 3vw, 24px);
-    /*padding: 40px 32px;*/
     display: flex;
     flex-direction: column;
     align-items: center;
-    /*gap: 24px;*/
     gap: clamp(12px, 2vw, 24px);
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
     position: relative;
@@ -316,13 +315,31 @@
 
 /* --------------------------------------------------- CREAR CUENTA PAGE --------------------------------------------------- */
 .back-btn-container {
-    position: absolute;
+    /*position: absolute;
     top: 1.4em;
     left: 1.4em;
     cursor: pointer;
-    z-index: 2;
-}
+    z-index: 2;*/
 
+    width: clamp(45px, 10vw, 55px);
+    height: clamp(45px, 10vw, 55px);
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: absolute;
+    /* En móvil: arriba izquierda */
+    top: clamp(1rem, 3vw, 1.5rem);
+    left: clamp(1rem, 3vw, 1.5rem);
+}
+    .back-btn-container svg {
+        width: clamp(30px, 10vw, 50px);
+        height: clamp(30px, 10vw, 50px);
+    }
 
 /* ---------------------------------------------------RESPONSIVE STYLES LOGIN --------------------------------------------------- */
 @media (min-width: 768px) {
@@ -348,16 +365,25 @@
     }
         .login-page .container {
             padding: .5em;
-            border-radius: 16px;
+            /*border-radius: 16px;*/
             background: transparent;
             box-shadow: none;
         }
-    .floating-card {
+
+    /*desactivar comentarios para quitar las tarjertas de las vistas mobile*/
+ /*   .floating-card {
         display:none;
+    }
+    .login-page::after {
+        display: none;
+    }
+
+    .login-page::before {
+        display: none;
     }
     .login-page .floating-card {
         opacity: 0.08;
-    }
+    }*/
     
     .welcome-title {
         font-size: 1.75rem;
@@ -1028,7 +1054,7 @@
 
 
 /* -------------------------- BOTÓN DE REGRESO (USANDO IMAGEN) -------------------------- */
-.back-btn-container {
+.create-match-page .back-btn-container {
     position: absolute;
     top: 30px;
     left: 30px;
@@ -1068,11 +1094,11 @@
         gap: 20px;
     }
 
-    .back-btn-container {
+    .create-match-page .back-btn-container {
         top: 20px;
         left: 20px;
         width: 35px;
-        height: 35px;
+        height: auto;
     }
 }
 
