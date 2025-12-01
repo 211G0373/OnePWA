@@ -17,6 +17,7 @@
     <Content Remove="wwwroot\Assets\editProfile.svg" />
     <Content Remove="wwwroot\Assets\oneLogo.png" />
     <Content Remove="wwwroot\Assets\profilePic.png" />
+    <Content Remove="wwwroot\Assets\qr-code.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -48,6 +49,7 @@
     <Resource Include="wwwroot\Assets\editProfile.svg" />
     <Resource Include="wwwroot\Assets\oneLogo.png" />
     <Resource Include="wwwroot\Assets\profilePic.png" />
+    <Resource Include="wwwroot\Assets\qr-code.png" />
   </ItemGroup>
 
 </Project>
