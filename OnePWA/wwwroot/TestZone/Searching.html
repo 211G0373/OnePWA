@@ -48,7 +48,7 @@
 
 
             const connection = new signalR.HubConnectionBuilder()
-                .withUrl("https://differentsagetrail38.conveyor.cloud/hubs/Signalr?access_token=" + token)
+                .withUrl("https://localhost:7230/hubs/Signalr?access_token=" + token)
                 .configureLogging(signalR.LogLevel.Information)
                 .build();
 
