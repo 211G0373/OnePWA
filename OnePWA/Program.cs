@@ -71,6 +71,7 @@ builder.Services.AddTransient<ICardsService, CardsService>();
 builder.Services.AddTransient<ISignUpDTO, SignUpDTO>();
 builder.Services.AddTransient<ILoginDTO, LoginDTO>();
 builder.Services.AddTransient<ISessionsService, SessionsService>();
+builder.Services.AddTransient<EmailService>();
 //builder.Services.AddSingleton<IGameService, GameService>();
 
 

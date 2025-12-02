@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OnePWA.Models.DTOs;
+using OnePWA.Models.Entities;
 using OnePWA.Services;
 
 namespace OnePWA.Controllers.Api
@@ -10,10 +11,15 @@ namespace OnePWA.Controllers.Api
     public class UsersController : ControllerBase
     {
         private readonly IUsersService service;
+        private readonly EmailService emailService;
 
-        public UsersController(IUsersService service)
+        public OnecgdbContext Context { get; }
+
+        public UsersController(IUsersService service, EmailService emailService, OnecgdbContext context)
         {
             this.service = service;
+            this.emailService=emailService;
+            Context=context;
         }
 
         [HttpPost]
@@ -32,6 +38,25 @@ namespace OnePWA.Controllers.Api
                 return BadRequest("Correo electronico o contraseña incorrecta");
             }
             return Ok(token);
+        }
+
+
+        [HttpPost("restablecer")]
+        public async Task<IActionResult>? Restablecer(string correo)
+        {
+            var email = Context.Users.FirstOrDefault(x => x.Email == correo);
+
+            if (email==null)
+            {
+                return BadRequest("Correo electronico invalido");
+
+            }
+            else
+            {
+                emailService.SendEmailAsync(correo);
+            }
+
+                return Ok();
         }
     }
 }

@@ -20,15 +20,15 @@ public partial class OnecgdbContext : DbContext
 
     public virtual DbSet<Users> Users { get; set; }
 
-//    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-//        => optionsBuilder.UseMySql("server=localhost;user=root;password=root;database=onecgdb", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.40-mysql"));
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseMySql("server=localhost;user=root;password=root;database=onecgdb", ServerVersion.Parse("11.5.2-mariadb"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder
-            .UseCollation("utf8mb4_0900_ai_ci")
-            .HasCharSet("utf8mb4");
+            .UseCollation("latin1_swedish_ci")
+            .HasCharSet("latin1");
 
         modelBuilder.Entity<Cards>(entity =>
         {
@@ -36,7 +36,9 @@ public partial class OnecgdbContext : DbContext
 
             entity.ToTable("cards");
 
-            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Id)
+                .HasColumnType("int(11)")
+                .HasColumnName("id");
             entity.Property(e => e.Color)
                 .HasMaxLength(45)
                 .HasColumnName("color");
@@ -52,7 +54,9 @@ public partial class OnecgdbContext : DbContext
 
             entity.ToTable("users");
 
-            entity.Property(e => e.Id).HasColumnName("id");
+            entity.Property(e => e.Id)
+                .HasColumnType("int(11)")
+                .HasColumnName("id");
             entity.Property(e => e.Email)
                 .HasMaxLength(100)
                 .HasColumnName("email");
@@ -60,9 +64,11 @@ public partial class OnecgdbContext : DbContext
                 .HasMaxLength(45)
                 .HasColumnName("name");
             entity.Property(e => e.Password)
-                .HasMaxLength(45)
+                .HasMaxLength(256)
                 .HasColumnName("password");
-            entity.Property(e => e.WonGames).HasColumnName("wonGames");
+            entity.Property(e => e.WonGames)
+                .HasColumnType("int(11)")
+                .HasColumnName("wonGames");
         });
 
         OnModelCreatingPartial(modelBuilder);
