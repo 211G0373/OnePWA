@@ -22,6 +22,7 @@
     --my-gary: #717182;
     --darker-cadet-gray: #6C7A86;
     --right-side-bckg: #F8F9FA;
+
     --borderRadius-big-containers: clamp(16px, 3vw, 24px);
     --borderRadius-small-containers: clamp(12px, 2vw, 16px);
     --borderRadius-smaller-containers: clamp(8px, 1.5vw, 12px);
@@ -127,12 +128,10 @@
     0%, 100% {
         transform: translateY(0) rotate(var(--rotation, 0deg));
     }
-
     33% {
         transform: translateY(-30px) rotate(calc(var(--rotation, 0deg) + 5deg));
     }
-
-    66% {
+        66% {
         transform: translateY(20px) rotate(calc(var(--rotation, 0deg) - 5deg));
     }
 }
