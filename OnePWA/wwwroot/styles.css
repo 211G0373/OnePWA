@@ -1530,3 +1530,416 @@
             gap: clamp(30px, 4vw, 50px);
         }
     }
+
+
+/* --------------------------------------------------- GAME VIEW --------------------------------------------------- */
+.game-page {
+    min-height: 100vh;
+    min-height: 100dvh;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: stretch;
+    /*background-image: url("Assets/FondoONE.png");*/
+    background: radial-gradient(circle at center, #246b3b 0%, #164528 40%, #0e2d1a 100%);
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+    overflow: hidden;
+    padding: clamp(12px, 2vw, 20px);
+}
+
+/* Logo ONE arriba a la izquierda */
+.game-header {
+    position: absolute;
+    top: clamp(12px, 2vw, 20px);
+    left: clamp(16px, 3vw, 30px);
+    z-index: 5;
+}
+
+.game-logo img {
+    width: clamp(90px, 16vw, 140px);
+    height: auto;
+}
+
+/* Botón logout arriba a la derecha */
+.logout-button {
+    position: absolute;
+    top: clamp(12px, 2vw, 20px);
+    right: clamp(16px, 3vw, 30px);
+    width: clamp(34px, 4vw, 40px);
+    height: clamp(34px, 4vw, 40px);
+    border: none;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    cursor: pointer;
+}
+
+.logout-button img {
+    width: 70%;
+    height: 70%;
+    object-fit: contain;
+}
+
+/* Área interactiva (tablero completo) */
+.game-table {
+    position: relative;
+    flex: 1;
+    width: 100%;
+    height: 100%;
+    min-height: clamp(640px, 92vh, 960px);
+    padding: clamp(16px, 2.5vw, 32px);
+}
+
+
+/* -------------------- PLAYER SLOTS -------------------- */
+
+.player-slot {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    color: #fff;
+    pointer-events: none;
+    text-align: center;
+}
+
+.player-count-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 2em;
+    background: var(--bright-gray);
+    color: #111;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.4);
+    position: absolute;
+    top: -15px;
+    left: 50%;
+}
+
+.mini-card-back {
+    width: 20px;
+    height: 26px;
+    object-fit: contain;
+    transform: rotate(-6deg);
+}
+
+.player-cards-count {
+    font-weight: bolder;
+    font-size: 1.2rem;
+}
+
+.player-avatar {
+    width: clamp(62px, 16vw, 90px);
+    height: clamp(62px, 16vw, 90px);
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.55), 0 10px 18px rgba(0, 0, 0, 0.6);
+}
+
+.player-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.player-avatar.current-turn {
+    box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.85), 0 0 18px rgba(255, 215, 0, 0.85);
+}
+
+.player-avatar.host {
+    border-color: var(--color-yellow-logo);
+}
+
+.player-name {
+    font-size: 1.4rem;
+    font-weight: 900;
+    letter-spacing: 0.02em;
+    color: #fff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+.host-badge-table {
+    background: var(--color-yellow-logo);
+    color: #000;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 2em;
+    margin-top: -2px;
+}
+
+/* Avatars positohns*/
+.slot-top-left  { top: 7%;  left: 18%; }
+.slot-top-center{ top: 5%;  left: 50%; transform: translateX(-50%); }
+.slot-top-right { top: 7%;  right: 18%; }
+
+.slot-middle-left  { top: 42%; left: 6%; }
+.slot-middle-right { top: 42%; right: 6%; }
+
+.slot-bottom-left  { bottom: 11%; left: 16%; }
+.slot-bottom-right { bottom: 11%; right: 16%; }
+
+
+
+/* -------------------- ZONA CENTRAL -------------------- */
+
+.table-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-rows: auto auto;
+    align-items: center;
+    justify-items: center;
+    column-gap: clamp(24px, 3vw, 36px);
+    row-gap: clamp(16px, 2vw, 24px);
+}
+
+/* Mazo para robar */
+.draw-pile {
+    grid-row: 1 / 2;
+    grid-column: 1 / 2;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+    .draw-pile .card-base {
+        width: clamp(72px, 8vw, 90px);
+        height: auto;
+        filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.6));
+    }
+
+    .draw-count {
+        position: absolute;
+        bottom: -9px;
+        width: 85%;
+        text-align: center;
+        background: var(--bright-gray);
+        border: 2px solid #ccc;
+        color: #111;
+        padding: 2px 10px;
+        border-radius: 2em;
+        font-size: 0.9rem;
+        font-weight: 900;
+        letter-spacing: 0.06em;
+    }
+
+/* Carta actual grande */
+.current-card {
+    grid-row: 1 / 2;
+    grid-column: 2 / 3;
+}
+
+.current-card .card.current {
+    width: clamp(90px, 10.5vw, 130px);
+    height: auto;
+    filter: drop-shadow(0 14px 26px rgba(0, 0, 0, 0.85));
+}
+
+/* Indicador de turno */
+.turn-indicator {
+    width: 100%;
+    grid-row: 2 / 3;
+    grid-column:1/3;
+    width: 100%;
+    max-width: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.turn-label {
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+/* -------------------- MANO DEL JUGADOR -------------------- */
+
+.player-hand {
+    position: absolute;
+    bottom: clamp(10px, 1.5vw, 16px);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    gap: clamp(0px, 0.4vw, 6px);
+}
+
+.hand-card {
+    transform-origin: center bottom;
+    filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.7));
+    position: relative;
+    width: clamp(78px, 10vw, 118px);
+    height: auto;
+    display: inline-block;
+    margin-right: -55px;
+}
+    .hand-card:first-child {
+        margin-left: 0; /* La primera carta no se desplaza */
+    }
+
+    .hand-card:hover {
+        transform: translateY(-20px) scale(1.1); /* Efecto cuando pasas el mouse */
+        z-index: 100 !important;
+    }
+
+.hand-card img {
+    width: clamp(78px, 10vw, 118px);
+    height: auto;
+}
+
+.hand-card-1 {
+    transform: translateY(10px) rotate(-28deg);
+    z-index: 1;
+}
+
+.hand-card-2 {
+    transform: translateY(6px) rotate(-18deg);
+    z-index: 2;
+}
+
+.hand-card-3 {
+    transform: translateY(3px) rotate(-8deg);
+    z-index: 3;
+}
+
+.hand-card-4 {
+    transform: translateY(0) rotate(0deg);
+    z-index: 4;
+}
+
+.hand-card-5 {
+    transform: translateY(3px) rotate(8deg);
+    z-index: 3;
+}
+
+.hand-card-6 {
+    transform: translateY(6px) rotate(18deg);
+    z-index: 2;
+}
+
+.hand-card-7 {
+    transform: translateY(10px) rotate(28deg);
+    z-index: 1;
+}
+
+/* -------------------- BOTÓN ¡ONE! -------------------- */
+
+.one-button {
+    position: absolute;
+    bottom: clamp(24px, 3vw, 32px);
+    right: clamp(28px, 4vw, 40px);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    border-radius: 999px;
+    background: #ff4141;
+    color: #fff;
+    font-weight: 700;
+    font-size: 1rem;
+    border: none;
+    cursor: pointer;
+    gap: 8px;
+    box-shadow: 0 14px 26px rgba(0, 0, 0, 0.6);
+}
+
+.one-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.one-icon img {
+    width: 70%;
+    height: 70%;
+    object-fit: contain;
+}
+
+.one-text {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+/* -------------------- RESPONSIVE -------------------- */
+
+@media (max-width: 900px) {
+    .player-slot {
+        font-size: 0.8rem;
+    }
+
+    .slot-top-left { top: 7%; left: 14%; }
+    .slot-top-right { top: 7%; right: 14%; }
+    .slot-middle-left { left: 4%; }
+    .slot-middle-right { right: 4%; }
+    .slot-bottom-left { left: 10%; }
+    .slot-bottom-right { right: 10%; }
+}
+
+@media (max-width: 768px) {
+    .game-table {
+        padding: clamp(10px, 4vw, 20px);
+        min-height: 92vh;
+    }
+
+    .slot-top-left  { top: 11%; left: 12%; }
+    .slot-top-center{ top: 5%; left: 50%; transform: translateX(-50%); }
+    .slot-top-right { top: 11%; right: 12%; }
+
+    .slot-middle-left  { top: 36%; left: 6%; }
+    .slot-middle-right { top: 36%; right: 6%; }
+
+    .slot-bottom-left  { bottom: 20%; left: 14%; }
+    .slot-bottom-right { bottom: 20%; right: 14%; }
+
+    .player-hand {
+        bottom: 12px;
+    }
+
+    .one-button {
+        bottom: 16px;
+        right: 16px;
+        padding: 8px 16px;
+    }
+}
+
+@media (max-width: 520px) {
+    .player-slot {
+        font-size: 0.72rem;
+    }
+
+    .player-avatar {
+        width: 48px;
+        height: 48px;
+    }
+
+    .player-hand img {
+        width: 78px;
+    }
+
+    .slot-top-left { left: 10%; }
+    .slot-top-right { right: 10%; }
+    .slot-bottom-left { left: 12%; }
+    .slot-bottom-right { right: 12%; }
+}

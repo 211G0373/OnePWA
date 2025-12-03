@@ -7,17 +7,64 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\Assets\avatars\1.jpg" />
+    <Content Remove="wwwroot\Assets\avatars\10.jpg" />
+    <Content Remove="wwwroot\Assets\avatars\11.jpg" />
+    <Content Remove="wwwroot\Assets\avatars\12.jpg" />
+    <Content Remove="wwwroot\Assets\avatars\13.jpg" />
+    <Content Remove="wwwroot\Assets\avatars\14.jpg" />
+    <Content Remove="wwwroot\Assets\avatars\15.jpg" />
+    <Content Remove="wwwroot\Assets\avatars\16.jpg" />
+    <Content Remove="wwwroot\Assets\avatars\17.jpg" />
+    <Content Remove="wwwroot\Assets\avatars\18.jpg" />
+    <Content Remove="wwwroot\Assets\avatars\19.jpg" />
+    <Content Remove="wwwroot\Assets\avatars\2.jpg" />
+    <Content Remove="wwwroot\Assets\avatars\20.jpg" />
+    <Content Remove="wwwroot\Assets\avatars\3.jpg" />
+    <Content Remove="wwwroot\Assets\avatars\4.jpg" />
+    <Content Remove="wwwroot\Assets\avatars\5.jpg" />
+    <Content Remove="wwwroot\Assets\avatars\6.jpg" />
+    <Content Remove="wwwroot\Assets\avatars\7.jpg" />
+    <Content Remove="wwwroot\Assets\avatars\8.jpg" />
+    <Content Remove="wwwroot\Assets\avatars\9.jpg" />
     <Content Remove="wwwroot\Assets\Back.png" />
     <Content Remove="wwwroot\Assets\Back.svg" />
+    <Content Remove="wwwroot\Assets\Cards\card-backwards.jpg" />
+    <Content Remove="wwwroot\Assets\Cards\Wild\wild+4.jpg" />
+    <Content Remove="wwwroot\Assets\Cards\Wild\wild-colors.jpg" />
     <Content Remove="wwwroot\Assets\chevron-back-circle-outline.svg" />
     <Content Remove="wwwroot\Assets\destello.svg" />
     <Content Remove="wwwroot\Assets\destelloAzul.svg" />
     <Content Remove="wwwroot\Assets\destelloRojo.svg" />
     <Content Remove="wwwroot\Assets\destelloVerde.svg" />
     <Content Remove="wwwroot\Assets\editProfile.svg" />
+    <Content Remove="wwwroot\Assets\FondoONE.png" />
     <Content Remove="wwwroot\Assets\oneLogo.png" />
+    <Content Remove="wwwroot\Assets\ONELogoText.png" />
     <Content Remove="wwwroot\Assets\profilePic.png" />
     <Content Remove="wwwroot\Assets\qr-code.png" />
+    <Content Remove="wwwroot\Assets\svgs&amp;icons\logOut.svg" />
+    <Content Remove="wwwroot\Assets\svgs&amp;icons\oneHand.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ApplicationDefinition Include="wwwroot\Assets\svgs&amp;icons\oneHand.svg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="wwwroot\Assets\avatars\7.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="wwwroot\Assets\avatars\6.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="wwwroot\Assets\avatars\5.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="wwwroot\Assets\avatars\16.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -40,17 +87,39 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="wwwroot\Assets\avatars\1.jpg" />
+    <Resource Include="wwwroot\Assets\avatars\10.jpg" />
+    <Resource Include="wwwroot\Assets\avatars\11.jpg" />
+    <Resource Include="wwwroot\Assets\avatars\12.jpg" />
+    <Resource Include="wwwroot\Assets\avatars\13.jpg" />
+    <Resource Include="wwwroot\Assets\avatars\14.jpg" />
+    <Resource Include="wwwroot\Assets\avatars\15.jpg" />
+    <Resource Include="wwwroot\Assets\avatars\17.jpg" />
+    <Resource Include="wwwroot\Assets\avatars\18.jpg" />
+    <Resource Include="wwwroot\Assets\avatars\19.jpg" />
+    <Resource Include="wwwroot\Assets\avatars\2.jpg" />
+    <Resource Include="wwwroot\Assets\avatars\20.jpg" />
+    <Resource Include="wwwroot\Assets\avatars\3.jpg" />
+    <Resource Include="wwwroot\Assets\avatars\4.jpg" />
+    <Resource Include="wwwroot\Assets\avatars\8.jpg" />
+    <Resource Include="wwwroot\Assets\avatars\9.jpg" />
     <Resource Include="wwwroot\Assets\Back.png" />
     <Resource Include="wwwroot\Assets\Back.svg" />
+    <Resource Include="wwwroot\Assets\Cards\card-backwards.jpg" />
+    <Resource Include="wwwroot\Assets\Cards\Wild\wild+4.jpg" />
+    <Resource Include="wwwroot\Assets\Cards\Wild\wild-colors.jpg" />
     <Resource Include="wwwroot\Assets\chevron-back-circle-outline.svg" />
     <Resource Include="wwwroot\Assets\destello.svg" />
     <Resource Include="wwwroot\Assets\destelloAzul.svg" />
     <Resource Include="wwwroot\Assets\destelloRojo.svg" />
     <Resource Include="wwwroot\Assets\destelloVerde.svg" />
     <Resource Include="wwwroot\Assets\editProfile.svg" />
+    <Resource Include="wwwroot\Assets\FondoONE.png" />
     <Resource Include="wwwroot\Assets\oneLogo.png" />
+    <Resource Include="wwwroot\Assets\ONELogoText.png" />
     <Resource Include="wwwroot\Assets\profilePic.png" />
     <Resource Include="wwwroot\Assets\qr-code.png" />
+    <Resource Include="wwwroot\Assets\svgs&amp;icons\logOut.svg" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ONE - Game</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="game-page">
+
+    <!-- HEADER: Logo ONE y botón salir -->
+    <header class="game-header">
+        <div class="game-logo">
+            <img src="Assets/ONELogoText.png" alt="ONE" />
+        </div>
+    </header>
+
+    <button class="logout-button" type="button" aria-label="Salir de la partida">
+        <img src="Assets/svgs&icons/logOut.svg" alt="Salir" />
+    </button>
+
+    <!-- MESA PRINCIPAL -->
+    <main class="game-table" aria-label="Mesa de juego ONE">
+        <!-- Slots de jugadores alrededor de la mesa (máx 8) -->
+        <!-- Arriba izquierda -->
+        <section class="player-slot slot-top-left" aria-label="Jugador Patricia">
+            <div class="player-count-pill">
+                <img class="mini-card-back" src="Assets/Cards/Wild/card-backwards.png" alt="Cartas" />
+                <span class="player-cards-count">5</span>
+            </div>
+            <div class="player-avatar">
+                <img src="Assets/avatars/2.jpg" alt="Patricia" />
+            </div>
+            <span class="player-name">Patricia</span>
+        </section>
+
+        <!-- Arriba centro -->
+        <section class="player-slot slot-top-center" aria-label="Jugador Mirton">
+            <div class="player-count-pill">
+                <img class="mini-card-back" src="Assets/Cards/Wild/card-backwards.png" alt="Cartas" />
+                <span class="player-cards-count">4</span>
+            </div>
+            <div class="player-avatar">
+                <img src="Assets/avatars/3.jpg" alt="Mirton" />
+            </div>
+            <span class="player-name">Mirton</span>
+            <span class="host-badge-table">HOST</span>
+        </section>
+
+        <!-- Arriba derecha -->
+        <section class="player-slot slot-top-right" aria-label="Jugador Pedro">
+            <div class="player-count-pill">
+                <img class="mini-card-back" src="Assets/Cards/Wild/card-backwards.png" alt="Cartas" />
+                <span class="player-cards-count">3</span>
+            </div>
+            <div class="player-avatar current-turn">
+                <img src="Assets/avatars/4.jpg" alt="Pedro" />
+            </div>
+            <span class="player-name">Pedro</span>
+        </section>
+
+        <!-- Mitad izquierda -->
+        <section class="player-slot slot-middle-left" aria-label="Jugador Teo">
+            <div class="player-count-pill">
+                <img class="mini-card-back" src="Assets/Cards/Wild/card-backwards.png" alt="Cartas" />
+                <span class="player-cards-count">3</span>
+            </div>
+            <div class="player-avatar">
+                <img src="Assets/avatars/1.jpg" alt="Teo" />
+            </div>
+            <span class="player-name">Teo</span>
+        </section>
+
+        <!-- Mitad derecha -->
+        <section class="player-slot slot-middle-right" aria-label="Jugador Lali">
+            <div class="player-count-pill">
+                <img class="mini-card-back" src="Assets/Cards/Wild/card-backwards.png" alt="Cartas" />
+                <span class="player-cards-count">4</span>
+            </div>
+            <div class="player-avatar">
+                <img src="Assets/avatars/5.jpg" alt="Lali" />
+            </div>
+            <span class="player-name">Lali</span>
+        </section>
+
+        <!-- Abajo izquierda -->
+        <section class="player-slot slot-bottom-left" aria-label="Jugador Ikerto">
+            <div class="player-count-pill">
+                <img class="mini-card-back" src="Assets/Cards/Wild/card-backwards.png" alt="Cartas" />
+                <span class="player-cards-count">9</span>
+            </div>
+            <div class="player-avatar">
+                <img src="Assets/avatars/6.jpg" alt="Ikerto" />
+            </div>
+            <span class="player-name">Ikerto</span>
+        </section>
+
+        <!-- Abajo derecha -->
+        <section class="player-slot slot-bottom-right" aria-label="Jugador Veta">
+            <div class="player-count-pill">
+                <img class="mini-card-back" src="Assets/Cards/Wild/card-backwards.png" alt="Cartas" />
+                <span class="player-cards-count">6</span>
+            </div>
+            <div class="player-avatar">
+                <img src="Assets/avatars/7.jpg" alt="Veta" />
+            </div>
+            <span class="player-name">Veta</span>
+        </section>
+
+        <!-- Zona central con mazo, descartes y carta actual -->
+        <section class="table-center" aria-label="Zona central de cartas">
+            <!-- Mazo para robar -->
+            <div class="draw-pile">
+                <img class="card-base" src="Assets/Cards/Wild/card-backwards.png" alt="Mazo para robar" />
+                <span class="draw-count">80</span>
+            </div>
+
+            <!-- Pila de descartes (stack) -->
+            <!--<div class="discard-pile">
+                <div class="stacked-cards">
+                    <img class="card stacked-card stacked-1" src="Assets/Cards/Normal/Green/card0=green.png" alt="Carta verde" />
+                    <img class="card stacked-card stacked-2" src="Assets/Cards/Normal/Blue/card0=blue.png" alt="Carta azul" />
+                    <img class="card stacked-card top-card" src="Assets/Cards/Normal/Green/card0=green.png" alt="Carta verde 3" />
+                </div>
+            </div>-->
+            <!-- Carta actual grande -->
+            <div class="current-card">
+                <img class="card current" src="Assets/Cards/Normal/Red/card0=red.png" alt="Carta roja actual" />
+            </div>
+
+            <!-- Indicador de turno central -->
+            <div class="turn-indicator" aria-hidden="true">
+                <span class="turn-label">Turno de Pedro</span>
+            </div>
+        </section>
+
+        <!-- Mano del jugador principal -->
+        <section class="player-hand" aria-label="Tus cartas">
+            <div class="hand-card hand-card-1">
+                <img src="Assets/Cards/Normal/Yellow/card0=yellow.png" alt="Carta amarilla" />
+            </div>
+            <div class="hand-card hand-card-2">
+                <img src="Assets/Cards/Normal/Blue/card0=blue.png" alt="Carta azul" />
+            </div>
+            <div class="hand-card hand-card-3">
+                <img src="Assets/Cards/Normal/Green/card0=green.png" alt="Carta verde" />
+            </div>
+            <div class="hand-card hand-card-4">
+                <img src="Assets/Cards/Normal/Red/card0=red.png" alt="Carta roja" />
+            </div>
+            <div class="hand-card hand-card-5">
+                <img src="Assets/Cards/Wild/wild-colors.png" alt="Carta comodín" />
+            </div>
+            <div class="hand-card hand-card-6">
+                <img src="Assets/Cards/Normal/Yellow/card0=yellow.png" alt="Carta amarilla" />
+            </div>
+            <div class="hand-card hand-card-7">
+                <img src="Assets/Cards/Normal/Red/card0=red.png" alt="Carta roja" />
+            </div>
+        </section>
+    </main>
+
+    <!-- Botón ONE (manita) para cuando te quede una carta -->
+    <button class="one-button" type="button">
+        <span class="one-icon">
+            <img src="Assets/svgs&icons/oneHand.svg" alt="ONE" />
+        </span>
+        <span class="one-text">¡ONE!</span>
+    </button>
+
+    <!-- Lógica del juego (aún no implementada, solo diseño) -->
+    <script src="/script.js"></script>
+</body>
+</html>
