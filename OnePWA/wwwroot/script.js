@@ -87,4 +87,26 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
-//Login
+
+
+// Actualiza tu función copyCode
+function copyCode() {
+    const code = document.getElementById('gameCode').textContent;
+    const copyMessage = document.getElementById('copyMessage');
+    const copyButton = document.querySelector('.copy-button');
+
+    // Copiar al clipboard
+    navigator.clipboard.writeText(code).then(() => {
+        // Mostrar mensaje
+        copyMessage.classList.add('show');
+        copyButton.classList.add('copied');
+
+        // Ocultar después de 2 segundos
+        setTimeout(() => {
+            copyMessage.classList.remove('show');
+            copyButton.classList.remove('copied');
+        }, 2000);
+    }).catch(err => {
+        console.error('Error al copiar:', err);
+    });
+}

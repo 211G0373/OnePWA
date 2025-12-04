@@ -34,6 +34,14 @@
                     </svg>
                 </button>
             </div>
+            <!-- Mensaje de copiado (inicialmente oculto) -->
+            <div class="copy-message" id="copyMessage">
+                <svg viewBox="0 0 24 24" style="width: 16px; height: 16px; margin-right: 6px;">
+                    <polyline points="20 6 9 17 4 12" stroke="currentColor" stroke-width="2" fill="none" />
+                </svg>
+                ¡Código copiado!
+            </div>
+
         </div>
 
         <!-- Right Section: Players List -->
@@ -79,6 +87,26 @@
                                 </svg>
                             </button>
                         </div>
+                        <div class="player-item">
+                            <img src="Assets/profilePic.png" alt="Avatar" class="player-avatar">
+                            <span class="player-name">Patrick</span>
+                            <button class="remove-player-btn" aria-label="Eliminar jugador">
+                                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                </svg>
+                            </button>
+                        </div>
+                        <div class="player-item">
+                            <img src="Assets/profilePic.png" alt="Avatar" class="player-avatar">
+                            <span class="player-name">Patrick</span>
+                            <button class="remove-player-btn" aria-label="Eliminar jugador">
+                                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
 
                     <div class="players-count">2/8 Jugadores</div>
@@ -89,6 +117,6 @@
             </div>
         </div>
     </div>
-    <script src="/script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>

@@ -32,9 +32,10 @@
 
 /* ---------------------------------------------------LOGIN PAGE STYLES--------------------------------------------------- */
 .login-page {
-    background: linear-gradient(135deg, #7209b7 0%, #4361ee 50%, #4D40E3 100%);
     min-height: 100vh;
     min-height: 100dvh; /* dynamic viewport height para mobile */
+    background: linear-gradient(135deg, #7209b7 0%, #4361ee 50%, #4D40E3 100%);
+    background-repeat: no-repeat;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -368,10 +369,6 @@
 }
 
 @media (max-width: 480px) {
-    .login-page {
-        background: white;
-    }
-
         .login-page .container {
             padding: .5em;
             /*border-radius: 16px;*/
@@ -1275,6 +1272,7 @@
         overflow-y: auto;
         overflow-x: hidden;
         min-height: 100vh;
+
     }
 
     .match-lobby-container {
@@ -1374,13 +1372,58 @@
         .copy-button:active {
             transform: scale(0.95);
         }
+
+    .copy-message {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: clamp(0.5rem, 2vw, 0.625rem) clamp(0.75rem, 3vw, 1rem);
+        background: var(--color-green);
+        color: white;
+        border-radius: clamp(6px, 1.5vw, 8px);
+        font-size: clamp(0.813rem, 2vw, 0.875rem);
+        font-weight: 600;
+        opacity: 0;
+        transform: translateY(-10px) scale(0.9);
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        pointer-events: none;
+        box-shadow: 0 4px 12px rgba(52, 199, 89, 0.3);
+    }
+
+        .copy-message.show {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+        .copy-message svg {
+            stroke: white;
+            flex-shrink: 0;
+        }
+
+    /* Animación adicional para el botón de copiar */
+    .copy-button.copied {
+        animation: copyPulse 0.5s ease;
+    }
+
+    @keyframes copyPulse {
+        0%, 100% {
+            transform: scale(1);
+        }
+
+        50% {
+            transform: scale(1.2);
+        }
+    }
     /* -------------------------- PLAYERS SECTION -------------------------- */
 
-    .players-section {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-    }
+.players-section {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    justify-content: center;
+    -webkit-align-items: inherit;
+    align-items: inherit;
+}
 
     .players-card {
         background: #fff;
@@ -1388,9 +1431,9 @@
         padding: clamp(16px, 4vw, 32px);
         display: flex;
         flex-direction: column;
-        gap: clamp(12px, 2.5vw, 24px);
+        gap: clamp(5px, 1.7vw, 17px);
         box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
-        width: 100%;
+        width: 95%;
     }
 
     .match-name {
@@ -1398,7 +1441,6 @@
         font-size: clamp(1.25rem, 4.5vw, 2.5rem);
         font-weight: 700;
         color: #000;
-        margin: 0;
         line-height: 1.2;
     }
 
@@ -1416,7 +1458,6 @@
         padding: clamp(12px, 3vw, 28px);
         display: flex;
         flex-direction: column;
-        gap: clamp(8px, 1.5vw, 16px);
         width: 100%;
     }
 
@@ -1636,7 +1677,7 @@
     font-size: 1.2rem;
 }
 
-.player-avatar {
+.game-page .player-avatar {
     width: clamp(62px, 16vw, 90px);
     height: clamp(62px, 16vw, 90px);
     border-radius: 50%;
@@ -1645,11 +1686,11 @@
     box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.55), 0 10px 18px rgba(0, 0, 0, 0.6);
 }
 
-.player-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
+    .game-page .player-avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
 
 .player-avatar.current-turn {
     box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.85), 0 0 18px rgba(255, 215, 0, 0.85);
@@ -1659,7 +1700,7 @@
     border-color: var(--color-yellow-logo);
 }
 
-.player-name {
+.game-page .player-name {
     font-size: 1.4rem;
     font-weight: 900;
     letter-spacing: 0.02em;
@@ -1670,7 +1711,7 @@
 .host-badge-table {
     background: var(--color-yellow-logo);
     color: #000;
-    font-size: 0.72rem;
+    font-size: 0.75rem;
     font-weight: 700;
     padding: 2px 8px;
     border-radius: 2em;
@@ -1791,14 +1832,14 @@
     display: inline-block;
     margin-right: -55px;
 }
-    .hand-card:first-child {
-        margin-left: 0; /* La primera carta no se desplaza */
-    }
+.hand-card:first-child {
+  margin-left: 0; /* La primera carta no se desplaza */
+}
 
-    .hand-card:hover {
-        transform: translateY(-20px) scale(1.1); /* Efecto cuando pasas el mouse */
-        z-index: 100 !important;
-    }
+.hand-card:hover {
+  transform: translateY(-20px) scale(1.1); /* Efecto cuando pasas el mouse */
+  z-index: 100 !important;
+}
 
 .hand-card img {
     width: clamp(78px, 10vw, 118px);
