@@ -321,35 +321,35 @@
     }
 
 /* --------------------------------------------------- CREAR CUENTA PAGE --------------------------------------------------- */
-.back-btn-container {
-    /*position: absolute;
-    top: 1.4em;
-    left: 1.4em;
-    cursor: pointer;
-    z-index: 2;*/
-
+.back-button {
     width: clamp(45px, 10vw, 55px);
     height: clamp(45px, 10vw, 55px);
-    background: rgba(0, 0, 0, 0.1);
-    border-radius: 50%;
+    background: rgba(136, 143, 150, 0.8);
     border: none;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
     transition: all 0.3s ease;
+    flex-shrink: 0;
     position: absolute;
-    /* En móvil: arriba izquierda */
     top: clamp(1rem, 3vw, 1.5rem);
     left: clamp(1rem, 3vw, 1.5rem);
 }
 
-    .back-btn-container svg {
-        width: clamp(30px, 10vw, 50px);
-        height: clamp(30px, 10vw, 50px);
+    .back-button:hover {
+        background: rgba(136, 143, 150, 1);
+        transform: scale(1.05);
     }
 
-
+    .back-button svg {
+        width: clamp(18px, 4vw, 24px);
+        height: clamp(18px, 4vw, 24px);
+        stroke: white;
+        stroke-width: 3;
+        fill: none;
+    }
 
 /* ---------------------------------------------------RESPONSIVE STYLES LOGIN --------------------------------------------------- */
 @media (min-width: 768px) {
@@ -726,10 +726,6 @@
     overflow: hidden;
 }
 
-    .profile-page .back-btn-container {
-        top: 24px;
-        left: 24px;
-    }
 
 .profile-card {
     width: 100%;
@@ -1092,36 +1088,6 @@
     }
 
 
-/* -------------------------- BOTÓN DE REGRESO (USANDO IMAGEN) -------------------------- */
-.create-match-page .back-btn-container {
-    position: absolute;
-    top: 30px;
-    left: 30px;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: #f0f0f0; /* Fondo gris claro */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: background 0.2s;
-    text-decoration: none;
-    z-index: 10;
-}
-
-    .back-btn-container:hover {
-        background: #e0e0e0;
-    }
-
-/* Estilo para la imagen de flecha */
-.back-arrow-image {
-    width: 60%; /* Ajusta el tamaño de la imagen dentro del círculo */
-    height: 60%;
-    object-fit: contain; /* Asegura que la imagen se ajuste sin distorsionarse */
-}
-
 /* Media query para ajustar elementos en pantallas pequeñas */
 @media (max-width: 600px) {
     .page-title {
@@ -1131,13 +1097,6 @@
     .match-config-container {
         padding: 25px;
         gap: 20px;
-    }
-
-    .create-match-page .back-btn-container {
-        top: 20px;
-        left: 20px;
-        width: 35px;
-        height: auto;
     }
 }
 
@@ -1272,7 +1231,6 @@
         overflow-y: auto;
         overflow-x: hidden;
         min-height: 100vh;
-
     }
 
     .match-lobby-container {
@@ -1540,6 +1498,7 @@
         }
 
     .players-count {
+        padding-top: clamp(8px, 2vw, 12px);
         font-size: clamp(0.75rem, 2vw, 1rem);
         font-weight: 600;
         color: var(--darker-cadet-gray);

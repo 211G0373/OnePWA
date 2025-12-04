@@ -8,11 +8,11 @@
 ////    passwordToggle.textContent = type === 'password' ? '👁️' : '🙈';
 ////});
 
-//// Toggle remember me
-//const rememberToggle = document.getElementById('rememberToggle');
-//rememberToggle.addEventListener('click', () => {
-//    rememberToggle.classList.toggle('active');
-//});
+// Toggle remember me
+const rememberToggle = document.getElementById('rememberToggle');
+rememberToggle.addEventListener('click', () => {
+    rememberToggle.classList.toggle('active');
+});
 
 
 
@@ -89,19 +89,16 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// Actualiza tu función copyCode
+// Actualiza función copyCode
 function copyCode() {
     const code = document.getElementById('gameCode').textContent;
     const copyMessage = document.getElementById('copyMessage');
     const copyButton = document.querySelector('.copy-button');
 
-    // Copiar al clipboard
     navigator.clipboard.writeText(code).then(() => {
-        // Mostrar mensaje
         copyMessage.classList.add('show');
         copyButton.classList.add('copied');
 
-        // Ocultar después de 2 segundos
         setTimeout(() => {
             copyMessage.classList.remove('show');
             copyButton.classList.remove('copied');
