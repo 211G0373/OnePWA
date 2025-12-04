@@ -29,9 +29,62 @@
     <Content Remove="wwwroot\Assets\avatars\9.jpg" />
     <Content Remove="wwwroot\Assets\Back.png" />
     <Content Remove="wwwroot\Assets\Back.svg" />
-    <Content Remove="wwwroot\Assets\Cards\card-backwards.jpg" />
-    <Content Remove="wwwroot\Assets\Cards\Wild\wild+4.jpg" />
-    <Content Remove="wwwroot\Assets\Cards\Wild\wild-colors.jpg" />
+    <Content Remove="wwwroot\Assets\Cards\Action Cards\card+2=green.png" />
+    <Content Remove="wwwroot\Assets\Cards\Action Cards\card+2=purple.png" />
+    <Content Remove="wwwroot\Assets\Cards\Action Cards\card+2=red.png" />
+    <Content Remove="wwwroot\Assets\Cards\Action Cards\card+2=yellow.png" />
+    <Content Remove="wwwroot\Assets\Cards\Action Cards\cardReverse=green.png" />
+    <Content Remove="wwwroot\Assets\Cards\Action Cards\cardReverse=purple.png" />
+    <Content Remove="wwwroot\Assets\Cards\Action Cards\cardReverse=red.png" />
+    <Content Remove="wwwroot\Assets\Cards\Action Cards\cardReverse=yellow.png" />
+    <Content Remove="wwwroot\Assets\Cards\Action Cards\cardSkip=green.png" />
+    <Content Remove="wwwroot\Assets\Cards\Action Cards\cardSkip=purple.png" />
+    <Content Remove="wwwroot\Assets\Cards\Action Cards\cardSkip=red.png" />
+    <Content Remove="wwwroot\Assets\Cards\Action Cards\cardSkip=yellow.png" />
+    <Content Remove="wwwroot\Assets\Cards\card-backwards.png" />
+    <Content Remove="wwwroot\Assets\Cards\Number Cards\Green\card0=green.png" />
+    <Content Remove="wwwroot\Assets\Cards\Number Cards\Green\card1=green.png" />
+    <Content Remove="wwwroot\Assets\Cards\Number Cards\Green\card2=green.png" />
+    <Content Remove="wwwroot\Assets\Cards\Number Cards\Green\card3=green.png" />
+    <Content Remove="wwwroot\Assets\Cards\Number Cards\Green\card4=green.png" />
+    <Content Remove="wwwroot\Assets\Cards\Number Cards\Green\card5=green.png" />
+    <Content Remove="wwwroot\Assets\Cards\Number Cards\Green\card6=green.png" />
+    <Content Remove="wwwroot\Assets\Cards\Number Cards\Green\card7=green.png" />
+    <Content Remove="wwwroot\Assets\Cards\Number Cards\Green\card8=green.png" />
+    <Content Remove="wwwroot\Assets\Cards\Number Cards\Green\card9=green.png" />
+    <Content Remove="wwwroot\Assets\Cards\Number Cards\Purple\card0=blue.png" />
+    <Content Remove="wwwroot\Assets\Cards\Number Cards\Purple\card1=purple.png" />
+    <Content Remove="wwwroot\Assets\Cards\Number Cards\Purple\card2=purple.png" />
+    <Content Remove="wwwroot\Assets\Cards\Number Cards\Purple\card3=purple.png" />
+    <Content Remove="wwwroot\Assets\Cards\Number Cards\Purple\card4=purple.png" />
+    <Content Remove="wwwroot\Assets\Cards\Number Cards\Purple\card5=purple.png" />
+    <Content Remove="wwwroot\Assets\Cards\Number Cards\Purple\card6=purple.png" />
+    <Content Remove="wwwroot\Assets\Cards\Number Cards\Purple\card7=purple.png" />
+    <Content Remove="wwwroot\Assets\Cards\Number Cards\Purple\card8=purple.png" />
+    <Content Remove="wwwroot\Assets\Cards\Number Cards\Purple\card9=purple.png" />
+    <Content Remove="wwwroot\Assets\Cards\Number Cards\Red\card0=red.png" />
+    <Content Remove="wwwroot\Assets\Cards\Number Cards\Red\card1=red.png" />
+    <Content Remove="wwwroot\Assets\Cards\Number Cards\Red\card2=red.png" />
+    <Content Remove="wwwroot\Assets\Cards\Number Cards\Red\card3=red.png" />
+    <Content Remove="wwwroot\Assets\Cards\Number Cards\Red\card4=red.png" />
+    <Content Remove="wwwroot\Assets\Cards\Number Cards\Red\card5=red.png" />
+    <Content Remove="wwwroot\Assets\Cards\Number Cards\Red\card6=red.png" />
+    <Content Remove="wwwroot\Assets\Cards\Number Cards\Red\card7=red.png" />
+    <Content Remove="wwwroot\Assets\Cards\Number Cards\Red\card8=red.png" />
+    <Content Remove="wwwroot\Assets\Cards\Number Cards\Red\card9=red.png" />
+    <Content Remove="wwwroot\Assets\Cards\Number Cards\Yellow\card0=yellow.png" />
+    <Content Remove="wwwroot\Assets\Cards\Number Cards\Yellow\card1=yellow.png" />
+    <Content Remove="wwwroot\Assets\Cards\Number Cards\Yellow\card2=yellow.png" />
+    <Content Remove="wwwroot\Assets\Cards\Number Cards\Yellow\card3=yellow.png" />
+    <Content Remove="wwwroot\Assets\Cards\Number Cards\Yellow\card4-yellow.png" />
+    <Content Remove="wwwroot\Assets\Cards\Number Cards\Yellow\card5=yellow.png" />
+    <Content Remove="wwwroot\Assets\Cards\Number Cards\Yellow\card6=yellow.png" />
+    <Content Remove="wwwroot\Assets\Cards\Number Cards\Yellow\card7=yellow.png" />
+    <Content Remove="wwwroot\Assets\Cards\Number Cards\Yellow\card8=yellow.png" />
+    <Content Remove="wwwroot\Assets\Cards\Number Cards\Yellow\card9=yellow.png" />
+    <Content Remove="wwwroot\Assets\Cards\Wild\card-backwards.png" />
+    <Content Remove="wwwroot\Assets\Cards\Wild\wild+4.png" />
+    <Content Remove="wwwroot\Assets\Cards\Wild\wild-colors.png" />
     <Content Remove="wwwroot\Assets\chevron-back-circle-outline.svg" />
     <Content Remove="wwwroot\Assets\destello.svg" />
     <Content Remove="wwwroot\Assets\destelloAzul.svg" />
@@ -105,9 +158,62 @@
     <Resource Include="wwwroot\Assets\avatars\9.jpg" />
     <Resource Include="wwwroot\Assets\Back.png" />
     <Resource Include="wwwroot\Assets\Back.svg" />
-    <Resource Include="wwwroot\Assets\Cards\card-backwards.jpg" />
-    <Resource Include="wwwroot\Assets\Cards\Wild\wild+4.jpg" />
-    <Resource Include="wwwroot\Assets\Cards\Wild\wild-colors.jpg" />
+    <Resource Include="wwwroot\Assets\Cards\Action Cards\card+2=green.png" />
+    <Resource Include="wwwroot\Assets\Cards\Action Cards\card+2=purple.png" />
+    <Resource Include="wwwroot\Assets\Cards\Action Cards\card+2=red.png" />
+    <Resource Include="wwwroot\Assets\Cards\Action Cards\card+2=yellow.png" />
+    <Resource Include="wwwroot\Assets\Cards\Action Cards\cardReverse=green.png" />
+    <Resource Include="wwwroot\Assets\Cards\Action Cards\cardReverse=purple.png" />
+    <Resource Include="wwwroot\Assets\Cards\Action Cards\cardReverse=red.png" />
+    <Resource Include="wwwroot\Assets\Cards\Action Cards\cardReverse=yellow.png" />
+    <Resource Include="wwwroot\Assets\Cards\Action Cards\cardSkip=green.png" />
+    <Resource Include="wwwroot\Assets\Cards\Action Cards\cardSkip=purple.png" />
+    <Resource Include="wwwroot\Assets\Cards\Action Cards\cardSkip=red.png" />
+    <Resource Include="wwwroot\Assets\Cards\Action Cards\cardSkip=yellow.png" />
+    <Resource Include="wwwroot\Assets\Cards\card-backwards.png" />
+    <Resource Include="wwwroot\Assets\Cards\Number Cards\Green\card0=green.png" />
+    <Resource Include="wwwroot\Assets\Cards\Number Cards\Green\card1=green.png" />
+    <Resource Include="wwwroot\Assets\Cards\Number Cards\Green\card2=green.png" />
+    <Resource Include="wwwroot\Assets\Cards\Number Cards\Green\card3=green.png" />
+    <Resource Include="wwwroot\Assets\Cards\Number Cards\Green\card4=green.png" />
+    <Resource Include="wwwroot\Assets\Cards\Number Cards\Green\card5=green.png" />
+    <Resource Include="wwwroot\Assets\Cards\Number Cards\Green\card6=green.png" />
+    <Resource Include="wwwroot\Assets\Cards\Number Cards\Green\card7=green.png" />
+    <Resource Include="wwwroot\Assets\Cards\Number Cards\Green\card8=green.png" />
+    <Resource Include="wwwroot\Assets\Cards\Number Cards\Green\card9=green.png" />
+    <Resource Include="wwwroot\Assets\Cards\Number Cards\Purple\card0=blue.png" />
+    <Resource Include="wwwroot\Assets\Cards\Number Cards\Purple\card1=purple.png" />
+    <Resource Include="wwwroot\Assets\Cards\Number Cards\Purple\card2=purple.png" />
+    <Resource Include="wwwroot\Assets\Cards\Number Cards\Purple\card3=purple.png" />
+    <Resource Include="wwwroot\Assets\Cards\Number Cards\Purple\card4=purple.png" />
+    <Resource Include="wwwroot\Assets\Cards\Number Cards\Purple\card5=purple.png" />
+    <Resource Include="wwwroot\Assets\Cards\Number Cards\Purple\card6=purple.png" />
+    <Resource Include="wwwroot\Assets\Cards\Number Cards\Purple\card7=purple.png" />
+    <Resource Include="wwwroot\Assets\Cards\Number Cards\Purple\card8=purple.png" />
+    <Resource Include="wwwroot\Assets\Cards\Number Cards\Purple\card9=purple.png" />
+    <Resource Include="wwwroot\Assets\Cards\Number Cards\Red\card0=red.png" />
+    <Resource Include="wwwroot\Assets\Cards\Number Cards\Red\card1=red.png" />
+    <Resource Include="wwwroot\Assets\Cards\Number Cards\Red\card2=red.png" />
+    <Resource Include="wwwroot\Assets\Cards\Number Cards\Red\card3=red.png" />
+    <Resource Include="wwwroot\Assets\Cards\Number Cards\Red\card4=red.png" />
+    <Resource Include="wwwroot\Assets\Cards\Number Cards\Red\card5=red.png" />
+    <Resource Include="wwwroot\Assets\Cards\Number Cards\Red\card6=red.png" />
+    <Resource Include="wwwroot\Assets\Cards\Number Cards\Red\card7=red.png" />
+    <Resource Include="wwwroot\Assets\Cards\Number Cards\Red\card8=red.png" />
+    <Resource Include="wwwroot\Assets\Cards\Number Cards\Red\card9=red.png" />
+    <Resource Include="wwwroot\Assets\Cards\Number Cards\Yellow\card0=yellow.png" />
+    <Resource Include="wwwroot\Assets\Cards\Number Cards\Yellow\card1=yellow.png" />
+    <Resource Include="wwwroot\Assets\Cards\Number Cards\Yellow\card2=yellow.png" />
+    <Resource Include="wwwroot\Assets\Cards\Number Cards\Yellow\card3=yellow.png" />
+    <Resource Include="wwwroot\Assets\Cards\Number Cards\Yellow\card4-yellow.png" />
+    <Resource Include="wwwroot\Assets\Cards\Number Cards\Yellow\card5=yellow.png" />
+    <Resource Include="wwwroot\Assets\Cards\Number Cards\Yellow\card6=yellow.png" />
+    <Resource Include="wwwroot\Assets\Cards\Number Cards\Yellow\card7=yellow.png" />
+    <Resource Include="wwwroot\Assets\Cards\Number Cards\Yellow\card8=yellow.png" />
+    <Resource Include="wwwroot\Assets\Cards\Number Cards\Yellow\card9=yellow.png" />
+    <Resource Include="wwwroot\Assets\Cards\Wild\card-backwards.png" />
+    <Resource Include="wwwroot\Assets\Cards\Wild\wild+4.png" />
+    <Resource Include="wwwroot\Assets\Cards\Wild\wild-colors.png" />
     <Resource Include="wwwroot\Assets\chevron-back-circle-outline.svg" />
     <Resource Include="wwwroot\Assets\destello.svg" />
     <Resource Include="wwwroot\Assets\destelloAzul.svg" />
