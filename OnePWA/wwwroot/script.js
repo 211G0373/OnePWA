@@ -89,7 +89,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// Actualiza función copyCode
+/* ----------------------- Actualiza función copyCode en Vista de Iniciar partida --------------------------------------------------- */
+
 function copyCode() {
     const code = document.getElementById('gameCode').textContent;
     const copyMessage = document.getElementById('copyMessage');
@@ -106,4 +107,31 @@ function copyCode() {
     }).catch(err => {
         console.error('Error al copiar:', err);
     });
+}
+
+
+/* --------------------------------------------------- FUNCIONALIDAD DEL MODAL DE LOGOUT --------------------------------------------------- */
+function openModal() {
+    const modal = document.getElementById('logoutModal');
+    modal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+    const modal = document.getElementById('logoutModal');
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+// Cerrar modal al hacer click en el overlay 
+function closeModalOnOverlay(event) {
+    if (event.target.id === 'logoutModal') {
+        closeModal();
+    }
+}
+
+function confirmLogout() {
+    console.log('Usuario confirmó logout');
+    alert('Saliendo del juego...');
+    closeModal();
 }

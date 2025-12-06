@@ -15,7 +15,7 @@
         </div>
     </header>
 
-    <button class="logout-button" type="button" aria-label="Salir de la partida">
+    <button class="logout-button" type="button" aria-label="Salir de la partida" onclick="openModal()">
         <img src="Assets/svgs&icons/logOut.svg" alt="Salir" />
     </button>
 
@@ -160,7 +160,7 @@
         </section>
     </main>
 
-    <!-- Botón ONE (manita) para cuando te quede una carta -->
+    <!-- Botón ONE para cuando quede una carta -->
     <button class="one-button" type="button">
         <span class="one-icon">
             <img src="Assets/svgs&icons/oneHand.svg" alt="ONE" />
@@ -168,7 +168,33 @@
         <span class="one-text">¡ONE!</span>
     </button>
 
-    <!-- Lógica del juego (aún no implementada, solo diseño) -->
-    <script src="/script.js"></script>
+
+    <!-- Modal Overlay -->
+    <div class="modal-overlay" id="logoutModal" onclick="closeModalOnOverlay(event)">
+        <div class="generic-modal">
+            <button class="close-button" onclick="closeModal()">
+                <svg viewBox="0 0 24 24">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+
+            <div class="generic-modal-content">
+                <h2>¿Está seguro de abandonar el juego?</h2>
+                <p class="modal-description">No podrá volver a esta partida</p>
+
+                <div class="modal-buttons">
+                    <button class="btn btn-cancel" onclick="closeModal()">
+                        Cancelar
+                    </button>
+                    <button class="btn btn-confirm" onclick="confirmLogout()">
+                        Sí
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>

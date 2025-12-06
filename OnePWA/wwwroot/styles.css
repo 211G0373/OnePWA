@@ -1572,11 +1572,9 @@
     height: clamp(34px, 4vw, 40px);
     border: none;
     background: transparent;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
     cursor: pointer;
+    padding: 0;
+    z-index: 1000;
 }
 
 .logout-button img {
@@ -1584,7 +1582,9 @@
     height: 70%;
     object-fit: contain;
 }
-
+.logout-button img:hover {
+    
+}
 /* Área interactiva (tablero completo) */
 .game-table {
     position: relative;
@@ -1637,8 +1637,8 @@
 }
 
 .game-page .player-avatar {
-    width: clamp(62px, 16vw, 90px);
-    height: clamp(62px, 16vw, 90px);
+    width: clamp(62px, 14vw, 90px);
+    height: clamp(62px, 14vw, 90px);
     border-radius: 50%;
     overflow: hidden;
     border: 3px solid rgba(255, 255, 255, 0.9);
@@ -1717,7 +1717,7 @@
 }
 
     .draw-pile .card-base {
-        width: clamp(72px, 8vw, 90px);
+        width: clamp(68px, 8vw, 90px);
         height: auto;
         filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.6));
     }
@@ -1790,6 +1790,7 @@
     height: auto;
     display: inline-block;
     margin-right: -55px;
+
 }
 .hand-card:first-child {
   margin-left: 0; /* La primera carta no se desplaza */
@@ -1839,6 +1840,144 @@
     transform: translateY(10px) rotate(28deg);
     z-index: 1;
 }
+
+/* -------------------- MODAL GENERICO (LOGOUT) -------------------- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(4px);
+}
+
+    .modal-overlay.active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+/* Contenedor del modal */
+.generic-modal {
+    background: white;
+    border-radius: clamp(20px, 4vw, 28px);
+    padding: clamp(2rem, 5vw, 2.5rem);
+    width: clamp(320px, 90vw, 420px);
+    max-width: 95vw;
+    position: relative;
+    transform: scale(0.8) translateY(20px);
+    transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.modal-overlay.active .generic-modal {
+    transform: scale(1) translateY(0);
+}
+
+/* Botón de cerrar (X) */
+.close-button {
+    position: absolute;
+    top: clamp(1rem, 3vw, 1.5rem);
+    right: clamp(1rem, 3vw, 1.5rem);
+    width: clamp(40px, 8vw, 48px);
+    height: clamp(40px, 8vw, 48px);
+    background: #f0f0f0;
+    border: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+    .close-button:hover {
+        background: #e0e0e0;
+        transform: rotate(90deg) scale(1.1);
+    }
+
+    .close-button svg {
+        width: clamp(18px, 4vw, 22px);
+        height: clamp(18px, 4vw, 22px);
+        stroke: #666;
+        stroke-width: 2.5;
+    }
+
+/* Contenido del modal */
+.generic-modal-content {
+    text-align: center;
+    padding-top: clamp(1rem, 3vw, 1.5rem);
+}
+
+h2 {
+    font-size: clamp(1.5rem, 5vw, 2rem);
+    font-weight: 800;
+    color: #1a1a1a;
+    margin-bottom: clamp(0.75rem, 2vw, 1rem);
+    margin-top: clamp(0.75rem, 2vw, 1rem);
+    line-height: 1.2;
+}
+
+.modal-description {
+    font-size: clamp(0.938rem, 2.5vw, 1.063rem);
+    color: #666;
+    margin-bottom: clamp(2rem, 5vw, 2.5rem);
+    line-height: 1.5;
+}
+
+/* Botones */
+.modal-buttons {
+    display: flex;
+    flex-direction: row;
+    gap: clamp(0.75rem, 2vw, 1rem);
+}
+
+.btn {
+    flex: 1;
+    padding: clamp(0.938rem, 3vw, 1.125rem);
+    border: none;
+    border-radius: clamp(50px, 10vw, 60px);
+    font-size: clamp(0.938rem, 2.5vw, 1.063rem);
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: inherit;
+}
+
+.btn-cancel {
+    background: white;
+    color: #666;
+    border: 3px solid #e0e0e0;
+}
+
+    .btn-cancel:hover {
+        background: #f8f8f8;
+        border-color: #d0d0d0;
+        transform: translateY(-2px);
+    }
+
+.btn-confirm {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a52 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+}
+
+    .btn-confirm:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+    }
+
+    .btn-confirm:active,
+    .btn-cancel:active {
+        transform: translateY(0);
+    }
 
 /* -------------------- BOTÓN ¡ONE! -------------------- */
 
