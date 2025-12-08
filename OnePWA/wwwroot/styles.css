@@ -714,7 +714,7 @@
 
 /* --------------------------------------------------- PROFILE PAGE STYLES --------------------------------------------------- */
 
-.profile-page {
+/*.profile-page {
     background: white;
     min-height: 100vh;
     display: flex;
@@ -724,7 +724,7 @@
     padding: 80px 20px 80px;
     position: relative;
     overflow: hidden;
-}
+}*/
 
 
 .profile-card {
