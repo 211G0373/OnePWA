@@ -369,12 +369,6 @@
 }
 
 @media (max-width: 480px) {
-        .login-page .container {
-            padding: .5em;
-            /*border-radius: 16px;*/
-            background: transparent;
-            box-shadow: none;
-        }
 
     /*desactivar comentarios para quitar las tarjertas de las vistas mobile*/
     /*   .floating-card {
@@ -917,16 +911,16 @@
 
 /* --------------------------------------------------- CREATE MATCH PAGE STYLES --------------------------------------------------- */
 
-.create-match-page {
+/*.create-match-page {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     padding: 20px;
-    background-color: #f7f7f7; /* Un fondo muy claro para contraste */
-    position: relative;
-}
+    background-color: #f7f7f7;*/ /* Un fondo muy claro para contraste */
+    /*position: relative;
+}*/
 
 /* Título de la página */
 .page-title {
@@ -1543,6 +1537,7 @@
     justify-content: stretch;
     /*background-image: url("Assets/FondoONE.png");*/
     background: radial-gradient(circle at center, #246b3b 0%, #164528 40%, #0e2d1a 100%);
+    /*background: radial-gradient(circle at center, #4D40E3 0%, #3730A3 40%, #1E1B4B 100%);*/
     background-position: center;
     background-repeat: no-repeat;
     position: relative;
@@ -1689,6 +1684,88 @@
 .slot-bottom-right { bottom: 11%; right: 16%; }
 
 
+/*------------------------Avatars timers----------------*/
+.player-timer {
+    display: none; /* Oculto por defecto, flex in other case */
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    max-width: 120px;
+}
+
+/* Mostrar timer solo cuando es el turno del jugador */
+.player-slot.active .player-timer {
+    display: flex;
+}
+
+/* Ícono del reloj */
+.timer-icon {
+    width: 20px;
+    height: 20px;
+    color: #FFD700;
+    flex-shrink: 0;
+}
+
+    .timer-icon svg {
+        width: 100%;
+        height: 100%;
+    }
+
+/* Contenedor de la barra */
+.timer-bar-container {
+    flex: 1;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Barra de progreso */
+.timer-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #FFD700 0%, #FFA500 100%);
+    border-radius: 10px;
+    width: 100%;
+    transition: width 0.1s linear;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+}
+
+    /* Animación cuando el tiempo está por acabarse */
+    .timer-bar.warning {
+        background: linear-gradient(90deg, #FF4444 0%, #FF0000 100%);
+        animation: pulse-warning 0.5s ease-in-out infinite;
+    }
+
+@keyframes pulse-warning {
+    0%, 100% {
+        opacity: 1;
+        box-shadow: 0 0 10px rgba(255, 68, 68, 0.8);
+    }
+
+    50% {
+        opacity: 0.7;
+        box-shadow: 0 0 20px rgba(255, 68, 68, 1);
+    }
+}
+
+
+
+/* Responsive */
+@media (max-width: 768px) {
+    .player-timer {
+        max-width: 100px;
+    }
+
+    .timer-icon {
+        width: 16px;
+        height: 16px;
+    }
+
+    .timer-bar-container {
+        height: 6px;
+    }
+}
 
 /* -------------------- ZONA CENTRAL -------------------- */
 
@@ -1720,6 +1797,11 @@
         width: clamp(68px, 8vw, 90px);
         height: auto;
         filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.6));
+    }
+    .draw-pile:hover .card-base {
+        transform: translateY(-10px);
+        transition: transform 0.3s ease;
+        cursor: pointer;
     }
 
     .draw-count {
@@ -1790,7 +1872,7 @@
     height: auto;
     display: inline-block;
     margin-right: -55px;
-
+    cursor: pointer;
 }
 .hand-card:first-child {
   margin-left: 0; /* La primera carta no se desplaza */
@@ -2082,3 +2164,89 @@ h2 {
     .slot-bottom-left { left: 12%; }
     .slot-bottom-right { right: 12%; }
 }
+
+/* ---------------------------- LOADING PAGE -------------------- */
+.loading-page {
+    background: var(--color-blue-gradient);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    overflow: hidden;
+}
+
+.loading-page .logo img {
+    animation: bounce 2s ease-in-out infinite;
+    width:16rem;
+}
+
+
+.loading-text {
+    color: white;
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-top: 60px;
+    text-align: center;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+.dots {
+    display: inline-block;
+    width: 30px;
+    text-align: left;
+}
+
+.spinner {
+    margin-top: 30px;
+    width: 50px;
+    height: 50px;
+    border: 5px solid rgba(255, 255, 255, 0.3);
+    border-top: 5px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(0) ;
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.6;
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Animación de puntos suspensivos */
+@keyframes dots {
+    0%, 20% {
+        content: '';
+    }
+    40% {
+        content: '.';
+    }
+    60% {
+        content: '..';
+    }
+    80%, 100% {
+        content: '...';
+    }
+}
+
