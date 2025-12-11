@@ -31,7 +31,7 @@
         <h1 class="profile-title">Perfil de Usuario</h1>
 
         <div class="profile-avatar">
-            <img src="Assets/profilePic.png" alt="Foto de perfil" class="profile-avatar-img" id="profilePic">
+            <img src="Javascript:" alt="Foto de perfil" class="profile-avatar-img" id="profilePic">
             <button type="button" class="edit-avatar-btn" aria-label="Editar foto de perfil" onclick="openAvatarModal()">
                 <img src="Assets/editProfile.svg" alt="">
             </button>
@@ -134,6 +134,7 @@
         let password = document.getElementById("password");
         let user = document.getElementById("username");
         const datos = obtenerDatosDelToken();
+
         async function cargar() {
           
             console.log("ID " + datos.nameid);

@@ -56,6 +56,7 @@ namespace OnePWA.Services
         {
             var entidad = Mapper.Map<Users>(dto);
             entidad.Password = EncriptacionHelper.GetHash(entidad.Password);
+            entidad.ProfilePictures = "1.png";
             Repository.Insert(entidad);
         }
 
