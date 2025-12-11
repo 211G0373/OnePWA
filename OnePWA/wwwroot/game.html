@@ -248,6 +248,16 @@
         <span class="one-text">¡ONE!</span>
     </button>
 
+    <!-- Botones temporales para probar modal (eliminar después) -->
+    <div style="position: fixed; top: 100px; left: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 9999;">
+        <button onclick="testEndgameModal('win')" style="padding: 10px 16px; background: #4D40E3; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
+            Ver Ganar
+        </button>
+        <button onclick="testEndgameModal('lose')" style="padding: 10px 16px; background: #ED2428; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
+            Ver Perder
+        </button>
+    </div>
+
 
     <!-- Modal Overlay -->
     <div class="modal-overlay" id="logoutModal" onclick="closeModalOnOverlay(event)">
@@ -271,6 +281,104 @@
                         Sí
                     </button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botón para probar modal de comodín -->
+    <button class="color-picker-trigger" type="button" onclick="openColorPickerModal()">
+        Elegir color
+    </button>
+
+    <!-- Modal selección de color para comodín -->
+    <div class="modal-overlay" id="colorPickerModal" aria-hidden="true">
+        <div class="generic-modal color-picker-card">
+            <button class="close-button color-picker-close" type="button" aria-label="Cerrar selección" onclick="closeColorPickerModal()">
+                <svg viewBox="0 0 24 24">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+
+            <div class="color-picker-header">
+                <h2>Elige un color</h2>
+                <p class="modal-description">Selecciona el color para tu comodín</p>
+            </div>
+
+            <div class="color-options">
+                <button class="color-option color-red" aria-label="Rojo" onclick="closeColorPickerModal()">
+                    <span>Rojo</span>
+                </button>
+                <button class="color-option color-blue" aria-label="Azul" onclick="closeColorPickerModal()">
+                    <span>Azul</span>
+                </button>
+                <button class="color-option color-green" aria-label="Verde" onclick="closeColorPickerModal()">
+                    <span>Verde</span>
+                </button>
+                <button class="color-option color-yellow" aria-label="Amarillo" onclick="closeColorPickerModal()">
+                    <span>Amarillo</span>
+                </button>
+            </div>
+
+            <div class="color-picker-footer">
+                <div class="color-hint">Tap para aplicar • Animación suave</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de resultado de partida endgame-overlay -->
+    <div class="modal-overlay " id="endgameModal" aria-hidden="true">
+        <div class="generic-modal endgame-card">
+            <button class="close-button endgame-close" type="button" aria-label="Cerrar resultado" onclick="closeEndgameModal()">
+                <svg viewBox="0 0 24 24">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+
+            <div class="endgame-header">
+                <h2 class="endgame-title" id="endgameTitle">¡Ganaste!</h2>
+                <div class="endgame-hero">
+                    <div class="endgame-hero-avatar">
+                        <img id="endgameHeroAvatar" src="Assets/avatars/4.jpg" alt="Avatar del jugador destacado" />
+                        <!--<span class="endgame-hero-badge" id="endgameBadge">★</span>-->
+                        <img src="Assets/svgs&icons/trophy.png" class="endgame-hero-badge" id="endgameBadge"></img>
+                    </div>
+                    <p class="endgame-hero-name" id="endgameHeroName">Pato</p>
+                    <p class="endgame-hero-place" id="endgameHeroPlace">1º lugar</p>
+                </div>
+            </div>
+
+            <div class="endgame-standings" id="endgameStandings">
+                <div class="endgame-row">
+                    <div class="endgame-row-left">
+                        <span class="endgame-position">1</span>
+                        <img class="endgame-row-avatar" src="Assets/avatars/4.jpg" alt="Pato" />
+                        <span class="endgame-row-name">Pato</span>
+                    </div>
+                    <span class="endgame-row-cards">Sin cartas</span>
+                </div>
+                <div class="endgame-row">
+                    <div class="endgame-row-left">
+                        <span class="endgame-position">2</span>
+                        <img class="endgame-row-avatar" src="Assets/avatars/1.jpg" alt="Teo" />
+                        <span class="endgame-row-name">Teo</span>
+                    </div>
+                    <span class="endgame-row-cards">Con 2 cartas</span>
+                </div>
+                <div class="endgame-row">
+                    <div class="endgame-row-left">
+                        <span class="endgame-position">3</span>
+                        <img class="endgame-row-avatar" src="Assets/avatars/5.jpg" alt="Lali" />
+                        <span class="endgame-row-name">Lali</span>
+                    </div>
+                    <span class="endgame-row-cards">Con 3 cartas</span>
+                </div>
+            </div>
+
+            <div class="endgame-actions profile-actions">
+                <button type="button" class="login-button profile-secondary-btn" onclick="closeEndgameModal()">Salir</button>
+                <button type="button" class="login-button profile-primary-btn" onclick="playAgainFromModal()">Jugar de Nuevo</button>
             </div>
         </div>
     </div>

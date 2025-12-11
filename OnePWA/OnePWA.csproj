@@ -97,6 +97,8 @@
     <Content Remove="wwwroot\Assets\profilePic.png" />
     <Content Remove="wwwroot\Assets\qr-code.png" />
     <Content Remove="wwwroot\Assets\svgs&amp;icons\logOut.svg" />
+    <Content Remove="wwwroot\Assets\svgs&amp;icons\medal.png" />
+    <Content Remove="wwwroot\Assets\svgs&amp;icons\medal.svg" />
     <Content Remove="wwwroot\Assets\svgs&amp;icons\oneHand.svg" />
   </ItemGroup>
 
@@ -226,6 +228,8 @@
     <Resource Include="wwwroot\Assets\profilePic.png" />
     <Resource Include="wwwroot\Assets\qr-code.png" />
     <Resource Include="wwwroot\Assets\svgs&amp;icons\logOut.svg" />
+    <Resource Include="wwwroot\Assets\svgs&amp;icons\medal.png" />
+    <Resource Include="wwwroot\Assets\svgs&amp;icons\medal.svg" />
   </ItemGroup>
 
 </Project>

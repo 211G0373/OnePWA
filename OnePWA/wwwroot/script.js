@@ -94,6 +94,104 @@ function confirmLogout() {
     closeModal();
 }
 
+/* --------------------------------------------------- MODAL DE RESULTADO (WIN/LOSE) --------------------------------------------------- */
+function openEndgameModal(state = 'win', hero = {}, standings = []) {
+    const overlay = document.getElementById('endgameModal');
+    if (!overlay) return;
+
+    // Datos por defecto
+    const defaultHero = { name: 'Pato', avatar: 'Assets/avatars/4.jpg', place: state === 'win' ? 1 : 3 };
+    const defaultStandings = state === 'win' 
+        ? [
+            { position: 1, name: 'Pato', avatar: 'Assets/avatars/4.jpg', cardsText: 'Sin cartas' },
+            { position: 2, name: 'Teo', avatar: 'Assets/avatars/1.jpg', cardsText: 'Con 3 cartas' },
+            { position: 3, name: 'Lali', avatar: 'Assets/avatars/5.jpg', cardsText: 'Con 4 cartas' }
+        ]
+        : [
+            { position: 1, name: 'Pedro', avatar: 'Assets/avatars/4.jpg', cardsText: 'Sin cartas' },
+            { position: 2, name: 'Pato', avatar: 'Assets/avatars/4.jpg', cardsText: 'Con 1 carta' },
+            { position: 3, name: 'Lali', avatar: 'Assets/avatars/5.jpg', cardsText: 'Con 2 cartas' }
+        ];
+
+    const finalHero = { ...defaultHero, ...hero };
+    const finalStandings = standings.length > 0 ? standings : defaultStandings;
+
+    // Actualizar título
+    const titleEl = document.getElementById('endgameTitle');
+    if (titleEl) titleEl.textContent = state === 'lose' ? 'Perdiste' : '¡Ganaste!';
+
+    // Actualizar hero
+    const heroNameEl = document.getElementById('endgameHeroName');
+    const heroPlaceEl = document.getElementById('endgameHeroPlace');
+    const heroAvatarEl = document.getElementById('endgameHeroAvatar');
+    
+    if (heroNameEl) heroNameEl.textContent = finalHero.name;
+    if (heroPlaceEl) heroPlaceEl.textContent = `${finalHero.place}º lugar`;
+    if (heroAvatarEl) {
+        heroAvatarEl.src = finalHero.avatar;
+        heroAvatarEl.alt = `Avatar de ${finalHero.name}`;
+    }
+
+    // Actualizar standings
+    const standingsContainer = document.getElementById('endgameStandings');
+    if (standingsContainer) {
+        standingsContainer.innerHTML = finalStandings.map(player => `
+            <div class="endgame-row">
+                <div class="endgame-row-left">
+                    <span class="endgame-position">${player.position}</span>
+                    <img class="endgame-row-avatar" src="${player.avatar}" alt="${player.name}" />
+                    <span class="endgame-row-name">${player.name}</span>
+                </div>
+                <span class="endgame-row-cards">${player.cardsText || player.cards}</span>
+            </div>
+        `).join('');
+    }
+
+    // Aplicar clase de estado
+    overlay.classList.toggle('is-lose', state === 'lose');
+    overlay.classList.add('active');
+    overlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeEndgameModal() {
+    const overlay = document.getElementById('endgameModal');
+    if (!overlay) return;
+    overlay.classList.remove('active', 'is-lose');
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+}
+
+function playAgainFromModal() {
+    closeEndgameModal();
+}
+
+// Función temporal para probar el modal
+function testEndgameModal(state) {
+    if (state === 'win') {
+        openEndgameModal('win', { name: 'Pato', avatar: 'Assets/avatars/4.jpg', place: 1 });
+    } else {
+        openEndgameModal('lose', { name: 'Lali', avatar: 'Assets/avatars/5.jpg', place: 3 });
+    }
+}
+
+/* --------------------------------------------------- MODAL DE COMODÍN (ELECCIÓN DE COLOR) --------------------------------------------------- */
+function openColorPickerModal() {
+    const overlay = document.getElementById('colorPickerModal');
+    if (!overlay) return;
+    overlay.classList.add('active');
+    overlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeColorPickerModal() {
+    const overlay = document.getElementById('colorPickerModal');
+    if (!overlay) return;
+    overlay.classList.remove('active');
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+}
+
 
 /* --------------------------------------------------- FUNCIONALIDAD DEL CONTADOR DE JUGADORES --------------------------------------------------- */
 
@@ -244,6 +342,26 @@ document.addEventListener('DOMContentLoaded', () => {
             avatarModal.style.display = 'none';
         }
     });
+
+    // Cerrar modal de resultado tocando el fondo
+    const endgameOverlay = document.getElementById('endgameModal');
+    if (endgameOverlay) {
+        endgameOverlay.addEventListener('click', (event) => {
+            if (event.target === endgameOverlay) {
+                closeEndgameModal();
+            }
+        });
+    }
+
+    // Cerrar modal de color tocando el fondo
+    const colorPickerOverlay = document.getElementById('colorPickerModal');
+    if (colorPickerOverlay) {
+        colorPickerOverlay.addEventListener('click', (event) => {
+            if (event.target === colorPickerOverlay) {
+                closeColorPickerModal();
+            }
+        });
+    }
 
     // Funcionalidad de selección de avatares
     const avatarOptions = document.querySelectorAll('.avatar-option');
