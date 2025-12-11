@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System.Runtime.InteropServices;
+using System.Security.Claims;
 using AutoMapper;
 using OnePWA.Helpers;
 using OnePWA.Models.DTOs;
@@ -56,6 +57,30 @@ namespace OnePWA.Services
             var entidad = Mapper.Map<Users>(dto);
             entidad.Password = EncriptacionHelper.GetHash(entidad.Password);
             Repository.Insert(entidad);
+        }
+
+        public IProfileDTO GetProfile(int id)
+        {
+            var perfil = Repository.Get(id);
+
+            IProfileDTO p = new IProfileDTO()
+            {
+                Contraseña=perfil.Password,
+                FotoPerfil=perfil.ProfilePictures,
+                Nombre=perfil.Name,
+
+            };
+            return p;
+        }
+
+        public void UpdateProfilePic(IChangeProfilePicDTO dto)
+        {
+            var user = Repository.Get(dto.Id);
+
+            user.ProfilePictures = dto.Picture;
+
+            Repository.Update(user);
+          
         }
     }
 }

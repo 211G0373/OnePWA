@@ -31,7 +31,7 @@
         <h1 class="profile-title">Perfil de Usuario</h1>
 
         <div class="profile-avatar">
-            <img src="Assets/profilePic.png" alt="Foto de perfil" class="profile-avatar-img">
+            <img src="Assets/profilePic.png" alt="Foto de perfil" class="profile-avatar-img" id="profilePic">
             <button type="button" class="edit-avatar-btn" aria-label="Editar foto de perfil" onclick="openAvatarModal()">
                 <img src="Assets/editProfile.svg" alt="">
             </button>
@@ -105,30 +105,98 @@
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script src="script.js"></script>
     <script>
+     
+ 
+        const token = localStorage.getItem('jwtToken');
 
 
-        document.addEventListener('DOMContentLoaded', async (e) => {
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        };
+        function obtenerDatosDelToken() {
+            console.log("d");
+
             const token = localStorage.getItem('jwtToken');
-            const headers = {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            };
-            console.log("hi + " + token);
+            console.log(token);
+            const payload = token.split('.')[1];
+            console.log(payload);
 
 
+            const decoded = JSON.parse(atob(payload));
 
-            try {
-                const respuesta = await fetch('/api/Users/profile', { headers });
+            console.log(decoded);
+            return decoded;
+        }
 
-                if (respuesta.ok) {
-                    const datos = await datos.json();
-                } else if (datos.status === 401) {
-                    console.log("AINT WORKING");
-                }
-            } catch (error) {
-                console.error('Error cargando tareas:', error);
+
+        let pic = document.getElementById("profilePic");
+        let password = document.getElementById("password");
+        let user = document.getElementById("username");
+        const datos = obtenerDatosDelToken();
+        async function cargar() {
+          
+            console.log("ID " + datos.nameid);
+
+            const response = await fetch('/api/Users/perfil/' + datos.nameid, {
+                method: 'GET',
+                headers
+            });
+
+
+            if (response.ok) {
+                console.log("FETCH THINGY WORKS");
+
+                const datos = await response.json();
+                console.log(datos);
+                pic.src = "Assets/avatars/" + datos.fotoPerfil;
+                user.value = datos.nombre;
+                
             }
-        });
+            else {
+                console.log("FETCH DONT WORK");
+            }
+        }
+
+
+        cargar();
+
+
+
+        let pics = document.getElementsByClassName("avatar-option");
+
+        console.log(pics);
+
+        for (var i = 0; i < pics.length; i++) {
+
+            ( function (index) {
+                pics[index].addEventListener("click", async function (e) {
+                    console.log("you pic region number " + pics[index].children[0].src);
+
+                    let text = pics[index].children[0].src;
+                    let img = text.split("/");
+                    let source = img[5];
+                    console.log(source);
+                    const response = await fetch('/api/Users/ProfilePic/', {
+                        method: 'POST',
+                        headers,
+                        body: JSON.stringify({
+                            id: datos.nameid,
+                            picture: source,
+                        })
+
+
+                    })
+
+                    if (response.ok) {
+                        pic.src = "Assets/avatars/" + source;
+                    }
+
+                    
+                })
+            })(i);
+        }
+        
 
     </script>
 

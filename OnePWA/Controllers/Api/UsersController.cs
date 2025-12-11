@@ -53,10 +53,29 @@ namespace OnePWA.Controllers.Api
             }
             else
             {
-                emailService.SendEmailAsync(correo);
+                await emailService.SendEmailAsync(correo);
             }
 
                 return Ok();
+        }
+
+
+
+        [HttpGet("perfil/{id}")]
+        public IActionResult VerPerfil(int id)
+        {
+            var perfil = service.GetProfile(id);
+            return Ok(perfil);
+        }
+
+
+        [HttpPost("ProfilePic")]
+        public IActionResult ChangeProfilePicture(IChangeProfilePicDTO dto)
+        {
+            service.UpdateProfilePic(dto);
+
+            return Ok();
+
         }
     }
 }

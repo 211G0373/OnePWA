@@ -14,4 +14,6 @@ public partial class Users
     public int WonGames { get; set; }
 
     public string Password { get; set; } = null!;
+
+    public string ProfilePictures { get; set; } = null!;
 }

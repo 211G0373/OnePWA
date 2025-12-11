@@ -66,6 +66,9 @@ public partial class OnecgdbContext : DbContext
             entity.Property(e => e.Password)
                 .HasMaxLength(256)
                 .HasColumnName("password");
+            entity.Property(e => e.ProfilePictures)
+                .HasMaxLength(50)
+                .HasColumnName("profile_Pictures");
             entity.Property(e => e.WonGames)
                 .HasColumnType("int(11)")
                 .HasColumnName("wonGames");

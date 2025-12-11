@@ -4,6 +4,6 @@
     {
         public string? Nombre { get; set; }
         public string? Contraseña { get; set; }
-        public string token { get; set; }
+        public string FotoPerfil { get; set; }
     }
 }

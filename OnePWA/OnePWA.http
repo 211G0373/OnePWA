@@ -1,5 +1,5 @@
-@OnePWA_HostAddress = http://localhost:5161
-
+# @OnePWA_HostAddress = http://localhost:5161 44355
+@OnePWA_HostAddress = http://localhost:44355
 GET {{OnePWA_HostAddress}}/weatherforecast/
 Accept: application/json
 

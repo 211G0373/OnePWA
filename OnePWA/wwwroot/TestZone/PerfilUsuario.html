@@ -8,11 +8,9 @@
 </head>
 <body class="profile-page">
 
-    <a href="index.html" class="back-btn-container">
-        <svg width="37" height="37" viewBox="0 0 67 67" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <circle cx="33.3511" cy="33.3511" r="33.3511" fill="#8B9EA9" />
-            <path d="M37.6543 19.3651L25.8694 33.3017L37.6543 47.337" stroke="white" stroke-width="4.30336"
-                  stroke-linecap="round" stroke-linejoin="round" />
+    <a class="back-button" href="index.html">
+        <svg viewBox="0 0 24 24">
+            <polyline points="15 18 9 12 15 6"></polyline>
         </svg>
     </a>
 
@@ -30,8 +28,8 @@
         <h1 class="profile-title">Perfil de Usuario</h1>
 
         <div class="profile-avatar">
-            <img src="Assets/profilePic.png" alt="Foto de perfil" class="profile-avatar-img">
-            <button type="button" class="edit-avatar-btn" aria-label="Editar foto de perfil">
+            <img src="Assets/profilePic.png" alt="Foto de perfil" class="profile-avatar-img" id="profilePic">
+            <button type="button" class="edit-avatar-btn" aria-label="Editar foto de perfil" onclick="openAvatarModal()">
                 <img src="Assets/editProfile.svg" alt="">
             </button>
         </div>
@@ -39,13 +37,13 @@
         <form class="profile-form" id="profileForm">
             <div class="profile-field">
                 <label for="username">Nombre de Usuario</label>
-                <input type="text" class="profile-input" placeholder="Nombre" id="username" required>
+                <input type="text" class="profile-input" placeholder="Patrick" id="username" value="Patrick" required>
             </div>
 
             <div class="profile-field">
                 <label for="password">Contraseña</label>
                 <div class="profile-input-wrapper">
-                    <input type="password" class="profile-input" placeholder="************" id="password" value="************" required>
+                    <input type="password" class="profile-input" placeholder="Contraseña" id="password" value="Contraseña" required>
                     <button type="button" class="password-toggle" aria-label="Mostrar contraseña">
                         <ion-icon name="eye-outline"></ion-icon>
                     </button>
@@ -53,29 +51,70 @@
             </div>
 
             <div class="profile-actions">
-                <button type="submit" class="login-button profile-primary-btn">Guardar Cambios</button>
-                <button type="button" class="login-button profile-secondary-btn">Cerrar Sesión</button>
+                <a href="PerfilUsuario.html" class="login-button profile-primary-btn action-link">Guardar Cambios</a>
+                <a href="login.html" class="login-button profile-secondary-btn action-link">Cerrar Sesión</a>
             </div>
         </form>
 
+    </div>
+
+    <div id="avatarModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeAvatarModal()">&times;</span>
+            <h2 class="modal-title">Selecciona tu Avatar</h2>
+            <div class="avatar-grid">
+                <div class="avatar-option" data-avatar="1.png">
+                    <img src="Assets/avatars/1.jpg" alt="Avatar 1">
+                </div>
+                <div class="avatar-option" data-avatar="2.png">
+                    <img src="Assets/avatars/2.jpg" alt="Avatar 2">
+                </div>
+                <div class="avatar-option" data-avatar="3.png">
+                    <img src="Assets/avatars/3.jpg" alt="Avatar 3">
+                </div>
+                <div class="avatar-option" data-avatar="4.png">
+                    <img src="Assets/avatars/4.jpg" alt="Avatar 4">
+                </div>
+                <div class="avatar-option" data-avatar="5.png">
+                    <img src="Assets/avatars/5.jpg" alt="Avatar 5">
+                </div>
+                <div class="avatar-option" data-avatar="6.png">
+                    <img src="Assets/avatars/6.jpg" alt="Avatar 6">
+                </div>
+                <div class="avatar-option" data-avatar="7.png">
+                    <img src="Assets/avatars/7.jpg" alt="Avatar 7">
+                </div>
+                <div class="avatar-option" data-avatar="8.png">
+                    <img src="Assets/avatars/8.jpg" alt="Avatar 8">
+                </div>
+                <div class="avatar-option" data-avatar="9.png">
+                    <img src="Assets/avatars/9.jpg" alt="Avatar 9">
+                </div>
+                <div class="avatar-option" data-avatar="10.png">
+                    <img src="Assets/avatars/10.jpg" alt="Avatar 10">
+                </div>
+            </div>
+        </div>
     </div>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script src="script.js"></script>
     <script>
 
- 
-        function obtenerDatosDelToken() {
-            console.log("d");
 
-            const token = localStorage.getItem('jwtToken');
-            console.log(token);
+        const token = localStorage.getItem('jwtToken');
+
+
+        const headers = {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        };
+
+        function obtenerDatosDelToken() {
             const payload = token.split('.')[1];
             console.log(payload);
 
-
             const decoded = JSON.parse(atob(payload));
-
             console.log(decoded);
             return decoded;
         }
@@ -84,10 +123,38 @@
             const datos = obtenerDatosDelToken();
             document.querySelector('.profile-input').value = datos.unique_name;
             //document.getElementById('.password-toggle').textContent = datos.password;
-           
+
         }
 
         cargarDatosUsuario();
+
+
+        let pic = document.getElementById("profilePic");
+        async function cargar() {
+            const datos = obtenerDatosDelToken();
+            console.log("ID " + datos.nameid);
+
+            const response = await fetch('/api/Users/perfil/' + datos.nameid, {
+                method: 'GET',
+                headers
+            });
+
+
+            if (response.ok) {
+                console.log("FETCH THINGY WORKS");
+
+                const datos = await response.json();
+                console.log(datos);
+                pic.src = "../Assets/avatars/" + datos.fotoPerfil;
+
+            }
+            else {
+                console.log("FETCH DONT WORK");
+            }
+        }
+
+
+        cargar();
 
     </script>
 

@@ -13,6 +13,8 @@ namespace OnePWA.Services
         string Login(ILoginDTO dto);
         void SignUp(ISignUpDTO dto);
 
+        IProfileDTO GetProfile(int id);
 
+        void UpdateProfilePic(IChangeProfilePicDTO dto);
     }
 }
