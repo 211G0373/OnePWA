@@ -77,5 +77,13 @@ namespace OnePWA.Controllers.Api
             return Ok();
 
         }
+
+        [HttpPost("UpdateProfile")]
+        public IActionResult Update(IProfileDTO dto)
+        {
+            service.UpdateProfile(dto);
+
+            return Ok();
+        }
     }
 }

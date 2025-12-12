@@ -16,5 +16,6 @@ namespace OnePWA.Services
         IProfileDTO GetProfile(int id);
 
         void UpdateProfilePic(IChangeProfilePicDTO dto);
+        void UpdateProfile(IProfileDTO dto);
     }
 }

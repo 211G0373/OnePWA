@@ -83,5 +83,15 @@ namespace OnePWA.Services
             Repository.Update(user);
           
         }
+
+
+        public void UpdateProfile(IProfileDTO dto)
+        {
+            var user = Repository.Get(dto.Id);
+            user.Password = dto.Contraseña == "Contraseña" ? user.Password : EncriptacionHelper.GetHash(dto.Contraseña);
+            user.Name = dto.Nombre;
+            Repository.Update(user);
+
+        }
     }
 }
