@@ -48,7 +48,7 @@
 
 
             const connection = new signalR.HubConnectionBuilder()
-                .withUrl("https://localhost:7230/hubs/Signalr?access_token=" + token)
+                .withUrl("/hubs/Signalr?access_token=" + token)
                 .configureLogging(signalR.LogLevel.Information)
                 .build();
 
