@@ -126,14 +126,14 @@ namespace OnePWA.Controllers.Api
 
         [HttpPost]
         [Route("PLayCard/{id}")]
-        public IActionResult PlayCard(int id)
+        public async Task<IActionResult> PlayCard(int id)
         {
             var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userId))
                 return Unauthorized(new { message = "No se encontró el ID del usuario en el token." });
             try
             {
-                service.PlayCard(int.Parse(userId), id);
+                await service.PlayCard(int.Parse(userId), id);
 
             }catch(Exception ex)
             {

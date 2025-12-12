@@ -105,7 +105,7 @@ namespace OnePWA.Services
 
         }
 
-        public void PlayCard(int idPlayer, int cardId)
+        public async Task PlayCard(int idPlayer, int cardId)
         {
             var session = sessionsRepository.GetByPlayerId(idPlayer);
             if (session == null)
@@ -116,7 +116,14 @@ namespace OnePWA.Services
             {
                 throw new Exception("It's not your turn");
             }
-            session.PlayCard(idPlayer, cardId);
+            try
+            {
+                await session.PlayCard(idPlayer, cardId);
+            }
+            catch
+            {
+                throw new Exception("It's not your turn");
+            }
         }
 
         public void BlackCard(int idPlayer,ChangeColorDTO dto)

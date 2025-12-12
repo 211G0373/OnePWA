@@ -45,6 +45,12 @@ namespace OnePWA.Models
             }
             var c = Cards.First(c => c.Id == card);
 
+            if(!(c.Color == LastColor || c.Name == TopCard.Name))
+            {
+                throw new Exception("Necesitas elegir un color");
+
+            }
+
 
             if (c.Color == "black")
             {

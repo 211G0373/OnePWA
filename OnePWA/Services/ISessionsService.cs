@@ -18,7 +18,7 @@ namespace OnePWA.Services
         void JoinSessionByCode(string code,int id);
 
         Task StartGame(int id);
-        void PlayCard(int idPlayer, int cardId);
+        Task PlayCard(int idPlayer, int cardId);
         void BlackCard(int idPlayer, ChangeColorDTO dto);
         void JoinRandomSession(int id);
         void PlayAgain(int id);

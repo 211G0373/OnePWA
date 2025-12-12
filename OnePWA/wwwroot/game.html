@@ -481,11 +481,19 @@
                     //    playersDiv.appendChild(clone);
                     //};
 
+                    console.log("XDDDD")
+
+
                     turnlabel.textContent = Session.players.find(u => u.id === Session.idTurn).userName;
+
+
+                    console.log("XDDDD")
+
 
 
 
                     for (let j = 0; j < Session.myCards.length; j++) {
+                        console.log("XDDDD")
                         const clon = handCardTemplate.content.cloneNode(true);
                         const card = clon.querySelector("div");
                         //card.textContent = Session.myCards[j].color + " " + Session.myCards[j].name;
