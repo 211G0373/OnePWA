@@ -27,14 +27,14 @@
             <input type="text" id="match-name" class="config-input" placeholder="Pelusas" value="Pelusas">
         </div>
 
-        <div class="config-group">
+        <!--<div class="config-group">
             <label for="player-count" class="config-label">Jugadores:</label>
             <div class="player-counter">
                 <button type="button" class="counter-btn minus-btn">−</button>
                 <span class="counter-display">3</span>
                 <button type="button" class="counter-btn plus-btn">+</button>
             </div>
-        </div>
+        </div>-->
 
         <div class="config-group radio-group">
             <label class="config-label">Tipo de Partida:</label>
@@ -60,9 +60,80 @@
             </div>
         </div>
 
-        <a href="crearPartida2.html" class="create-match-btn">Crear</a>
+        <input type="button" value="Crear" id="create" class="create-match-btn">
 
     </div>
-    <script src="script.js"></script>
+
+    <!--<script src="script.js"></script>-->
+    <script>
+        const token = localStorage.getItem('jwtToken');
+        if (!token) {
+            window.location.href = 'login.html';
+        }
+        else {
+
+            const headers = {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            };
+
+
+
+
+
+            document.getElementById('create').addEventListener('click', async (e) => {
+                //e.preventDefault();
+
+                //const submitButton = e.target.querySelector('button[type="submit"]');
+                //const originalText = submitButton.textContent;
+                console.log("xd");
+
+                try {
+                    //submitButton.textContent = 'Iniciando sesión...';
+                    //submitButton.disabled = true;
+
+                    const formData = {
+                        Name: document.getElementById('match-name').value,
+                        Private: document.getElementById('private').checked,
+                        NewRules: document.getElementById('broken-friendship').checked
+                    };
+                    console.log(formData);
+                    const response = await fetch('/api/Sessions/', {
+                        method: 'POST',
+                        headers,
+                        body: JSON.stringify(formData)
+                    });
+                    console.log("xd");
+
+                    if (response.ok) {
+                        //    const token = await response.text();
+                        //    localStorage.setItem('jwtToken', token);
+                        window.location.href = 'crearpartida2.html';
+                        //} else {
+                        //    const emailInput = document.getElementById('email');
+                        //    emailInput.setCustomValidity('Credenciales incorrectas');
+                        //    emailInput.reportValidity();
+                        //}
+                    }
+                } catch (error) {
+                    //const emailInput = document.getElementById('email');
+                    //emailInput.setCustomValidity('Error de conexión');
+                    //emailInput.reportValidity();
+                } finally {
+                    //submitButton.textContent = originalText;
+                    //submitButton.disabled = false;
+                }
+            });
+
+            // Quitar mensaje validación al escribir
+            //document.getElementById('email').addEventListener('input', function () {
+            //    this.setCustomValidity('');
+            //});
+            //document.getElementById('password').addEventListener('input', function () {
+            //    document.getElementById('email').setCustomValidity('');
+            //});
+        }
+    </script>
+
 </body>
 </html>

@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ONE - Iniciar Partida</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        #qrcode{
+            width: 100%;
+        }
+    </style>
 </head>
 <body class="login-page start-match-page">
 
@@ -24,7 +29,9 @@
         <div class="qr-section">
             <h2 class="qr-title">Escanear para unirse</h2>
             <div class="qr-container">
-                <img src="Assets/qr-code.png" alt="Codigo QR para unirse a la partida" />
+                <div id="qrcode"></div>
+                <!--<img id="qrcode" alt="Codigo QR para unirse a la partida" />-->
+                <!--<img src="Assets/qr-code.png" id="qrcode" alt="Codigo QR para unirse a la partida" />-->
             </div>
 
             <div class="code-box">
@@ -49,76 +56,192 @@
         <!-- Right Section: Players List -->
         <div class="players-section">
             <div class="players-card">
-                <h1 class="match-name">Partida Pelusas</h1>
+                <h1 class="match-name">Partida</h1>
                 <h2 class="players-subtitle">Jugadores en la partida</h2>
 
                 <div class="players-list-container">
                     <div class="players-list">
-                        <div class="player-item">
+                        <!--<div class="player-item">
                             <img src="Assets/profilePic.png" alt="Avatar" class="player-avatar">
                             <span class="player-name">Pato (yo)</span>
                             <span class="host-badge">Host</span>
-                        </div>
-                        <div class="player-item">
-                            <img src="Assets/profilePic.png" alt="Avatar" class="player-avatar">
-                            <span class="player-name">Patrick</span>
-                            <button class="remove-player-btn" aria-label="Eliminar jugador">
-                                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-                                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                                </svg>
-                            </button>
-                        </div>
-                        <div class="player-item">
-                            <img src="Assets/profilePic.png" alt="Avatar" class="player-avatar">
-                            <span class="player-name">Patrick</span>
-                            <button class="remove-player-btn" aria-label="Eliminar jugador">
-                                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-                                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                                </svg>
-                            </button>
-                        </div>
-                        <div class="player-item">
-                            <img src="Assets/profilePic.png" alt="Avatar" class="player-avatar">
-                            <span class="player-name">Patrick</span>
-                            <button class="remove-player-btn" aria-label="Eliminar jugador">
-                                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-                                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                                </svg>
-                            </button>
-                        </div>
-                        <div class="player-item">
-                            <img src="Assets/profilePic.png" alt="Avatar" class="player-avatar">
-                            <span class="player-name">Patrick</span>
-                            <button class="remove-player-btn" aria-label="Eliminar jugador">
-                                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-                                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                                </svg>
-                            </button>
-                        </div>
-                        <div class="player-item">
-                            <img src="Assets/profilePic.png" alt="Avatar" class="player-avatar">
-                            <span class="player-name">Patrick</span>
-                            <button class="remove-player-btn" aria-label="Eliminar jugador">
-                                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
-                                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                                </svg>
-                            </button>
-                        </div>
+                        </div>-->
+
+                        <template>
+                            <div class="player-item">
+                                <img src="Assets/profilePic.png" alt="Avatar" class="player-avatar">
+                                <span class="player-name">Patrick</span>
+                                <button class="remove-player-btn" aria-label="Eliminar jugador">
+                                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </template>
+                      
+                        
                     </div>
 
                     <div class="players-count">2/8 Jugadores</div>
 
                 </div>
-               
-                <a href="game.html" class="create-match-btn start-match-btn">Iniciar</a>
+
+                <input type="button" value="Iniciar" id="start" href="game.html" class="create-match-btn start-match-btn">
             </div>
         </div>
     </div>
-    <script src="script.js"></script>
+    <!--<script src="script.js"></script>-->
+
+
+
+    <script src="https://cdn.jsdelivr.net/gh/davidshimjs/qrcodejs/qrcode.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+
+
+    <script>
+        const token = localStorage.getItem('jwtToken');
+        console.log(token);
+        //QRCode.prototype.makeImage = true;
+
+        if (!token) {
+            window.location.href = 'login.html';
+        }
+        else {
+            let Session;
+            const headers = {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            };
+
+            playerTemplate = document.querySelector("template");
+
+
+            document.getElementById("start").addEventListener("click", async function () {
+                console.log("xd")
+                const response = await fetch('/api/Sessions/Start', {
+                    method: 'POST',
+                    headers
+
+                });
+                if (response.ok) {
+                    window.location.href = 'game.html';
+                }
+                else {
+                    console.log("Error al iniciar la partida");
+                }
+
+            });
+
+
+
+            //const connection = new signalR.HubConnectionBuilder()
+            //    .withUrl("https://localhost:44355/hubs/Signalr", {
+            //        accessTokenFactory: () => token
+            //    })
+            //    .configureLogging(signalR.LogLevel.Information)
+            //    .build();
+
+            //const response = await fetch('/api/Sessions/', {
+            //    method: 'POST',
+            //    headers,
+            //    body: JSON.stringify(formData)
+            //});
+            async function cargar() {
+                const response = await fetch('/api/Sessions', {
+                    method: 'GET',
+                    headers
+
+                });
+                if (response.ok) {
+                    Session = await response.json();
+
+
+                    console.log('Sesión creada:', Session);
+
+
+
+                    for (let i = 0; i < Session.players.length; i++) {
+                        console.log(playerTemplate);
+                        const clon = playerTemplate.content.cloneNode(true);;
+                        const root = clon.firstElementChild;     
+
+                        root.children[1].textContent = Session.players[i].userName;
+
+                        document.querySelector(".players-list").appendChild(root);
+                    };
+                    document.querySelector(".match-name").textContent = Session.name;
+                   // document.getElementById("host").textContent = "El jefe es " + Session.players.find(u => u.id === Session.idHost).userName;
+                    document.getElementById("gameCode").textContent = Session.code;
+
+
+                    new QRCode(document.getElementById("qrcode"), {
+                        text: Session.code,
+                        width: 128,
+                        height: 128,
+                        colorDark: "#000000",
+                        colorLight: "#ffffff",
+                        correctLevel: QRCode.CorrectLevel.H
+                    });
+
+
+
+
+
+
+                    // window.location.href = 'index.html';
+                }
+                else {
+                    window.location.href = 'index.html';
+
+                }
+
+
+
+
+            }
+
+            cargar();
+
+
+
+            const connection = new signalR.HubConnectionBuilder()
+                .withUrl("/hubs/Signalr?access_token=" + token)
+                .configureLogging(signalR.LogLevel.Information)
+                .build();
+
+            connection.start()
+                .then(() => {
+                    console.log("✅ Conectado correctamente al servidor SignalR");
+                    //  document.body.innerHTML += "<p>✅ Conexión establecida</p>";
+                })
+                .catch(err => {
+                    console.error("❌ Error de conexión:", err);
+                    document.body.innerHTML += "<p>❌ Error de conexión: " + err + "</p>";
+                });
+
+
+            connection.on("GameStarted", () => {
+                console.log("start")
+                window.location.href = 'game.html';
+            });
+
+            connection.on("PlayerJoined", (player) => {
+                console.log(player);
+                Session.players.push(player);
+                const li = document.createElement("li");
+                li.textContent = player.userName;
+                document.getElementById("playerlist").appendChild(li);
+            });
+            connection.on("PlayerLeft", (player) => {
+                console.log(player);
+            });
+        }
+
+    </script>
+
+
+
 </body>
 </html>
