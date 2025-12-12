@@ -36,7 +36,8 @@
 .login-page {
     min-height: 100vh;
     min-height: 100dvh; /* dynamic viewport height para mobile */
-    background: linear-gradient(135deg, #7209b7 0%, #4361ee 50%, #4D40E3 100%);
+    /*background: linear-gradient(135deg, #7209b7 0%, #4361ee 50%, #4D40E3 100%);*/
+    background: linear-gradient(135deg, #7209B7 0%, #4361EE 100%);
     background-repeat: no-repeat;
     display: flex;
     flex-direction: column;
@@ -213,6 +214,9 @@
     font-weight: 700;
     color: #000;
     margin-bottom: clamp(0.5rem, 2vw, 0.75rem);
+}
+.title-index{
+    font-size:2.5rem;
 }
 
 .welcome-subtitle {
