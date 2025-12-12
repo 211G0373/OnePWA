@@ -6,8 +6,7 @@
     <title>ONE - PERFIL</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body class="login-page "<!-- profile-page-->
-
+<body class="login-page"<!-- profile-page-->>
     <a class="back-button" href="index.html">
         <svg viewBox="0 0 24 24">
             <polyline points="15 18 9 12 15 6"></polyline>
@@ -17,21 +16,13 @@
     <div class="floating-card"></div>
     <div class="floating-card"></div>
     <div class="floating-card"></div>
-    <!--<img src="Assets/destello.svg" alt="" class="floating-card-index floating-card-1">
-    <img src="Assets/destelloVerde.svg" alt="" class="floating-card-index floating-card-2">
-    <img src="Assets/destelloRojo.svg" alt="" class="floating-card-index floating-card-3">
-    <img src="Assets/destelloAzul.svg" alt="" class="floating-card-index floating-card-4">
-    <img src="Assets/destello.svg" alt="" class="floating-card-index floating-card-5">
-    <img src="Assets/destelloVerde.svg" alt="" class="floating-card-index floating-card-6">
-    <img src="Assets/destelloRojo.svg" alt="" class="floating-card-index floating-card-7">
-    <img src="Assets/destelloAzul.svg" alt="" class="floating-card-index floating-card-8">-->
 
     <div class="profile-card">
 
         <h1 class="profile-title">Perfil de Usuario</h1>
 
         <div class="profile-avatar">
-            <img src="Javascript:" alt="Foto de perfil" class="profile-avatar-img" id="profilePic">
+            <img src="Assets/profilePic.png" alt="Foto de perfil" class="profile-avatar-img" id="profilePic">
             <button type="button" class="edit-avatar-btn" aria-label="Editar foto de perfil" onclick="openAvatarModal()">
                 <img src="Assets/editProfile.svg" alt="">
             </button>
@@ -44,11 +35,11 @@
             </div>
 
             <div class="profile-field">
-                <label for="password">Contraseña</label>
+                <label for="password">Contraseña Nueva</label>
                 <div class="profile-input-wrapper">
                     <input type="password" class="profile-input"
                            placeholder="Contraseña" id="password"
-                           value="Contraseña" required>
+                           >
                     <button type="button" class="password-toggle" aria-label="Mostrar contraseña">
                         <ion-icon name="eye-outline"></ion-icon>
                     </button>
@@ -56,7 +47,7 @@
             </div>
 
             <div class="profile-actions">
-                <a href="PerfilUsuario.html" class="login-button profile-primary-btn action-link">Guardar Cambios</a>
+                <a href="PerfilUsuario.html" class="login-button profile-primary-btn action-link" id="cambios">Guardar Cambios</a>
                 <a href="login.html" class="login-button profile-secondary-btn action-link">Cerrar Sesión</a>
             </div>
         </form>
@@ -104,9 +95,9 @@
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script src="script.js"></script>
-    <script>
-     
- 
+        <script>
+
+
         const token = localStorage.getItem('jwtToken');
 
 
@@ -136,7 +127,7 @@
         const datos = obtenerDatosDelToken();
 
         async function cargar() {
-          
+
             console.log("ID " + datos.nameid);
 
             const response = await fetch('/api/Users/perfil/' + datos.nameid, {
@@ -152,7 +143,7 @@
                 console.log(datos);
                 pic.src = "Assets/avatars/" + datos.fotoPerfil;
                 user.value = datos.nombre;
-                
+
             }
             else {
                 console.log("FETCH DONT WORK");
@@ -185,19 +176,40 @@
                             id: datos.nameid,
                             picture: source,
                         })
-
-
                     })
 
                     if (response.ok) {
                         pic.src = "Assets/avatars/" + source;
                     }
 
-                    
+
                 })
             })(i);
         }
-        
+
+
+
+        let btn = document.getElementById("cambios").addEventListener("click", async function(e){
+            e.preventDefault();
+                 console.log("HOLA");
+
+            const response = await fetch('/api/Users/UpdateProfile/', {
+                method: 'POST',
+                headers,
+                body: JSON.stringify({
+                    id: datos.nameid,
+                    nombre:user.value,
+                    contraseña:password.value,
+                    fotoPerfil:pic.src
+                })
+
+
+            })
+
+        });
+
+
+
 
     </script>
 
