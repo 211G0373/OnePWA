@@ -59,16 +59,11 @@ namespace OnePWA.Models
                 p.Cards.Remove(c);
                 UsedCards.Add(card);
 
+                
 
 
-                if (c.Name == "Skip")
-                {
-                    SkipTurn();
-                }
-                if (c.Name == "Reverse")
-                {
-                    ReverseTurn();
-                }
+
+               
 
                 if (c.Name == "+2")
                 {
@@ -77,12 +72,26 @@ namespace OnePWA.Models
                     {
 
 
+                       
+
+
                         await NotifyPlayerPlaceCard(idPlayer, -1, new CardDTO()
                         {
                             Color = c.Color,
                             Id = c.Id,
                             Name = c.Name
                         });
+                        if (p.Cards.Count == 0)
+                        {
+                            await GameFinished(idPlayer);
+
+                            return;
+                        }
+
+
+
+
+
                         _ = TakeXCards(IdTurn, 2);
                     }
                     else
@@ -97,6 +106,13 @@ namespace OnePWA.Models
                                 Id = c.Id,
                                 Name = c.Name
                             });
+                            if (p.Cards.Count == 0)
+                            {
+                                await GameFinished(idPlayer);
+
+                                return;
+                            }
+
                             AcumulatedCards += 2;
                         }
                         else
@@ -107,6 +123,13 @@ namespace OnePWA.Models
                                 Id = c.Id,
                                 Name = c.Name
                             });
+                            if (p.Cards.Count == 0)
+                            {
+                                await GameFinished(idPlayer);
+
+                                return;
+                            }
+
                             _ = TakeXCards(IdTurn, AcumulatedCards);
                         }
 
@@ -119,7 +142,16 @@ namespace OnePWA.Models
                 }
                 else
                 {
-                    
+                    if (c.Name == "Skip")
+                    {
+                        SkipTurn();
+                    }
+
+                    if (c.Name == "Reverse")
+                    {
+                        ReverseTurn();
+                    }
+
                     if (NextTurn())
                     {
                         await NotifyPlayerPlaceCard(idPlayer, IdTurn, new CardDTO()
@@ -128,6 +160,13 @@ namespace OnePWA.Models
                             Id = c.Id,
                             Name = c.Name
                         });
+                        if (p.Cards.Count == 0)
+                        {
+                            await GameFinished(idPlayer);
+
+                            return;
+                        }
+
                     }
                     else
                     {
@@ -137,6 +176,13 @@ namespace OnePWA.Models
                             Id = c.Id,
                             Name = c.Name
                         });
+                        if (p.Cards.Count == 0)
+                        {
+                            await GameFinished(idPlayer);
+
+                            return;
+                        }
+
                         _ = SearchNextPlayer();
                     }
                 }
@@ -165,6 +211,7 @@ namespace OnePWA.Models
             for (int i = 0; i < cards - 1; i++)
             {
                 await NotifyPlayerTakeCard(playerid, -1, TakeCard(playerid));
+                await Task.Delay(1000);
             }
             if (NextTurn())
             {
@@ -255,6 +302,13 @@ namespace OnePWA.Models
                             Id = c.Id,
                             Name = c.Name
                         });
+                        if (p.Cards.Count == 0)
+                        {
+                            await GameFinished(idPlayer);
+
+                            return;
+                        }
+
                         _ = TakeXCards(IdTurn, 4);
                     }
                     else
@@ -269,6 +323,13 @@ namespace OnePWA.Models
                                 Id = c.Id,
                                 Name = c.Name
                             });
+                            if (p.Cards.Count == 0)
+                            {
+                                await GameFinished(idPlayer);
+
+                                return;
+                            }
+
                             AcumulatedCards += 4;
                         }
                         else
@@ -279,6 +340,13 @@ namespace OnePWA.Models
                                 Id = c.Id,
                                 Name = c.Name
                             });
+                            if (p.Cards.Count == 0)
+                            {
+                                await GameFinished(idPlayer);
+
+                                return;
+                            }
+
                             _ = TakeXCards(IdTurn, AcumulatedCards);
                         }
 
@@ -301,6 +369,13 @@ namespace OnePWA.Models
                             Id = c.Id,
                             Name = c.Name
                         });
+                        if (p.Cards.Count == 0)
+                        {
+                            await GameFinished(idPlayer);
+
+                            return;
+                        }
+
                     }
                     else
                     {
@@ -309,7 +384,14 @@ namespace OnePWA.Models
                             Color = dto.Color,
                             Id = c.Id,
                             Name = c.Name
-                        });
+                        }); 
+                        if (p.Cards.Count == 0)
+                        {
+                            await GameFinished(idPlayer);
+
+                            return;
+                        }
+
                         _ = SearchNextPlayer();
                     }
                 }
@@ -328,7 +410,7 @@ namespace OnePWA.Models
             {
                 if (player.Id == idPlayer)
                 {
-                    continue;
+                    //continue;
                 }
                 await Notifications.PlayerColocoCard(player.Id.ToString(), new MovementDTO
                 {
@@ -337,8 +419,24 @@ namespace OnePWA.Models
                     IdTurn = turn
                 });
             }
-
         }
+
+        public async Task GameFinished(int idPlayer)
+        {
+            foreach (var player in Players)
+            {
+                if (player.Id == idPlayer)
+                {
+                    //continue;
+                }
+                await Notifications.GameFinished(player.Id.ToString(), new GanadorDTO()
+                {
+                    Id = idPlayer,
+                });
+            }
+        }
+
+
 
         public async Task NotifyPlayerTakeCard(int idPlayer, int turn, int cardid)
         {
@@ -366,6 +464,10 @@ namespace OnePWA.Models
             }
 
         }
+
+
+
+
 
 
 
@@ -526,7 +628,7 @@ namespace OnePWA.Models
                     NotUsed.RemoveAt(0);
                 }
             }
-            var firstcard = NotUsed.FirstOrDefault(x => Cards.FirstOrDefault(c => c.Id == x).Color != "black");
+            var firstcard = NotUsed.FirstOrDefault(x => Cards.FirstOrDefault(c => c.Id == x).Color != "black" && Players.FirstOrDefault().Cards.Any(y=> y.Color==Cards.FirstOrDefault(c => c.Id == x).Color));
             UsedCards.Add(firstcard);
             NotUsed.Remove(firstcard);
 

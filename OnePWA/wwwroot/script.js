@@ -18,7 +18,7 @@ if (dotsElement) {
 
         setTimeout(() => {
             // Cambiar a la URL de tu juego
-            window.location.href = 'game.html';
+          //  window.location.href = 'game.html';
             // O si usas el mismo HTML con diferentes vistas:
             // window.location.href = '#game';
         }, 500);

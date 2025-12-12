@@ -197,21 +197,24 @@
 
             <!-- Pila de descartes (stack) -->
             <!--<div class="discard-pile">
-                <div class="stacked-cards">
-                    <img class="card stacked-card stacked-1" src="Assets/Cards/Normal/Green/card0=green.png" alt="Carta verde" />
-                    <img class="card stacked-card stacked-2" src="Assets/Cards/Normal/Blue/card0=blue.png" alt="Carta azul" />
-                    <img class="card stacked-card top-card" src="Assets/Cards/Normal/Green/card0=green.png" alt="Carta verde 3" />
-                </div>
-            </div>-->
+        <div class="stacked-cards">
+            <img class="card stacked-card stacked-1" src="Assets/Cards/Normal/Green/card0=green.png" alt="Carta verde" />
+            <img class="card stacked-card stacked-2" src="Assets/Cards/Normal/Blue/card0=blue.png" alt="Carta azul" />
+            <img class="card stacked-card top-card" src="Assets/Cards/Normal/Green/card0=green.png" alt="Carta verde 3" />
+        </div>
+    </div>-->
             <!-- Carta actual grande -->
             <div class="current-card">
-                <img class="card current" src="Assets/Cards/Number Cards/Red/card0=red.png" alt="Carta roja actual" />
+                <img id="currentCard" class="card current" src="Assets/Cards/Number Cards/Red/card0=red.png" alt="Carta roja actual" />
             </div>
 
             <!-- Indicador de turno central -->
             <div class="turn-indicator" aria-hidden="true">
                 <span class="turn-label">Turno de Pedro</span>
             </div>
+
+            
+
         </section>
 
         <!-- Mano del jugador principal -->
@@ -291,16 +294,16 @@
             </div>
 
             <div class="color-options">
-                <button class="color-option color-red" aria-label="Rojo" onclick="closeColorPickerModal()">
+                <button class="color-option color-red"  data-color="red" aria-label="Rojo">
                     <span>Rojo</span>
                 </button>
-                <button class="color-option color-blue" aria-label="Azul" onclick="closeColorPickerModal()">
+                <button class="color-option color-blue" data-color="blue" aria-label="Azul">
                     <span>Azul</span>
                 </button>
-                <button class="color-option color-green" aria-label="Verde" onclick="closeColorPickerModal()">
+                <button class="color-option color-green" data-color="green" aria-label="Verde" >
                     <span>Verde</span>
                 </button>
-                <button class="color-option color-yellow" aria-label="Amarillo" onclick="closeColorPickerModal()">
+                <button class="color-option color-yellow" data-color="yellow" aria-label="Amarillo" >
                     <span>Amarillo</span>
                 </button>
             </div>
@@ -327,7 +330,7 @@
                     <div class="endgame-hero-avatar">
                         <img id="endgameHeroAvatar" src="Assets/avatars/4.jpg" alt="Avatar del jugador destacado" />
                         <!--<span class="endgame-hero-badge" id="endgameBadge">★</span>-->
-                        <img src="Assets/svgs&icons/trophy.png" class="endgame-hero-badge" id="endgameBadge"></img>
+                        <img src="Assets/svgs&icons/trophy.png" class="endgame-hero-badge" id="endgameBadge">
                     </div>
                     <p class="endgame-hero-name" id="endgameHeroName">Pato</p>
                     <p class="endgame-hero-place" id="endgameHeroPlace">1º lugar</p>
@@ -375,6 +378,8 @@
         console.log(token);
 
 
+
+
         if (!token) {
             window.location.href = 'login.html';
         }
@@ -385,9 +390,32 @@
                 'Authorization': `Bearer ${token}`
             };
 
+            let specialcard;
+
+            document.querySelector(".color-options").addEventListener("click", async function (e) {
+                console.log(e.target.dataset.color);
+                const response = await fetch('/api/sessions/blackcard/',
+                    {
+                        method: 'POST',
+                        headers,
+                        body: JSON.stringify({
+                            idcard: specialcard.parentElement.dataset.id ,
+                            color: e.target.dataset.color
+                        })
+                    });
+                if (response.ok) {
+                    currentCard.src = "/assets/cards/" + specialcard.parentElement.dataset.id + ".png";
+                    specialcard.parentElement.remove()
+                    closeColorPickerModal();
+
+                }
+            })
+
             const histotial = document.querySelector("#historial");
             const turnode = document.querySelector("#turnode");
+            const currentCard = document.getElementById("currentCard");
 
+            const turnlabel = document.querySelector(".turn-label");
 
             const handCardTemplate = document.getElementById("handCardTemplate");
 
@@ -397,27 +425,34 @@
 
 
             myCards.addEventListener("click", async function (e) {
-                if (e.target.tagName === "BUTTON") {
-                    if (e.target.dataset.color != "black") {
-                        console.log("Carta jugada:", e.target.dataset.id);
-                        const response = await fetch('/api/Sessions/PlayCard/' + e.target.dataset.id, {
+                if (e.target.tagName === "IMG") {
+                    console.log("xd");
+                    console.log(e.target.parentElement);
+
+                    console.log(e.target.parentElement.dataset.color);
+
+                    if (e.target.parentElement.dataset.color != "black") {
+                        console.log("ss");
+                        console.log("Carta jugada:", e.target.parentElement.dataset.id);
+                        const response = await fetch('/api/Sessions/PlayCard/' + e.target.parentElement.dataset.id, {
                             method: 'POST',
                             headers
 
                         });
+                        if (response.ok) {
+                            currentCard.src = "/Assets/Cards/" + e.target.parentElement.dataset.id + ".png";
+                            e.target.parentElement.remove()
+
+                        }
                     }
                     else {
-                        console.log("Carta especial jugada:", e.target.dataset.id);
-                        const color = prompt("Elige un color: red, blue, green, yellow");
-                        const response = await fetch('/api/Sessions/BlackCard/',
-                            {
-                                method: 'POST',
-                                headers,
-                                body: JSON.stringify({
-                                    IdCard: e.target.dataset.id,
-                                    Color: color
-                                })
-                            })
+                        specialcard = e.target;
+                        openColorPickerModal();
+
+
+                        console.log("Carta especial jugada:", e.target.parentElement.dataset.id);
+                       // const color = prompt("Elige un color: red, blue, green, yellow");
+                       
 
                     }
 
@@ -449,17 +484,19 @@
                     //    playersDiv.appendChild(clone);
                     //};
 
+                    turnlabel.textContent = Session.players.find(u => u.id === Session.idTurn).userName;
+
+
+
                     for (let j = 0; j < Session.myCards.length; j++) {
                         const clon = handCardTemplate.content.cloneNode(true);
-                        clon.querySelector(".")
-
-
-                        let card = document.createElement("button");
-                        card.textContent = Session.myCards[j].color + " " + Session.myCards[j].name;
+                        const card = clon.querySelector("div");
+                        //card.textContent = Session.myCards[j].color + " " + Session.myCards[j].name;
                         card.dataset.id = Session.myCards[j].id;
                         card.dataset.color = Session.myCards[j].color;
-
                         card.dataset.name = Session.myCards[j].name;
+
+                        card.firstElementChild.src = "/Assets/Cards/" + Session.myCards[j].id + ".png";
 
 
                         console.log("ss");
@@ -467,10 +504,8 @@
                         myCards.appendChild(card);
                     };
 
+                    currentCard.src = "/Assets/Cards/" + Session.lastCard.id + ".png";
 
-
-
-                    // window.location.href = 'index.html';
                 }
                 else {
                     window.location.href = 'index.html';
@@ -506,21 +541,70 @@
             connection.on("PlayerLeft", (player) => {
                 console.log(player);
             });
+
+
             connection.on("PlayerTakeCard", (carta) => {
                 console.log("jugador tomo carta:", carta);
                 //budvst el contador de cartas del jugador
-
-
+                turnlabel.textContent = Session.players.find(u => u.id === carta.idTurn).userName;
             });
             connection.on("YouTakeCard", (carta) => {
                 console.log("tomaste la carta:", carta);
 
+
+
+
+                const clon = handCardTemplate.content.cloneNode(true);
+                const card = clon.querySelector("div");
+                //card.textContent = Session.myCards[j].color + " " + Session.myCards[j].name;
+                card.dataset.id = carta.card.id;
+                card.dataset.color = carta.card.color;
+                card.dataset.name = carta.card.name;
+
+                card.firstElementChild.src = "/Assets/Cards/" + carta.card.id + ".png";
+                // currentCard.src = "/Assets/Cards/" + carta.card.id + ".png";
+
+                try {
+                    turnlabel.textContent = Session.players.find(u => u.id === carta.idTurn).userName;
+                } catch { };
+
+                turnlabel.textContent += " " + carta.color;
+
+
+                console.log("ss");
+                console.log(card);
+                myCards.appendChild(card);
+
+
             });
 
             connection.on("PlayerPlaceCard", (carta) => {
-                console.log("Carta jugada por otro jugador:", carta);
+
+                console.log("Carta jugada por otro jugador:", carta.card.id);
+                currentCard.src = "/Assets/Cards/" + carta.card.id + ".png"; 
+
+
+                try {
+                    turnlabel.textContent = Session.players.find(u => u.id === carta.idTurn).userName;
+                }
+                catch { };
+
+                turnlabel.textContent += " " + carta.card.color;
 
             });
+
+            connection.on("GameFinished", (ganador) => {
+
+                console.log("gganador", Session.players.find(u => u.id === ganador.id).userName);
+                // currentCard.src = "/Assets/Cards/" + carta.card.id + ".png";
+                testEndgameModal('win');
+
+                
+            });
+
+
+
+
         }
 
     </script>
@@ -528,3 +612,4 @@
     <script src="script.js"></script>
 </body>
 </html>
+

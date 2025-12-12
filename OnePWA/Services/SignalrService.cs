@@ -68,13 +68,17 @@ namespace OnePWA.Services
                 await Clients.Client(connId).SendAsync("YouTakeCard", dto);
         }
 
+        public async Task GameFinished(string targetUserId, GanadorDTO dto)
+        {
+            if (Users.TryGetValue(targetUserId, out var connId))
+                await Clients.Client(connId).SendAsync("GameFinished", dto);
+        }
+
 
 
 
         public async Task PlayerJoined(string targetUserId, IPlayerDTO dTO)
         {
-
-
 
             if (Users.TryGetValue(targetUserId, out var connId))
                 await Clients.Client(connId).SendAsync("PlayerJoined", dTO);
@@ -92,6 +96,8 @@ namespace OnePWA.Services
             if (Users.TryGetValue(targetUserId, out var connId))
                 await Clients.Client(connId).SendAsync("GameStarted");
         }
+
+
 
 
 
@@ -119,6 +125,10 @@ namespace OnePWA.Services
         {
             return Groups.AddToGroupAsync(Context.ConnectionId, groupName);
         }
+
+        //
+
+
 
     }
 }
