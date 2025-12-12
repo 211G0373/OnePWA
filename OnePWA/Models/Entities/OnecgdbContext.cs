@@ -18,6 +18,8 @@ public partial class OnecgdbContext : DbContext
 
     public virtual DbSet<Cards> Cards { get; set; }
 
+    public virtual DbSet<RefreshTokens> RefreshTokens { get; set; }
+
     public virtual DbSet<Users> Users { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -46,6 +48,39 @@ public partial class OnecgdbContext : DbContext
                 .HasMaxLength(45)
                 .HasColumnName("name");
             entity.Property(e => e.Special).HasColumnName("special");
+        });
+
+        modelBuilder.Entity<RefreshTokens>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("refresh_tokens");
+
+            entity.HasIndex(e => e.IdUsuario, "FK1_idusuario");
+
+            entity.Property(e => e.Id)
+                .ValueGeneratedNever()
+                .HasColumnType("int(11)")
+                .HasColumnName("id");
+            entity.Property(e => e.Creado)
+                .HasColumnType("datetime")
+                .HasColumnName("creado");
+            entity.Property(e => e.Expiracion)
+                .HasColumnType("datetime")
+                .HasColumnName("expiracion");
+            entity.Property(e => e.IdUsuario)
+                .HasColumnType("int(11)")
+                .HasColumnName("id_usuario");
+            entity.Property(e => e.Token)
+                .HasMaxLength(500)
+                .HasColumnName("token");
+            entity.Property(e => e.Usado)
+                .HasColumnType("tinyint(4)")
+                .HasColumnName("usado");
+
+            entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.RefreshTokens)
+                .HasForeignKey(d => d.IdUsuario)
+                .HasConstraintName("FK1_idusuario");
         });
 
         modelBuilder.Entity<Users>(entity =>
