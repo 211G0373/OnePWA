@@ -18,5 +18,79 @@
     <div class="spinner"></div>
 
     <script src="script.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+
+    <script>
+        const token = localStorage.getItem('jwtToken');
+        console.log(token);
+
+
+        if (!token) {
+            window.location.href = 'login.html';
+        }
+        else {
+            let Session;
+            const headers = {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            };
+
+
+
+
+            async function cargar() {
+                const response = await fetch('/api/Sessions/joinRandom', {
+                    method: 'POST',
+                    headers
+
+                });
+                if (response.ok) {
+
+
+                    window.location.href = 'crearpartida2.html';
+
+                }
+
+
+
+
+            }
+
+            cargar();
+
+
+
+            const connection = new signalR.HubConnectionBuilder()
+                .withUrl("/hubs/Signalr?access_token=" + token)
+                .configureLogging(signalR.LogLevel.Information)
+                .build();
+
+            connection.start()
+                .then(() => {
+                    console.log("✅ Conectado correctamente al servidor SignalR");
+                    //  document.body.innerHTML += "<p>✅ Conexión establecida</p>";
+                })
+                .catch(err => {
+                    console.error("❌ Error de conexión:", err);
+                    document.body.innerHTML += "<p>❌ Error de conexión: " + err + "</p>";
+                });
+
+
+            //connection.on("PlayerJoined", (player) => {
+            //    console.log(player);
+            //    Session.players.push(player);
+            //    const li = document.createElement("li");
+            //    li.textContent = player.userName;
+            //    document.getElementById("playerlist").appendChild(li);
+            //});
+            connection.on("PlayerLeft", (player) => {
+                console.log(player);
+            });
+        }
+
+    </script>
+
 </body>
 </html>

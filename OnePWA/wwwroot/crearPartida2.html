@@ -229,10 +229,12 @@
 
             connection.on("PlayerJoined", (player) => {
                 console.log(player);
-                Session.players.push(player);
-                const li = document.createElement("li");
-                li.textContent = player.userName;
-                document.getElementById("playerlist").appendChild(li);
+                const clon = playerTemplate.content.cloneNode(true);;
+                const root = clon.firstElementChild;
+
+                root.children[1].textContent = player.userName;
+
+                document.querySelector(".players-list").appendChild(root);
             });
             connection.on("PlayerLeft", (player) => {
                 console.log(player);
