@@ -216,27 +216,12 @@
 
         <!-- Mano del jugador principal -->
         <section class="player-hand" aria-label="Tus cartas">
-            <div class="hand-card hand-card-1">
-                <img src="Assets/Cards/Number Cards/Yellow/card0=yellow.png" alt="Carta amarilla" />
-            </div>
-            <div class="hand-card hand-card-2">
-                <img src="Assets/Cards/Number Cards/Purple/card0=blue.png" alt="Carta azul" />
-            </div>
-            <div class="hand-card hand-card-3">
-                <img src="Assets/Cards/Number Cards/Green/card0=green.png" alt="Carta verde" />
-            </div>
-            <div class="hand-card hand-card-4">
-                <img src="Assets/Cards/Number Cards/Red/card0=red.png" alt="Carta roja" />
-            </div>
-            <div class="hand-card hand-card-5">
-                <img src="Assets/Cards/Wild/wild-colors.png" alt="Carta comodín" />
-            </div>
-            <div class="hand-card hand-card-6">
-                <img src="Assets/Cards/Number Cards/Yellow/card0=yellow.png" alt="Carta amarilla" />
-            </div>
-            <div class="hand-card hand-card-7">
-                <img src="Assets/Cards/Number Cards/Red/card0=red.png" alt="Carta roja" />
-            </div>
+            <template id="handCardTemplate">
+                <div class="hand-card">
+                    <img src="Assets/Cards/Number Cards/Yellow/card0=yellow.png" alt="Carta amarilla" />
+                </div>
+            </template>
+            
         </section>
     </main>
 
@@ -379,6 +364,163 @@
             </div>
         </div>
     </div>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+    <script>
+        const token = localStorage.getItem('jwtToken');
+        console.log(token);
+
+
+        if (!token) {
+            window.location.href = 'login.html';
+        }
+        else {
+            let Session;
+            const headers = {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            };
+
+            const histotial = document.querySelector("#historial");
+            const turnode = document.querySelector("#turnode");
+
+
+            const handCardTemplate = document.getElementById("handCardTemplate");
+
+            const playersDiv = document.querySelector(".players");
+            const template = document.querySelector("template");
+            const myCards = document.querySelector(".player-hand");
+
+
+            myCards.addEventListener("click", async function (e) {
+                if (e.target.tagName === "BUTTON") {
+                    if (e.target.dataset.color != "black") {
+                        console.log("Carta jugada:", e.target.dataset.id);
+                        const response = await fetch('/api/Sessions/PlayCard/' + e.target.dataset.id, {
+                            method: 'POST',
+                            headers
+
+                        });
+                    }
+                    else {
+                        console.log("Carta especial jugada:", e.target.dataset.id);
+                        const color = prompt("Elige un color: red, blue, green, yellow");
+                        const response = await fetch('/api/Sessions/BlackCard/',
+                            {
+                                method: 'POST',
+                                headers,
+                                body: JSON.stringify({
+                                    IdCard: e.target.dataset.id,
+                                    Color: color
+                                })
+                            })
+
+                    }
+
+
+
+
+
+                }
+            });
+
+
+            async function cargar() {
+                const response = await fetch('/api/Sessions/Playing', {
+                    method: 'GET',
+                    headers
+
+                });
+                if (response.ok) {
+                    Session = await response.json();
+
+
+                    console.log('Sesión creada:', Session);
+
+                    //for (let i = 0; i < Session.players.length; i++) {
+                    //    let clone = template.content.cloneNode(true);
+                    //    // clone.data.id = Session.players[i].id;
+                    //    clone.querySelector(".name").textContent = Session.players[i].userName;
+                    //    clone.querySelector(".cardsCount").textContent = Session.players[i].cardsCount;
+                    //    playersDiv.appendChild(clone);
+                    //};
+
+                    for (let j = 0; j < Session.myCards.length; j++) {
+                        const clon = handCardTemplate.content.cloneNode(true);
+                        clon.querySelector(".")
+
+
+                        let card = document.createElement("button");
+                        card.textContent = Session.myCards[j].color + " " + Session.myCards[j].name;
+                        card.dataset.id = Session.myCards[j].id;
+                        card.dataset.color = Session.myCards[j].color;
+
+                        card.dataset.name = Session.myCards[j].name;
+
+
+                        console.log("ss");
+                        console.log(card);
+                        myCards.appendChild(card);
+                    };
+
+
+
+
+                    // window.location.href = 'index.html';
+                }
+                else {
+                    window.location.href = 'index.html';
+
+                }
+
+
+
+
+            }
+
+            cargar();
+
+
+
+
+
+            const connection = new signalR.HubConnectionBuilder()
+                .withUrl("/hubs/Signalr?access_token=" + token)
+                .configureLogging(signalR.LogLevel.Information)
+                .build();
+
+            connection.start()
+                .then(() => {
+                    console.log("✅ Conectado correctamente al servidor SignalR");
+                    //  document.body.innerHTML += "<p>✅ Conexión establecida</p>";
+                })
+                .catch(err => {
+                    console.error("❌ Error de conexión:", err);
+                    document.body.innerHTML += "<p>❌ Error de conexión: " + err + "</p>";
+                });
+
+            connection.on("PlayerLeft", (player) => {
+                console.log(player);
+            });
+            connection.on("PlayerTakeCard", (carta) => {
+                console.log("jugador tomo carta:", carta);
+                //budvst el contador de cartas del jugador
+
+
+            });
+            connection.on("YouTakeCard", (carta) => {
+                console.log("tomaste la carta:", carta);
+
+            });
+
+            connection.on("PlayerPlaceCard", (carta) => {
+                console.log("Carta jugada por otro jugador:", carta);
+
+            });
+        }
+
+    </script>
 
     <script src="script.js"></script>
 </body>
