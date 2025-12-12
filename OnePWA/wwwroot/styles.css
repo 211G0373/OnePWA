@@ -79,6 +79,7 @@
     }
 
     /* Tarjetas adicionales flotantes */
+
     .login-page .floating-card {
         position: absolute;
         border-radius: 12px;
@@ -386,6 +387,10 @@
     .login-page .floating-card {
         opacity: 0.08;
     }*/
+    
+    .login-page .container {
+        /*padding: 48px 40px;*/
+    }
 
     .welcome-title {
         font-size: 1.75rem;
@@ -937,7 +942,7 @@
 /* Contenedor principal de la tarjeta de configuración */
 .match-config-container {
     max-width: 400px;
-    background: #fff;
+    /*background: #fff;*/
     border-radius: 20px;
     padding: 30px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
@@ -1230,17 +1235,17 @@
         min-height: 100vh;
     }
 
-    .match-lobby-container {
-        width: 100%;
-        max-width: 1200px;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: clamp(20px, 4vw, 60px);
-        align-items: center;
-        position: relative;
-        z-index: 1;
-        /*margin-bottom: clamp(20px, 4vw, 40px);*/
-    }
+.match-lobby-container {
+    width: 100%;
+    max-width: 1200px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(20px, 4vw, 60px);
+    align-items: center;
+    position: relative;
+    z-index: 1;
+    /*margin-bottom: clamp(20px, 4vw, 40px);*/
+}
     /* -------------------------- QR SECTION -------------------------- */
 
     .qr-section {
@@ -1254,7 +1259,7 @@
     .qr-title {
         font-size: clamp(1.5rem, 4.5vw, 2.5rem);
         font-weight: 600;
-        color: #fff;
+        /*color: #fff;*/
         text-align: center;
         margin: 0;
     }
@@ -1414,6 +1419,7 @@
         display: flex;
         flex-direction: column;
         width: 100%;
+        max-height:300px;
     }
 
     .players-list {
