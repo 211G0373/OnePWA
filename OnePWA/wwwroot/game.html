@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ONE - Game</title>
     <link rel="stylesheet" href="styles.css" />
+    <style>
+        .player-slot{
+            display: none;
+        }
+    </style>
 </head>
 <body class="game-page">
 
@@ -23,7 +28,7 @@
     <main class="game-table" aria-label="Mesa de juego ONE">
         <!-- Slots de jugadores alrededor de la mesa (máx 8) -->
         <!-- Arriba izquierda -->
-        <section class="player-slot slot-top-left" aria-label="Jugador Patricia">
+        <!--<section class="player-slot slot-top-left" aria-label="Jugador Patricia">
             <div class="player-count-pill">
                 <img class="mini-card-back" src="Assets/Cards/card-backwards.png" alt="Cartas" />
                 <span class="player-cards-count">5</span>
@@ -44,34 +49,35 @@
                 </div>
             </div>
 
-        </section>
+        </section>-->
 
         <!-- Arriba centro -->
         <section class="player-slot slot-top-center" aria-label="Jugador Mirton">
-            <div class="player-count-pill">
-                <img class="mini-card-back" src="Assets/Cards/Wild/card-backwards.png" alt="Cartas" />
-                <span class="player-cards-count">4</span>
-            </div>
-            <div class="player-avatar">
-                <img src="Assets/avatars/3.jpg" alt="Mirton" />
-            </div>
-            <span class="player-name">Mirton</span>
-            <span class="host-badge-table">HOST</span>
-            <div class="player-timer">
-                <div class="timer-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <polyline points="12 6 12 12 16 14"></polyline>
-                    </svg>
+           
+                <div class="player-count-pill">
+                    <img class="mini-card-back" src="Assets/Cards/Wild/card-backwards.png" alt="Cartas" />
+                    <span class="player-cards-count">4</span>
                 </div>
-                <div class="timer-bar-container">
-                    <div class="timer-bar"></div>
+                <div class="player-avatar">
+                    <img src="Assets/avatars/5.jpg" alt="Lali" />
                 </div>
-            </div>
+                <span class="player-name">Lali</span>
+                <div class="player-timer">
+                    <div class="timer-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                    </div>
+                    <div class="timer-bar-container">
+                        <div class="timer-bar"></div>
+                    </div>
+                </div>
+           
         </section>
 
         <!-- Arriba derecha -->
-        <section class="player-slot slot-top-right" aria-label="Jugador Pedro">
+        <!--<section class="player-slot slot-top-right" aria-label="Jugador Pedro">
             <div class="player-count-pill">
                 <img class="mini-card-back" src="Assets/Cards/Wild/card-backwards.png" alt="Cartas" />
                 <span class="player-cards-count">3</span>
@@ -91,7 +97,7 @@
                     <div class="timer-bar"></div>
                 </div>
             </div>
-        </section>
+        </section>-->
 
         <!-- Mitad izquierda -->
         <section class="player-slot slot-middle-left" aria-label="Jugador Teo">
@@ -140,7 +146,7 @@
         </section>
 
         <!-- Abajo izquierda -->
-        <section class="player-slot slot-bottom-left" aria-label="Jugador Ikerto">
+        <!--<section class="player-slot slot-bottom-left" aria-label="Jugador Ikerto">
             <div class="player-count-pill">
                 <img class="mini-card-back" src="Assets/Cards/Wild/card-backwards.png" alt="Cartas" />
                 <span class="player-cards-count">9</span>
@@ -161,10 +167,10 @@
                     <div class="timer-bar"></div>
                 </div>
             </div>
-        </section>
+        </section>-->
 
         <!-- Abajo derecha -->
-        <section class="player-slot slot-bottom-right" aria-label="Jugador Veta">
+        <!--<section class="player-slot slot-bottom-right" aria-label="Jugador Veta">
             <div class="player-count-pill">
                 <img class="mini-card-back" src="Assets/Cards/Wild/card-backwards.png" alt="Cartas" />
                 <span class="player-cards-count">6</span>
@@ -185,15 +191,15 @@
                     <div class="timer-bar"></div>
                 </div>
             </div>
-        </section>
+        </section>-->
 
         <!-- Zona central con mazo, descartes y carta actual -->
         <section class="table-center" aria-label="Zona central de cartas">
             <!-- Mazo para robar -->
-            <div class="draw-pile">
+            <!--<div class="draw-pile">
                 <img class="card-base" src="Assets/Cards/Wild/card-backwards.png" alt="Mazo para robar" />
                 <span class="draw-count">80</span>
-            </div>
+            </div>-->
 
             <!-- Pila de descartes (stack) -->
             <!--<div class="discard-pile">
@@ -229,22 +235,22 @@
     </main>
 
     <!-- Botón ONE para cuando quede una carta -->
-    <button class="one-button" type="button">
+    <!--<button class="one-button" type="button">
         <span class="one-icon">
             <img src="Assets/svgs&icons/oneHand.svg" alt="ONE" />
         </span>
         <span class="one-text">¡ONE!</span>
-    </button>
+    </button>-->
 
     <!-- Botones temporales para probar modal (eliminar después) -->
-    <div style="position: fixed; top: 100px; left: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 9999;">
+    <!--<div style="position: fixed; top: 100px; left: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 9999;">
         <button onclick="testEndgameModal('win')" style="padding: 10px 16px; background: #4D40E3; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
             Ver Ganar
         </button>
         <button onclick="testEndgameModal('lose')" style="padding: 10px 16px; background: #ED2428; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
             Ver Perder
         </button>
-    </div>
+    </div>-->
 
 
     <!-- Modal Overlay -->
@@ -274,9 +280,9 @@
     </div>
 
     <!-- Botón para probar modal de comodín -->
-    <button class="color-picker-trigger" type="button" onclick="openColorPickerModal()">
+    <!--<button class="color-picker-trigger" type="button" onclick="openColorPickerModal()">
         Elegir color
-    </button>
+    </button>-->
 
     <!-- Modal selección de color para comodín -->
     <div class="modal-overlay" id="colorPickerModal" aria-hidden="true">
@@ -389,6 +395,28 @@
 
             let specialcard;
 
+            let players = document.querySelectorAll(".player-slot");
+
+
+            function obtenerDatosDelToken() {
+                console.log("d");
+
+                const token = localStorage.getItem('jwtToken');
+                console.log(token);
+                const payload = token.split('.')[1];
+                console.log(payload);
+
+
+                const decoded = JSON.parse(atob(payload));
+
+                console.log(decoded);
+                return decoded;
+            }
+
+            const datos = obtenerDatosDelToken();
+
+
+
             document.querySelector(".color-options").addEventListener("click", async function (e) {
                 console.log(e.target.dataset.color);
                 const response = await fetch('/api/sessions/blackcard/',
@@ -474,11 +502,16 @@
                     console.log('Sesión creada:', Session);
 
                     //for (let i = 0; i < Session.players.length; i++) {
-                    //    let clone = template.content.cloneNode(true);
+                    //    console.log(players);
+                    //    if (Session.players[i].id != datos.nameid) {
+                    //        players[i].querySelector(".player-name").textContent = Session.players[i].userName;
+                    //        players[i].style.display = "block";
+                    //    }
+                    //    //let clone = template.content.cloneNode(true);
                     //    // clone.data.id = Session.players[i].id;
-                    //    clone.querySelector(".name").textContent = Session.players[i].userName;
-                    //    clone.querySelector(".cardsCount").textContent = Session.players[i].cardsCount;
-                    //    playersDiv.appendChild(clone);
+                    //    //clone.querySelector(".name").textContent = Session.players[i].userName;
+                    //    //clone.querySelector(".cardsCount").textContent = Session.players[i].cardsCount;
+                    //    //playersDiv.appendChild(clone);
                     //};
 
                     console.log("XDDDD")
