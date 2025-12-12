@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OnePWA.Models.DTOs;
 using OnePWA.Models.Entities;
@@ -22,7 +23,8 @@ namespace OnePWA.Controllers.Api
             Context=context;
         }
 
-        [HttpPost]
+        [HttpPost("registrar")]
+        [AllowAnonymous]
         public IActionResult RegistrarUsuario(SignUpDTO dto)
         {
             service.SignUp(dto);
@@ -33,11 +35,45 @@ namespace OnePWA.Controllers.Api
         public IActionResult Login(LoginDTO dto)
         {
             var token = service.Login(dto);
-            if (token == string.Empty)
+            if (token.Item1 == string.Empty)
             {
                 return BadRequest("Correo electronico o contraseña incorrecta");
             }
-            return Ok(token);
+
+            HttpContext.Response.Cookies.Append("refreshtoken", token.Item2, new CookieOptions
+            {
+                HttpOnly = true
+            });
+            return Ok(token.Item1);
+        }
+
+        [HttpGet("renew")]
+        public IActionResult Renew()
+        {
+            var cookie = Request.Cookies["refreshtoken"]; 
+
+            if (cookie != null)
+            {
+                //Renovar token
+                var token = service.RenovarToken(cookie);
+
+                if (token.Item1 == string.Empty)
+                {
+                    return Unauthorized();
+                }
+                else
+                {
+                    HttpContext.Response.Cookies.Append("refreshtoken", token.Item2, new CookieOptions
+                    {
+                        HttpOnly = true,
+                    });
+
+                    return Ok(token.Item1);
+
+                }
+
+            }
+            return Ok();
         }
 
 

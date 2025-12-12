@@ -36,7 +36,8 @@
 .login-page {
     min-height: 100vh;
     min-height: 100dvh; /* dynamic viewport height para mobile */
-    background: linear-gradient(135deg, #7209b7 0%, #4361ee 50%, #4D40E3 100%);
+    /*background: linear-gradient(135deg, #7209b7 0%, #4361ee 50%, #4D40E3 100%);*/
+    background: linear-gradient(135deg, #7209B7 0%, #4361EE 100%);
     background-repeat: no-repeat;
     display: flex;
     flex-direction: column;
@@ -141,6 +142,43 @@
 
 /*-------------------------- END CARTAS FLOTANTES --------------------------------------------------- */
 
+/*-------------------------- CREATE MATCH FLOATING CARDS (extra dinamismo) --------------------------------------------------- */
+.create-match-page {
+    background: radial-gradient(circle at 10% 20%, rgba(255, 170, 0, 0.08), transparent 30%),
+                radial-gradient(circle at 85% 15%, rgba(77, 64, 227, 0.08), transparent 32%),
+                radial-gradient(circle at 50% 80%, rgba(101, 183, 76, 0.08), transparent 35%),
+                #fff;
+    position: relative;
+    overflow: hidden;
+}
+
+.create-match-page .floating-card {
+    position: absolute;
+    border-radius: 16px;
+    opacity: 0.25;
+    filter: drop-shadow(0 10px 16px rgba(0,0,0,0.15));
+    animation: drift 18s ease-in-out infinite;
+    mix-blend-mode: multiply;
+}
+
+.create-match-page .floating-card:nth-child(1) { width: 120px; height: 170px; background: #ED2428; top: 6%; left: 8%; animation-delay: 0s; --r: -12deg; }
+.create-match-page .floating-card:nth-child(2) { width: 110px; height: 150px; background: #4D40E3; top: 22%; left: 18%; animation-delay: -4s; --r: 10deg; }
+.create-match-page .floating-card:nth-child(3) { width: 95px; height: 140px; background: #65B74C; top: 12%; right: 18%; animation-delay: -7s; --r: -8deg; }
+.create-match-page .floating-card:nth-child(4) { width: 130px; height: 180px; background: #FFAA00; top: 30%; right: 6%; animation-delay: -10s; --r: 16deg; }
+.create-match-page .floating-card:nth-child(5) { width: 90px; height: 130px; background: rgba(77, 64, 227, 0.75); bottom: 14%; left: 10%; animation-delay: -3s; --r: -18deg; }
+.create-match-page .floating-card:nth-child(6) { width: 80px; height: 118px; background: rgba(101, 183, 76, 0.8); bottom: 22%; right: 16%; animation-delay: -9s; --r: 22deg; }
+.create-match-page .floating-card:nth-child(7) { width: 105px; height: 150px; background: rgba(237, 36, 40, 0.78); bottom: 8%; left: 28%; animation-delay: -6s; --r: 5deg; }
+.create-match-page .floating-card:nth-child(8) { width: 92px; height: 132px; background: rgba(255, 170, 0, 0.8); top: 52%; right: 28%; animation-delay: -11s; --r: -14deg; }
+.create-match-page .floating-card:nth-child(9) { width: 86px; height: 120px; background: rgba(77, 64, 227, 0.65); top: 64%; left: 6%; animation-delay: -13s; --r: 18deg; }
+.create-match-page .floating-card:nth-child(10){ width: 98px; height: 138px; background: rgba(101, 183, 76, 0.7); bottom: 30%; right: 40%; animation-delay: -15s; --r: -6deg; }
+
+@keyframes drift {
+    0%   { transform: translateY(0) translateX(0) rotate(var(--r, 0deg)); }
+    35%  { transform: translateY(-18px) translateX(6px) rotate(calc(var(--r, 0deg) + 6deg)); }
+    70%  { transform: translateY(14px) translateX(-6px) rotate(calc(var(--r, 0deg) - 8deg)); }
+    100% { transform: translateY(0) translateX(0) rotate(var(--r, 0deg)); }
+}
+
 /*--------------------------------------------- LOGIN STYLES  --------------------------------------------------- */
 
 .login-page .container {
@@ -176,6 +214,9 @@
     font-weight: 700;
     color: #000;
     margin-bottom: clamp(0.5rem, 2vw, 0.75rem);
+}
+.title-index{
+    font-size:2.5rem;
 }
 
 .welcome-subtitle {
@@ -224,9 +265,9 @@
     font-size: 1.2em;
 }
 
-    .password-toggle:hover {
+    /*.password-toggle:hover {
         color: #000;
-    }
+    }*/
 
 .options-row {
     display: flex;
@@ -280,9 +321,9 @@
     font-size: 14px;
 }
 
-    .forgot-password:hover {
+    /*.forgot-password:hover {
         text-decoration: underline;
-    }
+    }*/
 
 .login-button {
     width: 100%;
@@ -395,7 +436,7 @@
 
 /* ---------------------------------------------------INDEX PAGE STYLES --------------------------------------------------- */
 .index-page {
-    background: white;
+    /*background: white;*/
     min-height: 100vh;
     display: flex;
     flex-direction: column;
@@ -414,11 +455,17 @@
         flex-direction: column;
         align-items: center;
         gap: 24px;
+        box-shadow:none;
+        background:none;
     }
 
 .index-page .logo-index {
     width: clamp(200px, 60vw, 240px);
     height: auto;
+    margin-bottom:1em;
+}
+.index-page .welcome-title, .index-page .welcome-subtitle {
+    color:white;
 }
 
 .main-btns {
@@ -472,8 +519,8 @@
 }
 
 .main-btns a:nth-child(2) .main-btn {
-    background-color: var(--secondary-color-blue);
-    box-shadow: 0 10px 0 #3028a3, 0 12px 24px rgba(0, 0, 0, 0.25);
+    background-color: var(--color-yellow-mustard);
+    box-shadow: 0 10px 0 #CD9527, 0 12px 24px rgba(0, 0, 0, 0.25);
 }
 
 .main-btns a:nth-child(3) .main-btn {
@@ -481,10 +528,10 @@
     box-shadow: 0 10px 0 #428938, 0 12px 24px rgba(0, 0, 0, 0.25);
 }
 
-.main-btns .main-btn:hover {
+/*.main-btns .main-btn:hover {
     transform: translateY(-2px);
     box-shadow: 0 14px 0 rgba(0, 0, 0, 0.2), 0 18px 28px rgba(0, 0, 0, 0.3);
-}
+}*/
 
 .main-btns a:nth-child(1) .main-btn:active {
     transform: translateY(6px);
@@ -511,7 +558,7 @@
     width: 45px;
     height: 45px;
     border-radius: 50%;
-    background-color: var(--secondary-color-blue);
+    background-color: var(--color-yellow-mustard);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -521,9 +568,9 @@
     z-index: 10;
 }
 
-    .user-icon-container:hover {
+    /*.user-icon-container:hover {
         transform: scale(1.05);
-    }
+    }*/
 
 .user-icon {
     width: 60%;
@@ -532,12 +579,12 @@
 
 /* -------------------------- DESTELLOS FONDO INDEX -------------------------- */
 
-.floating-card-index {
+/*.floating-card-index {
     position: absolute;
     width: 32px;
     height: 32px;
-    transform: translateZ(0); /* evita parpadeos */
-    opacity: 1;
+    transform: translateZ(0);*/ /* evita parpadeos */
+    /*opacity: 1;
     animation: sparkleFloat 12s infinite ease-in-out;
     pointer-events: none;
     z-index: 0;
@@ -707,7 +754,7 @@
         transform: translateY(0) scale(1);
         opacity: 0.9;
     }
-}
+}*/
 
 /* --------------------------------------------------- PROFILE PAGE STYLES --------------------------------------------------- */
 
@@ -777,9 +824,9 @@
     transition: transform 0.2s ease;
 }
 
-    .edit-avatar-btn:hover {
+    /*.edit-avatar-btn:hover {
         transform: translateY(-2px);
-    }
+    }*/
 
     .edit-avatar-btn img {
         width: 70%;
@@ -851,10 +898,10 @@
         box-shadow: none;
     }
 
-        .profile-actions .login-button:hover,
+        /*.profile-actions .login-button:hover,
         .profile-actions .login-button:focus {
             box-shadow: none;
-        }
+        }*/
 
 .profile-primary-btn {
     background: linear-gradient(135deg, #7c4dff 0%, var(--secondary-color-blue) 100%);
@@ -924,6 +971,9 @@
     background-color: #f7f7f7;*/ /* Un fondo muy claro para contraste */
     /*position: relative;
 }*/
+.create-match-page{
+    background:white;
+}
 
 /* Título de la página */
 .page-title {
@@ -935,12 +985,14 @@
 }
 
 /* Contenedor principal de la tarjeta de configuración */
-.match-config-container {
+.create-match-page .match-config-container {
     max-width: 400px;
     background: #fff;
     border-radius: 20px;
     padding: 30px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    /*box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;*/
+    /*box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);*/
+    box-shadow: rgba(67, 71, 85, 0.27) 0px 0px 0.25em, rgba(90, 125, 188, 0.05) 0px 0.25em 1em;
     display: flex;
     flex-direction: column;
     gap: 25px;
@@ -1868,7 +1920,7 @@
     transform-origin: center bottom;
     filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.7));
     position: relative;
-    width: clamp(78px, 10vw, 118px);
+    width: clamp(78px, 10vw, 100px);
     height: auto;
     display: inline-block;
     margin-right: -55px;

@@ -16,4 +16,6 @@ public partial class Users
     public string Password { get; set; } = null!;
 
     public string ProfilePictures { get; set; } = null!;
+
+    public virtual ICollection<RefreshTokens> RefreshTokens { get; set; } = new List<RefreshTokens>();
 }
