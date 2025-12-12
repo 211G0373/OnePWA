@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using OnePWA.Models.DTOs;
 using OnePWA.Models.Entities;
@@ -22,7 +23,8 @@ namespace OnePWA.Controllers.Api
             Context=context;
         }
 
-        [HttpPost]
+        [HttpPost("registrar")]
+        [AllowAnonymous]
         public IActionResult RegistrarUsuario(SignUpDTO dto)
         {
             service.SignUp(dto);
