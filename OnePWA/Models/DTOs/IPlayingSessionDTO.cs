@@ -6,6 +6,7 @@
         int PlayerCount { get; set; }
         string LastColor { get; set; }
         CardDTO LastCard { get; set; }
+        bool Reverse { get; set; }
         int IdTurn { get; set; }
         IEnumerable<IPlayerDTO> Players { get; set; }
         List<CardDTO> MyCards { get; set; }

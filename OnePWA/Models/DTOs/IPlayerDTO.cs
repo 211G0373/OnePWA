@@ -6,5 +6,8 @@
         string UserName { get; set; }
         int CardsCount { get; set; }
 
+       string FotoPerfil { get; set; }
+
+
     }
 }

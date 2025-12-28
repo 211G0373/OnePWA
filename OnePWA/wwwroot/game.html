@@ -2,16 +2,232 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+
     <title>ONE - Game</title>
     <link rel="stylesheet" href="styles.css" />
     <style>
-        .player-slot{
-            display: none;
+        .player-slot {
+            position: relative;
+        }
+
+        .game-page {
+            height: 100%;
+            backdrop-filter: grayscale();
+        }
+
+        .pruebadiv {
+            background: #55555555;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+        }
+
+        .side-players-left, .side-players-right, .center-player {
+            padding-top: 10%;
+            width: 33.3333%;
+        }
+
+            .side-players-left > :nth-child(2) {
+                margin-right: 30%;
+                margin-left: 0%;
+            }
+
+            .side-players-right > :nth-child(2) {
+                margin-right: 0%;
+                margin-left: 30%;
+            }
+
+        .side-players .player-slot {
+        }
+
+        .side-players-left, .side-players-right {
+            padding-bottom: 100px;
+            display: flex;
+            flex-direction: column;
+            /*background: #00333333;*/
+
+            align-content: space-between;
+            justify-content: space-around;
+        }
+
+        .arrows {
+            position: absolute;
+            display: flex;
+            /*background: red;*/
+            width: 100%;
+            height: 100%;
+            left: 0px;
+            top: 0px;
+            align-content: center;
+            justify-items: center;
+            justify-content: center;
+            align-items: center;
+            opacity: 0.7;
+        }
+
+        #Capa_1 {
+            opacity: 1;
+            width: 100%;
+            max-width: 100dvh;
+            margin: 0px;
+            padding: 0px;
+            animation: girar 10s linear infinite;
+            transform-origin: center center;
+        }
+
+        .reverse #Capa_1 {
+            animation: girar-reverse 10s linear infinite;
+        }
+
+        @keyframes girar {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes girar-reverse {
+            from {
+                transform: rotate(360deg) scaleX(-1);
+            }
+
+            to {
+                transform: rotate(0deg) scaleX(-1);
+            }
+        }
+
+        .turn-label {
+            white-space: pre-line;
+        }
+
+        .left {
+            filter: grayscale();
         }
     </style>
 </head>
 <body class="game-page">
+
+    <div id="arrows" class="arrows">
+        <?xml version="1.0" encoding="iso-8859-1" ?>
+        <svg version="1.1" id="Capa_1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+            viewBox="0 0 79.536 79.536"
+             xml:space="preserve">
+<g>
+        <path style="fill:white;" d="M19.545,25.655l-7.104-4.969c5.631-8.055,14.507-13.129,24.172-14.051V0.008L55.323,10.81
+		L36.607,21.611v-6.289C29.774,16.208,23.548,19.928,19.545,25.655z M15.31,42.935h6.299L10.802,24.218L0,42.935h6.628
+		c0.922,9.662,5.997,18.537,14.051,24.177l4.963-7.11C19.915,55.993,16.2,49.765,15.31,42.935z M42.938,64.217v-6.292L24.226,68.727
+		l18.711,10.802V72.9c9.651-0.927,18.517-5.996,24.15-14.038l-7.094-4.971C55.986,59.613,49.752,63.326,42.938,64.217z
+		 M72.908,36.604c-0.933-9.655-6.007-18.52-14.054-24.169l-4.971,7.102c5.727,4.013,9.445,10.245,10.336,17.067h-6.292L68.729,55.32
+		l10.807-18.716H72.908z" />
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+</svg>
+    </div>
+    
+
+
+    <div class="pruebadiv">
+        <div class="side-players-left">
+
+
+            <template id="playerTemplate">
+                <section class="player-slot" aria-label="Jugador Pedro">
+                    <div class="player-count-pill">
+                        <img class="mini-card-back" src="Assets/Cards/Wild/card-backwards.png" alt="Cartas" />
+                        <span class="player-cards-count">3</span>
+                    </div>
+                    <div class="player-avatar ">
+                        <img id="avatar" src="Assets/avatars/4.jpg" alt="Pedro" />
+                    </div>
+                    <span class="player-name">Pedro</span>
+                    <!--<div class="player-timer">
+                        <div class="timer-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                        </div>
+                        <div class="timer-bar-container">
+                            <div class="timer-bar"></div>
+                        </div>
+                    </div>-->
+                </section>
+            </template>
+
+           
+
+
+
+        </div>
+        <div class="center-player">
+
+
+            <!--<section class="player-slot" aria-label="Jugador Pedro">
+                <div class="player-count-pill">
+                    <img class="mini-card-back" src="Assets/Cards/Wild/card-backwards.png" alt="Cartas" />
+                    <span class="player-cards-count">3</span>
+                </div>
+                <div class="player-avatar current-turn">
+                    <img src="Assets/avatars/4.jpg" alt="Pedro" />
+                </div>
+                <span class="player-name">Pedro</span>
+                <div class="player-timer">
+                    <div class="timer-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                    </div>
+                    <div class="timer-bar-container">
+                        <div class="timer-bar"></div>
+                    </div>
+                </div>
+            </section>-->
+
+        </div>
+        <div class="side-players-right">
+
+
+
+        </div>
+
+    </div>
 
     <!-- HEADER: Logo ONE y botón salir -->
     <header class="game-header">
@@ -50,32 +266,7 @@
             </div>
 
         </section>-->
-
         <!-- Arriba centro -->
-        <section class="player-slot slot-top-center" aria-label="Jugador Mirton">
-           
-                <div class="player-count-pill">
-                    <img class="mini-card-back" src="Assets/Cards/Wild/card-backwards.png" alt="Cartas" />
-                    <span class="player-cards-count">4</span>
-                </div>
-                <div class="player-avatar">
-                    <img src="Assets/avatars/5.jpg" alt="Lali" />
-                </div>
-                <span class="player-name">Lali</span>
-                <div class="player-timer">
-                    <div class="timer-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <polyline points="12 6 12 12 16 14"></polyline>
-                        </svg>
-                    </div>
-                    <div class="timer-bar-container">
-                        <div class="timer-bar"></div>
-                    </div>
-                </div>
-           
-        </section>
-
         <!-- Arriba derecha -->
         <!--<section class="player-slot slot-top-right" aria-label="Jugador Pedro">
             <div class="player-count-pill">
@@ -98,9 +289,8 @@
                 </div>
             </div>
         </section>-->
-
         <!-- Mitad izquierda -->
-        <section class="player-slot slot-middle-left" aria-label="Jugador Teo">
+        <!--<section class="player-slot slot-middle-left" aria-label="Jugador Teo">
             <div class="player-count-pill">
                 <img class="mini-card-back" src="Assets/Cards/Wild/card-backwards.png" alt="Cartas" />
                 <span class="player-cards-count">3</span>
@@ -120,10 +310,9 @@
                     <div class="timer-bar"></div>
                 </div>
             </div>
-        </section>
-
+        </section>-->
         <!-- Mitad derecha -->
-        <section class="player-slot slot-middle-right" aria-label="Jugador Lali">
+        <!--<section class="player-slot slot-middle-right" aria-label="Jugador Lali">
             <div class="player-count-pill">
                 <img class="mini-card-back" src="Assets/Cards/Wild/card-backwards.png" alt="Cartas" />
                 <span class="player-cards-count">4</span>
@@ -143,8 +332,7 @@
                     <div class="timer-bar"></div>
                 </div>
             </div>
-        </section>
-
+        </section>-->
         <!-- Abajo izquierda -->
         <!--<section class="player-slot slot-bottom-left" aria-label="Jugador Ikerto">
             <div class="player-count-pill">
@@ -168,7 +356,6 @@
                 </div>
             </div>
         </section>-->
-
         <!-- Abajo derecha -->
         <!--<section class="player-slot slot-bottom-right" aria-label="Jugador Veta">
             <div class="player-count-pill">
@@ -192,23 +379,22 @@
                 </div>
             </div>
         </section>-->
-
         <!-- Zona central con mazo, descartes y carta actual -->
         <section class="table-center" aria-label="Zona central de cartas">
             <!-- Mazo para robar -->
-            <!--<div class="draw-pile">
+            <div class="draw-pile">
                 <img class="card-base" src="Assets/Cards/Wild/card-backwards.png" alt="Mazo para robar" />
                 <span class="draw-count">80</span>
-            </div>-->
+            </div>
 
             <!-- Pila de descartes (stack) -->
             <!--<div class="discard-pile">
-        <div class="stacked-cards">
-            <img class="card stacked-card stacked-1" src="Assets/Cards/Normal/Green/card0=green.png" alt="Carta verde" />
-            <img class="card stacked-card stacked-2" src="Assets/Cards/Normal/Blue/card0=blue.png" alt="Carta azul" />
-            <img class="card stacked-card top-card" src="Assets/Cards/Normal/Green/card0=green.png" alt="Carta verde 3" />
-        </div>
-    </div>-->
+                <div class="stacked-cards">
+                    <img class="card stacked-card stacked-1" src="Assets/Cards/Normal/Green/card0=green.png" alt="Carta verde" />
+                    <img class="card stacked-card stacked-2" src="Assets/Cards/Normal/Blue/card0=blue.png" alt="Carta azul" />
+                    <img class="card stacked-card top-card" src="Assets/Cards/Normal/Green/card0=green.png" alt="Carta verde 3" />
+                </div>
+            </div>-->
             <!-- Carta actual grande -->
             <div class="current-card">
                 <img id="currentCard" class="card current" src="Assets/Cards/Number Cards/Red/card0=red.png" alt="Carta roja actual" />
@@ -219,7 +405,7 @@
                 <span class="turn-label">Turno de Pedro</span>
             </div>
 
-            
+
 
         </section>
 
@@ -230,7 +416,7 @@
                     <img src="Assets/Cards/Number Cards/Yellow/card0=yellow.png" alt="Carta amarilla" />
                 </div>
             </template>
-            
+
         </section>
     </main>
 
@@ -241,7 +427,6 @@
         </span>
         <span class="one-text">¡ONE!</span>
     </button>-->
-
     <!-- Botones temporales para probar modal (eliminar después) -->
     <!--<div style="position: fixed; top: 100px; left: 20px; display: flex; flex-direction: column; gap: 10px; z-index: 9999;">
         <button onclick="testEndgameModal('win')" style="padding: 10px 16px; background: #4D40E3; color: white; border: none; border-radius: 8px; font-weight: 600; cursor: pointer;">
@@ -251,8 +436,6 @@
             Ver Perder
         </button>
     </div>-->
-
-
     <!-- Modal Overlay -->
     <div class="modal-overlay" id="logoutModal" onclick="closeModalOnOverlay(event)">
         <div class="generic-modal">
@@ -283,7 +466,6 @@
     <!--<button class="color-picker-trigger" type="button" onclick="openColorPickerModal()">
         Elegir color
     </button>-->
-
     <!-- Modal selección de color para comodín -->
     <div class="modal-overlay" id="colorPickerModal" aria-hidden="true">
         <div class="generic-modal color-picker-card">
@@ -300,16 +482,16 @@
             </div>
 
             <div class="color-options">
-                <button class="color-option color-red"  data-color="red" aria-label="Rojo">
+                <button class="color-option color-red" data-color="red" aria-label="Rojo">
                     <span>Rojo</span>
                 </button>
                 <button class="color-option color-blue" data-color="blue" aria-label="Azul">
                     <span>Azul</span>
                 </button>
-                <button class="color-option color-green" data-color="green" aria-label="Verde" >
+                <button class="color-option color-green" data-color="green" aria-label="Verde">
                     <span>Verde</span>
                 </button>
-                <button class="color-option color-yellow" data-color="yellow" aria-label="Amarillo" >
+                <button class="color-option color-yellow" data-color="yellow" aria-label="Amarillo">
                     <span>Amarillo</span>
                 </button>
             </div>
@@ -349,22 +531,7 @@
                     </div>
                     <span class="endgame-row-cards">Sin cartas</span>
                 </div>
-                <div class="endgame-row">
-                    <div class="endgame-row-left">
-                        <span class="endgame-position">2</span>
-                        <img class="endgame-row-avatar" src="Assets/avatars/1.jpg" alt="Teo" />
-                        <span class="endgame-row-name">Teo</span>
-                    </div>
-                    <span class="endgame-row-cards">Con 2 cartas</span>
-                </div>
-                <div class="endgame-row">
-                    <div class="endgame-row-left">
-                        <span class="endgame-position">3</span>
-                        <img class="endgame-row-avatar" src="Assets/avatars/5.jpg" alt="Lali" />
-                        <span class="endgame-row-name">Lali</span>
-                    </div>
-                    <span class="endgame-row-cards">Con 3 cartas</span>
-                </div>
+               
             </div>
 
             <div class="endgame-actions profile-actions">
@@ -395,7 +562,7 @@
 
             let specialcard;
 
-            let players = document.querySelectorAll(".player-slot");
+            
 
 
             function obtenerDatosDelToken() {
@@ -413,6 +580,7 @@
                 return decoded;
             }
 
+
             const datos = obtenerDatosDelToken();
 
 
@@ -424,7 +592,7 @@
                         method: 'POST',
                         headers,
                         body: JSON.stringify({
-                            idcard: specialcard.parentElement.dataset.id ,
+                            idcard: specialcard.parentElement.dataset.id,
                             color: e.target.dataset.color
                         })
                     });
@@ -445,8 +613,18 @@
             const handCardTemplate = document.getElementById("handCardTemplate");
 
             const playersDiv = document.querySelector(".players");
-            const template = document.querySelector("template");
+
+
+            //const template = document.querySelector("template");
             const myCards = document.querySelector(".player-hand");
+
+            const playerTemplate = document.getElementById("playerTemplate");
+            const leftPlayers = document.querySelector(".side-players-left");
+            const rightPlayers = document.querySelector(".side-players-right");
+            const centerPlayer = document.querySelector(".center-player");
+            const arrows = document.querySelector("#arrows");
+            
+            
 
 
             myCards.addEventListener("click", async function (e) {
@@ -476,8 +654,8 @@
 
 
                         console.log("Carta especial jugada:", e.target.parentElement.dataset.id);
-                       // const color = prompt("Elige un color: red, blue, green, yellow");
-                       
+                        // const color = prompt("Elige un color: red, blue, green, yellow");
+
 
                     }
 
@@ -501,19 +679,121 @@
 
                     console.log('Sesión creada:', Session);
 
-                    //for (let i = 0; i < Session.players.length; i++) {
-                    //    console.log(players);
-                    //    if (Session.players[i].id != datos.nameid) {
-                    //        players[i].querySelector(".player-name").textContent = Session.players[i].userName;
-                    //        players[i].style.display = "block";
-                    //    }
+                    //let indice = 0;
+
+                    let sideleftplayers;
+                    let centerplayer=0;
+
+                    if (Session.playerCount % 2 == 0) {
+                        centerplayer = 1;
+                    }
+
+                    sideleftplayers = Math.floor((Session.playerCount - 1-centerplayer)/2);
+                    console.log(sideleftplayers + "sdsdsd" + centerplayer);
+                    
+                    let indice =  Session.players.findIndex(x => x.id == datos.nameid);
+                    let plrys = [];
+
+                    console.log(indice);
+
+                    for (let i = indice; i < Session.players.length; i++) {
+                        console.log("ja");
+                        plrys.push(Session.players[i]);
+                    };
+                    for (let i = 0; i < indice; i++) {
+                        console.log("JA");
+                        plrys.push(Session.players[i]);
+                    };
+                    console.log(plrys);
+
+                    arrows.style.backgroundColor = Session.lastColor;
+
+                    if (Session.reverse) {
+                        if (!arrows.classList.contains("reverse")) {
+                            arrows.classList.add("reverse");
+                        }
+                    } else {
+                        arrows.classList.remove("reverse");
+                    }
+
+                    let indiceJugadorRecorrido = 1;
+
+                    for (let i = indiceJugadorRecorrido; i < (indiceJugadorRecorrido+sideleftplayers); i++) {
+                        const card = playerTemplate.content.firstElementChild.cloneNode(true);
+                        card.querySelector("#avatar").src = "Assets/avatars/" + plrys[i].fotoPerfil;
+                        card.querySelector(".player-cards-count").textContent = plrys[i].cardsCount;
+                        card.dataset.id = plrys[i].id;
+
+
+                        console.log("left");
+
+                        card.querySelector(".player-name").textContent = plrys[i].userName;
+
+
+
+
+                        console.log("ss");
+                        console.log(card);
+                        leftPlayers.appendChild(card);
+                       
+                    }
+                    indiceJugadorRecorrido += sideleftplayers;
+                    for (let i = indiceJugadorRecorrido; i < indiceJugadorRecorrido + centerplayer; i++) {
+                        const card = playerTemplate.content.firstElementChild.cloneNode(true);
+                        //const card = clon.querySelector("div");
+                        //card.textContent = Session.myCards[j].color + " " + Session.myCards[j].name;
+                        card.querySelector(".player-name").textContent = plrys[i].userName;
+                        
+                        card.querySelector("#avatar").src = "Assets/avatars/" + plrys[i].fotoPerfil;
+                        card.querySelector(".player-cards-count").textContent = plrys[i].cardsCount;
+                        card.dataset.id = plrys[i].id;
+
+
+
+                        
+
+
+
+                        console.log("ss");
+                        console.log(card);
+                        centerPlayer.appendChild(card);
+                    }
+                    indiceJugadorRecorrido += centerplayer;
+
+                    for (let i = indiceJugadorRecorrido; i < indiceJugadorRecorrido + sideleftplayers; i++) {
+                        const card = playerTemplate.content.firstElementChild.cloneNode(true);
+                        //const card = clon.querySelector("div");
+                        //card.textContent = Session.myCards[j].color + " " + Session.myCards[j].name;
+                        card.querySelector(".player-name").textContent = plrys[i].userName;
+                        card.querySelector("#avatar").src = "Assets/avatars/" + plrys[i].fotoPerfil;
+
+                        card.querySelector(".player-cards-count").textContent = plrys[i].cardsCount;
+                        card.dataset.id = plrys[i].id;
+
+
+
+
+
+
+
+                        console.log("ss");
+                        console.log(card);
+                        rightPlayers.appendChild(card);
+                    }
+
+
+                    //console.log(players);
+
+                    //if (Session.players[i].id != datos.nameid) {
+                    //    players[i].querySelector(".player-name").textContent = Session.players[i].userName;
+                    //    players[i].style.display = "block";
+                    //}
                     //    //let clone = template.content.cloneNode(true);
-                    //    // clone.data.id = Session.players[i].id;
+                    //    //console.log("sdsds");
+                    //    //// clone.dataset.id = "j";
                     //    //clone.querySelector(".name").textContent = Session.players[i].userName;
                     //    //clone.querySelector(".cardsCount").textContent = Session.players[i].cardsCount;
                     //    //playersDiv.appendChild(clone);
-                    //};
-
                     console.log("XDDDD")
 
 
@@ -527,8 +807,8 @@
 
                     for (let j = 0; j < Session.myCards.length; j++) {
                         console.log("XDDDD")
-                        const clon = handCardTemplate.content.cloneNode(true);
-                        const card = clon.querySelector("div");
+                        const card = handCardTemplate.content.firstElementChild.cloneNode(true);
+                    //  = clon.querySelector("div");
                         //card.textContent = Session.myCards[j].color + " " + Session.myCards[j].name;
                         card.dataset.id = Session.myCards[j].id;
                         card.dataset.color = Session.myCards[j].color;
@@ -541,6 +821,10 @@
                         console.log(card);
                         myCards.appendChild(card);
                     };
+                    if (Session.idTurn != datos.nameid) {
+                        document.querySelector('[data-id="' + Session.idTurn + '"]').querySelector(".player-avatar").classList.add("current-turn");
+
+                    }
 
                     currentCard.src = "/Assets/Cards/" + Session.lastCard.id + ".png";
 
@@ -576,21 +860,63 @@
                     document.body.innerHTML += "<p>❌ Error de conexión: " + err + "</p>";
                 });
 
-            connection.on("PlayerLeft", (player) => {
-                console.log(player);
+            connection.on("PlayerLeft", (carta) => {
+                turnlabel.textContent = Session.players.find(u => u.id === carta.idPlayer).userName + " Abandono la partida";
+               
+
+                if (carta.idPlayer != datos.nameid) {
+                    const el = document.querySelector('[data-id="' + carta.idPlayer + '"]');
+                    el.classList.add("left");
+                    document.querySelector('[data-id="' + carta.idPlayer + '"]').querySelector(".player-avatar").classList.remove("current-turn");
+                }
+
+
+                try {
+                    let turn = Session.players.find(u => u.id === carta.idTurn);
+                    if (turn.id == datos.nameid) {
+                        turnlabel.textContent += "\nEs tu turno"
+                    }
+                    else {
+                        turnlabel.textContent += "\nEs turno de " + Session.players.find(u => u.id === carta.idTurn).userName; 
+                        //current-turn
+                        document.querySelector('[data-id="' + carta.idPlayer + '"]').querySelector(".player-avatar").classList.remove("current-turn");
+                    }
+                } catch { };
+
+                
+
+
             });
 
 
             connection.on("PlayerTakeCard", (carta) => {
                 console.log("jugador tomo carta:", carta);
                 //budvst el contador de cartas del jugador
-                turnlabel.textContent = Session.players.find(u => u.id === carta.idTurn).userName;
+
+                let p = Session.players.find(u => u.id === carta.idPlayer);
+                p.cardsCount++;
+                document.querySelector('[data-id="' + carta.idPlayer + '"]').querySelector(".player-cards-count").textContent = p.cardsCount;
+                turnlabel.textContent = p.userName + " tomo una carta";
+
+
+                try {
+                    let turn = Session.players.find(u => u.id === carta.idTurn);
+                    if (turn.id == datos.nameid) {
+                        turnlabel.textContent += "\nEs tu turno"
+                    }
+                    else {
+                        turnlabel.textContent += "\nEs turno de " + Session.players.find(u => u.id === carta.idTurn).userName;
+                    }
+                } catch { };
+
+
             });
             connection.on("YouTakeCard", (carta) => {
                 console.log("tomaste la carta:", carta);
 
 
-
+                let p = Session.players.find(u => u.id == datos.nameid);
+                p.cardsCount++;
 
                 const clon = handCardTemplate.content.cloneNode(true);
                 const card = clon.querySelector("div");
@@ -601,12 +927,20 @@
 
                 card.firstElementChild.src = "/Assets/Cards/" + carta.card.id + ".png";
                 // currentCard.src = "/Assets/Cards/" + carta.card.id + ".png";
+                //datos.nameid
+
+                turnlabel.textContent = "Tomaste una carta";
 
                 try {
-                    turnlabel.textContent = Session.players.find(u => u.id === carta.idTurn).userName;
+                    let turn =  Session.players.find(u => u.id === carta.idTurn);
+                    if (turn.id == datos.nameid) {
+                        turnlabel.textContent += "\nEs tu turno"
+                    }
+                    else {
+                        turnlabel.textContent += "\nEs turno de "+ Session.players.find(u => u.id === carta.idTurn).userName;
+                    }
                 } catch { };
 
-                turnlabel.textContent += " " + carta.color;
 
 
                 console.log("ss");
@@ -619,25 +953,63 @@
             connection.on("PlayerPlaceCard", (carta) => {
 
                 console.log("Carta jugada por otro jugador:", carta.card.id);
-                currentCard.src = "/Assets/Cards/" + carta.card.id + ".png"; 
+                currentCard.src = "/Assets/Cards/" + carta.card.id + ".png";
+                arrows.style.backgroundColor = carta.card.color;
 
+
+                let p = Session.players.find(u => u.id === carta.idPlayer);
+                p.cardsCount--;
+
+
+                turnlabel.textContent = p.userName + " coloco una carta";
+                if (carta.idPlayer != datos.nameid) {
+                    document.querySelector('[data-id="' + carta.idPlayer + '"]').querySelector(".player-cards-count").textContent = p.cardsCount;
+
+                }
 
                 try {
-                    turnlabel.textContent = Session.players.find(u => u.id === carta.idTurn).userName;
-                }
-                catch { };
+                    let turn = Session.players.find(u => u.id === carta.idTurn);
+                    if (turn.id == datos.nameid) {
 
-                turnlabel.textContent += " " + carta.card.color;
+
+
+                        turnlabel.textContent += "\nEs tu turno"
+                    }
+                    else {
+
+
+
+                        turnlabel.textContent += "\nEs turno de " + Session.players.find(u => u.id === carta.idTurn).userName;
+                    }
+                } catch { };
+
+
+
+
+
+
+
+
+                if (carta.reverse) {
+                    if (!arrows.classList.contains("reverse")) {
+                        arrows.classList.add("reverse");
+                    }
+                } else {
+                    arrows.classList.remove("reverse");
+                }
+
+               
 
             });
 
             connection.on("GameFinished", (ganador) => {
 
-                console.log("gganador", Session.players.find(u => u.id === ganador.id).userName);
+                //console.log("gganador", Session.players.find(u => u.id === ganador.id).userName);
                 // currentCard.src = "/Assets/Cards/" + carta.card.id + ".png";
+                
                 testEndgameModal('win');
 
-                
+
             });
 
 

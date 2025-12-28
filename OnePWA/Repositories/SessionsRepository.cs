@@ -28,7 +28,7 @@ namespace OnePWA.Repositories
 
         public IGameSesion? GetByCode(string id)
         {
-            var session = Context.Sesions.FirstOrDefault(x => x.Code == id);
+            var session = Context.Sesions.FirstOrDefault(x => x.Code == id && !x.Started);
             return session;
         }
 
@@ -47,7 +47,7 @@ namespace OnePWA.Repositories
 
         public IGameSesion GetPublic()
         {
-            var session = Context.Sesions.FirstOrDefault(x => !x.Private);
+            var session = Context.Sesions.FirstOrDefault(x => !x.Private && !x.Started);
             return session;
         }
 

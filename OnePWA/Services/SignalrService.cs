@@ -20,7 +20,9 @@ namespace OnePWA.Services
 
             if (userId != null)
                 Users[userId] = Context.ConnectionId;
-          
+
+            //al reconetar enviar mensaje de reconexion
+
             return base.OnConnectedAsync();
         }
 
@@ -44,7 +46,6 @@ namespace OnePWA.Services
             {
                 Console.WriteLine("⚠️ OnDisconnectedAsync: userId null o no encontrado en Users.");
             }
-
             await base.OnDisconnectedAsync(exception);
         }
 
@@ -62,7 +63,7 @@ namespace OnePWA.Services
                 await Clients.Client(connId).SendAsync("PlayerTakeCard", dto);
         }
 
-        public async Task YouTakeCard(string targetUserId,CardTaked dto)
+        public async Task YouTakeCard(string targetUserId, CardTaked dto)
         {
             if (Users.TryGetValue(targetUserId, out var connId))
                 await Clients.Client(connId).SendAsync("YouTakeCard", dto);
@@ -84,10 +85,10 @@ namespace OnePWA.Services
                 await Clients.Client(connId).SendAsync("PlayerJoined", dTO);
         }
 
-        public async Task PlayerLeft(string targetUserId, int idplayer)
+        public async Task PlayerLeft(string targetUserId, PlayerLeftDTO dTO)
         {
             if (Users.TryGetValue(targetUserId, out var connId))
-                await Clients.Client(connId).SendAsync("PlayerLeft",idplayer);
+                await Clients.Client(connId).SendAsync("PlayerLeft",dTO);
         }
 
 

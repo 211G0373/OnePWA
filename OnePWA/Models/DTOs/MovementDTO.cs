@@ -4,6 +4,7 @@
     {
         public int IdPlayer { get ; set ; }
         
+        public bool Reverse { get ; set ; }
         public int IdTurn { get ; set ; }
 
         public CardDTO Card { get; set; }

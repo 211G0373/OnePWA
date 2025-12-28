@@ -11,6 +11,9 @@ namespace OnePWA.Repositories
         IGameSesion GetByPlayerId(int id);
         IGameSesion GetByCode(string id);
         void Insert(IGameSesion entity);
+
+        ISessionContext Context { get; }
+
         //void Update(T entity);
         void Delete(int id);
     }

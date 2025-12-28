@@ -9,7 +9,7 @@ namespace OnePWA.Services
 {
     public class SessionsService : ISessionsService
     {
-      
+
 
         public IRepository<Users> usersRepository { get; }
         public ISessionsRepository sessionsRepository { get; }
@@ -42,7 +42,8 @@ namespace OnePWA.Services
                 {
                     Id = p.Id,
                     UserName = usersRepository.Get(p.Id).Name,
-                    CardsCount = p.Cards.Count()
+                    CardsCount = p.Cards.Count(),
+                    FotoPerfil = usersRepository.Get(p.Id).ProfilePictures
                 }).ToList()
             };
         }
@@ -58,7 +59,7 @@ namespace OnePWA.Services
             {
                 throw new Exception("Player not found in session");
             }
-            
+
             return new PlayingSessionDTO
             {
                 Name = session.Name,
@@ -69,17 +70,20 @@ namespace OnePWA.Services
                     Id = p.Id,
                     UserName = usersRepository.Get(p.Id).Name,
                     CardsCount = p.Cards.Count(),
-                    
+                    FotoPerfil = usersRepository.Get(p.Id).ProfilePictures
                 }).ToList(),
-                MyCards = player.Cards.Select(c => new CardDTO() { Id=c.Id, Color=Cards.GetCardById(c.Id).Color, Name= Cards.GetCardById(c.Id).Name }).ToList(),
-                LastCard = new CardDTO() { Id=session.TopCard.Id, Color=session.LastColor, Name= Cards.GetCardById(session.TopCard.Id).Name }
+                MyCards = player.Cards.Select(c => new CardDTO() { Id = c.Id, Color = Cards.GetCardById(c.Id).Color, Name = Cards.GetCardById(c.Id).Name }).ToList(),
+                LastCard = new CardDTO() { Id = session.TopCard.Id, Color = session.LastColor, Name = Cards.GetCardById(session.TopCard.Id).Name },
+                LastColor = session.LastColor,
+                Reverse = session.IsReversed
+
             };
 
         }
 
         public bool CreateSession(ICreateSesionDTO sesionDTO, int idHost)
         {
-            GameSession newSession = new GameSession(signalrService)
+            GameSession newSession = new GameSession(signalrService, sessionsRepository.Context)
             {
                 Name = sesionDTO.Name,
                 Private = sesionDTO.Private,
@@ -112,7 +116,7 @@ namespace OnePWA.Services
             {
                 throw new Exception("Session not found");
             }
-            if(session.IdTurn != idPlayer)
+            if (session.IdTurn != idPlayer)
             {
                 throw new Exception("It's not your turn");
             }
@@ -126,15 +130,22 @@ namespace OnePWA.Services
             }
         }
 
-        public void BlackCard(int idPlayer,ChangeColorDTO dto)
+        public async Task BlackCard(int idPlayer, ChangeColorDTO dto)
         {
             var session = sessionsRepository.GetByPlayerId(idPlayer);
             if (session == null)
             {
                 throw new Exception("Session not found");
             }
-            session.BlackCard(idPlayer, dto);
-            
+            try
+            {
+                await session.BlackCard(idPlayer, dto);
+            }
+            catch
+            {
+                throw new Exception("It's not your turn");
+            }
+
         }
 
         public void JoinRandomSession(int id)
@@ -177,7 +188,7 @@ namespace OnePWA.Services
             {
                 if (player.Id != id)
                 {
-                    
+
                     signalrService.PlayerJoined(player.Id.ToString(), playerDTO);
                 }
             }
@@ -190,21 +201,23 @@ namespace OnePWA.Services
         {
 
             var session = sessionsRepository.GetByPlayerId(id);
+            
             if (session == null)
             {
                 throw new Exception("Session not found");
             }
-            if(session.IdHost != id)
+            if (session.IdHost != id)
             {
                 throw new Exception("Only the host can start the game");
+            }
+            if(session.Players.Count < 2)
+            {
+                throw new Exception("At least 2 players are required to start the game");
             }
             if (session.Started == false)
             {
                 session.StartGame();
-                foreach (var player in session.Players)
-                {
-                    await signalrService.GameStarted(player.Id.ToString());
-                }
+                
             }
 
         }

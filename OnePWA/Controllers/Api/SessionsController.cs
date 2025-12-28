@@ -145,14 +145,14 @@ namespace OnePWA.Controllers.Api
 
         [HttpPost]
         [Route("BlackCard")]
-        public IActionResult BlackCard(ChangeColorDTO dto)
+        public async Task<IActionResult> BlackCard(ChangeColorDTO dto)
         {
             var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userId))
                 return Unauthorized(new { message = "No se encontró el ID del usuario en el token." });
             try
             {
-                service.BlackCard(int.Parse(userId), dto);
+                await service.BlackCard(int.Parse(userId), dto);
             }
             catch (Exception ex)
             {

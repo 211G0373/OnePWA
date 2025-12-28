@@ -2,6 +2,6 @@
 {
     public class GanadorDTO
     {
-        public int Id { get; set; }
+        public List<int> players { get; set; }
     }
 }
