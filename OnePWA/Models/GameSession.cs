@@ -47,7 +47,7 @@ namespace OnePWA.Models
 
             AutoStartTimer.Elapsed += autoStart;
             AutoStartTimer.AutoReset = false;
-            AutoStartTimer.Interval = 30000; // 60 segundos
+            AutoStartTimer.Interval = 10000; // 60 segundos
 
             ReplayTimer.Elapsed += Close;
             ReplayTimer.AutoReset = false;
