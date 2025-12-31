@@ -13,11 +13,9 @@
 
         .game-page {
             height: 100%;
-            backdrop-filter: grayscale();
         }
 
         .pruebadiv {
-            background: #55555555;
             position: absolute;
             top: 0;
             left: 0;
@@ -66,7 +64,14 @@
             justify-items: center;
             justify-content: center;
             align-items: center;
-            opacity: 0.7;
+            opacity: 0.5;
+        }
+
+        #clock{
+            text-align: center;
+            justify-content:center;
+            align-self:center;
+            color: white;
         }
 
         #Capa_1 {
@@ -75,12 +80,13 @@
             max-width: 100dvh;
             margin: 0px;
             padding: 0px;
-            animation: girar 10s linear infinite;
+            animation: girar 30s linear infinite;
             transform-origin: center center;
+            
         }
 
         .reverse #Capa_1 {
-            animation: girar-reverse 10s linear infinite;
+            animation: girar-reverse 35s linear infinite;
         }
 
         @keyframes girar {
@@ -106,6 +112,10 @@
         .turn-label {
             white-space: pre-line;
         }
+        .turn-indicator{
+            display: flex;
+            flex-direction: column;
+        }
 
         .left {
             filter: grayscale();
@@ -120,7 +130,7 @@
             viewBox="0 0 79.536 79.536"
              xml:space="preserve">
 <g>
-        <path style="fill:white;" d="M19.545,25.655l-7.104-4.969c5.631-8.055,14.507-13.129,24.172-14.051V0.008L55.323,10.81
+        <path style="fill:currentColor; stroke:white" d="M19.545,25.655l-7.104-4.969c5.631-8.055,14.507-13.129,24.172-14.051V0.008L55.323,10.81
 		L36.607,21.611v-6.289C29.774,16.208,23.548,19.928,19.545,25.655z M15.31,42.935h6.299L10.802,24.218L0,42.935h6.628
 		c0.922,9.662,5.997,18.537,14.051,24.177l4.963-7.11C19.915,55.993,16.2,49.765,15.31,42.935z M42.938,64.217v-6.292L24.226,68.727
 		l18.711,10.802V72.9c9.651-0.927,18.517-5.996,24.15-14.038l-7.094-4.971C55.986,59.613,49.752,63.326,42.938,64.217z
@@ -389,12 +399,12 @@
 
             <!-- Pila de descartes (stack) -->
             <!--<div class="discard-pile">
-                <div class="stacked-cards">
-                    <img class="card stacked-card stacked-1" src="Assets/Cards/Normal/Green/card0=green.png" alt="Carta verde" />
-                    <img class="card stacked-card stacked-2" src="Assets/Cards/Normal/Blue/card0=blue.png" alt="Carta azul" />
-                    <img class="card stacked-card top-card" src="Assets/Cards/Normal/Green/card0=green.png" alt="Carta verde 3" />
-                </div>
-            </div>-->
+        <div class="stacked-cards">
+            <img class="card stacked-card stacked-1" src="Assets/Cards/Normal/Green/card0=green.png" alt="Carta verde" />
+            <img class="card stacked-card stacked-2" src="Assets/Cards/Normal/Blue/card0=blue.png" alt="Carta azul" />
+            <img class="card stacked-card top-card" src="Assets/Cards/Normal/Green/card0=green.png" alt="Carta verde 3" />
+        </div>
+    </div>-->
             <!-- Carta actual grande -->
             <div class="current-card">
                 <img id="currentCard" class="card current" src="Assets/Cards/Number Cards/Red/card0=red.png" alt="Carta roja actual" />
@@ -403,6 +413,8 @@
             <!-- Indicador de turno central -->
             <div class="turn-indicator" aria-hidden="true">
                 <span class="turn-label">Turno de Pedro</span>
+                <h3 class="turn-indicator" id="clock">5:00</h3>
+
             </div>
 
 
@@ -560,6 +572,11 @@
                 'Authorization': `Bearer ${token}`
             };
 
+
+            let serverRemainingMs = 0;
+            let serverTimestamp = 0;
+            let timerInterval = null;
+
             let specialcard;
 
             
@@ -602,7 +619,35 @@
                     closeColorPickerModal();
 
                 }
-            })
+            });
+
+            function startLocalTimer() {
+                timerInterval = setInterval(() => {
+                    const elapsed = Date.now() - serverTimestamp;
+                    const remaining = Math.max(0, serverRemainingMs - elapsed);
+
+                    updateUI(remaining);
+
+                    if (remaining === 0) {
+                        clearInterval(timerInterval);
+                        timerInterval = null;
+                    }
+                }, 200); // 200ms = fluido y ligero
+            }
+
+
+            function updateUI(ms) {
+                const totalSeconds = Math.ceil(ms / 1000);
+                const minutes = Math.floor(totalSeconds / 60);
+                const seconds = totalSeconds % 60;
+
+                document.getElementById("clock").textContent =
+                    `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            }
+
+
+
+
 
             const histotial = document.querySelector("#historial");
             const turnode = document.querySelector("#turnode");
@@ -623,7 +668,7 @@
             const rightPlayers = document.querySelector(".side-players-right");
             const centerPlayer = document.querySelector(".center-player");
             const arrows = document.querySelector("#arrows");
-            
+            const svg = document.querySelector("#Capa_1");
             
 
 
@@ -679,6 +724,15 @@
 
                     console.log('Sesión creada:', Session);
 
+                    serverRemainingMs = Session.time;
+                    serverTimestamp = Date.now();
+
+                    if (!timerInterval) {
+                        startLocalTimer();
+                    }
+
+
+
                     //let indice = 0;
 
                     let sideleftplayers;
@@ -706,7 +760,7 @@
                     };
                     console.log(plrys);
 
-                    arrows.style.backgroundColor = Session.lastColor;
+                    svg.style.color = Session.lastColor;
 
                     if (Session.reverse) {
                         if (!arrows.classList.contains("reverse")) {
@@ -830,7 +884,7 @@
 
                 }
                 else {
-                    window.location.href = 'index.html';
+                   window.location.href = 'index.html';
 
                 }
 
@@ -868,6 +922,11 @@
                     const el = document.querySelector('[data-id="' + carta.idPlayer + '"]');
                     el.classList.add("left");
                     document.querySelector('[data-id="' + carta.idPlayer + '"]').querySelector(".player-avatar").classList.remove("current-turn");
+
+                    //checar despues
+                    Session.players = Session.players.filter(s => s.id != carta.idPlayer);
+
+
                 }
 
 
@@ -880,6 +939,13 @@
                         turnlabel.textContent += "\nEs turno de " + Session.players.find(u => u.id === carta.idTurn).userName; 
                         //current-turn
                         document.querySelector('[data-id="' + carta.idPlayer + '"]').querySelector(".player-avatar").classList.remove("current-turn");
+                    }
+
+                    serverRemainingMs = carta.time;
+                    serverTimestamp = Date.now();
+
+                    if (!timerInterval) {
+                        startLocalTimer();
                     }
                 } catch { };
 
@@ -907,6 +973,15 @@
                     else {
                         turnlabel.textContent += "\nEs turno de " + Session.players.find(u => u.id === carta.idTurn).userName;
                     }
+
+
+                    serverRemainingMs = carta.time;
+                    serverTimestamp = Date.now();
+
+                    if (!timerInterval) {
+                        startLocalTimer();
+                    }
+
                 } catch { };
 
 
@@ -939,6 +1014,19 @@
                     else {
                         turnlabel.textContent += "\nEs turno de "+ Session.players.find(u => u.id === carta.idTurn).userName;
                     }
+
+
+                    serverRemainingMs = carta.time;
+                    serverTimestamp = Date.now();
+
+                    if (!timerInterval) {
+                        startLocalTimer();
+                    }
+
+                   
+
+
+
                 } catch { };
 
 
@@ -954,7 +1042,7 @@
 
                 console.log("Carta jugada por otro jugador:", carta.card.id);
                 currentCard.src = "/Assets/Cards/" + carta.card.id + ".png";
-                arrows.style.backgroundColor = carta.card.color;
+                svg.style.color = carta.card.color;
 
 
                 let p = Session.players.find(u => u.id === carta.idPlayer);
@@ -981,6 +1069,15 @@
 
                         turnlabel.textContent += "\nEs turno de " + Session.players.find(u => u.id === carta.idTurn).userName;
                     }
+
+                    serverRemainingMs = carta.time;
+                    serverTimestamp = Date.now();
+
+                    if (!timerInterval) {
+                        startLocalTimer();
+                    }
+
+
                 } catch { };
 
 
@@ -1008,6 +1105,8 @@
                 // currentCard.src = "/Assets/Cards/" + carta.card.id + ".png";
                 
                 testEndgameModal('win');
+
+
 
 
             });

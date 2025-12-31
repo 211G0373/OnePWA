@@ -77,7 +77,8 @@ namespace OnePWA.Services
                 MyCards = player.Cards.Select(c => new CardDTO() { Id = c.Id, Color = Cards.GetCardById(c.Id).Color, Name = Cards.GetCardById(c.Id).Name }).ToList(),
                 LastCard = new CardDTO() { Id = session.TopCard.Id, Color = session.LastColor, Name = Cards.GetCardById(session.TopCard.Id).Name },
                 LastColor = session.LastColor,
-                Reverse = session.IsReversed
+                Reverse = session.IsReversed,
+                Time = (int)(session.Timer.Interval - (DateTime.Now - session.PlayerstartTime).TotalMilliseconds),
 
             };
 

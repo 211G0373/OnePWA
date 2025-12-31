@@ -128,7 +128,7 @@ function openEndgameModal(state = 'win', hero = {}, standings = []) {
     if (heroNameEl) heroNameEl.textContent = finalHero.name;
     if (heroPlaceEl) heroPlaceEl.textContent = `${finalHero.place}º lugar`;
     if (heroAvatarEl) {
-        heroAvatarEl.src = finalHero.avatar;
+        heroAvatarEl.src = "Assets/avatars/"+finalHero.avatar;
         heroAvatarEl.alt = `Avatar de ${finalHero.name}`;
     }
 
@@ -139,7 +139,7 @@ function openEndgameModal(state = 'win', hero = {}, standings = []) {
             <div class="endgame-row">
                 <div class="endgame-row-left">
                     <span class="endgame-position">${player.position}</span>
-                    <img class="endgame-row-avatar" src="${player.avatar}" alt="${player.name}" />
+                    <img class="endgame-row-avatar" src="Assets/avatars/${player.avatar}" alt="${player.name}" />
                     <span class="endgame-row-name">${player.name}</span>
                 </div>
                 <span class="endgame-row-cards">${player.cardsText || player.cards}</span>

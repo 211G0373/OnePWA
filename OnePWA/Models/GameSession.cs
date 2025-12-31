@@ -138,7 +138,7 @@ namespace OnePWA.Models
                     SkipTurn();
                     if (!NewRules)
                     {
-                        _ = NotifyPlayerPlaceCard(idPlayer, -1, new CardDTO()
+                        await NotifyPlayerPlaceCard(idPlayer, -1, new CardDTO()
                         {
                             Color = c.Color,
                             Id = c.Id,
@@ -162,7 +162,7 @@ namespace OnePWA.Models
                         {
                             if (p.Cards.Count == 0)
                             {
-                                _ = NotifyPlayerPlaceCard(idPlayer, -1, new CardDTO()
+                                await NotifyPlayerPlaceCard(idPlayer, -1, new CardDTO()
                                 {
                                     Color = c.Color,
                                     Id = c.Id,
@@ -174,7 +174,7 @@ namespace OnePWA.Models
                             }
                             else
                             {
-                                _ = NotifyPlayerPlaceCard(idPlayer, IdTurn, new CardDTO()
+                                await NotifyPlayerPlaceCard(idPlayer, IdTurn, new CardDTO()
                                 {
                                     Color = c.Color,
                                     Id = c.Id,
@@ -186,7 +186,7 @@ namespace OnePWA.Models
                         }
                         else
                         {
-                            _ = NotifyPlayerPlaceCard(idPlayer, -1, new CardDTO()
+                            await NotifyPlayerPlaceCard(idPlayer, -1, new CardDTO()
                             {
                                 Color = c.Color,
                                 Id = c.Id,
@@ -225,7 +225,7 @@ namespace OnePWA.Models
                     {
                         if (p.Cards.Count == 0)
                         {
-                            _ = NotifyPlayerPlaceCard(idPlayer, -1, new CardDTO()
+                            await NotifyPlayerPlaceCard(idPlayer, -1, new CardDTO()
                             {
                                 Color = c.Color,
                                 Id = c.Id,
@@ -237,7 +237,7 @@ namespace OnePWA.Models
                         }
                         else
                         {
-                            _ = NotifyPlayerPlaceCard(idPlayer, IdTurn, new CardDTO()
+                            await NotifyPlayerPlaceCard(idPlayer, IdTurn, new CardDTO()
                             {
                                 Color = c.Color,
                                 Id = c.Id,
@@ -249,7 +249,7 @@ namespace OnePWA.Models
                     }
                     else
                     {
-                        _ = NotifyPlayerPlaceCard(idPlayer, -1, new CardDTO()
+                        await NotifyPlayerPlaceCard(idPlayer, -1, new CardDTO()
                         {
                             Color = c.Color,
                             Id = c.Id,
@@ -292,6 +292,8 @@ namespace OnePWA.Models
             }
             if (NextTurn())
             {
+                //PlayerstartTime = DateTime.Now;
+                //Timer.Stop();
                 await NotifyPlayerTakeCard(playerid, IdTurn, TakeCard(playerid));
             }
             else
@@ -375,7 +377,7 @@ namespace OnePWA.Models
 
 
 
-                        _ = NotifyPlayerPlaceCard(idPlayer, -1, new CardDTO()
+                        await NotifyPlayerPlaceCard(idPlayer, -1, new CardDTO()
                         {
                             Color = dto.Color,
                             Id = c.Id,
@@ -398,7 +400,7 @@ namespace OnePWA.Models
                         {
                             if (p.Cards.Count == 0)
                             {
-                                _ = NotifyPlayerPlaceCard(idPlayer, -1, new CardDTO()
+                                await NotifyPlayerPlaceCard(idPlayer, -1, new CardDTO()
                                 {
                                     Color = dto.Color,
                                     Id = c.Id,
@@ -410,7 +412,7 @@ namespace OnePWA.Models
                             }
                             else
                             {
-                                _ = NotifyPlayerPlaceCard(idPlayer, IdTurn, new CardDTO()
+                                await NotifyPlayerPlaceCard(idPlayer, IdTurn, new CardDTO()
                                 {
                                     Color = dto.Color,
                                     Id = c.Id,
@@ -422,7 +424,7 @@ namespace OnePWA.Models
                         }
                         else
                         {
-                            _ = NotifyPlayerPlaceCard(idPlayer, -1, new CardDTO()
+                            await NotifyPlayerPlaceCard(idPlayer, -1, new CardDTO()
                             {
                                 Color = dto.Color,
                                 Id = c.Id,
@@ -454,7 +456,7 @@ namespace OnePWA.Models
                     {
                         if (p.Cards.Count == 0)
                         {
-                            _ = NotifyPlayerPlaceCard(idPlayer, -1, new CardDTO()
+                            await NotifyPlayerPlaceCard(idPlayer, -1, new CardDTO()
                             {
                                 Color = dto.Color,
                                 Id = c.Id,
@@ -467,7 +469,7 @@ namespace OnePWA.Models
                         }
                         else
                         {
-                            _ = NotifyPlayerPlaceCard(idPlayer, IdTurn, new CardDTO()
+                            await NotifyPlayerPlaceCard(idPlayer, IdTurn, new CardDTO()
                             {
                                 Color = dto.Color,
                                 Id = c.Id,
@@ -479,7 +481,7 @@ namespace OnePWA.Models
                     }
                     else
                     {
-                        _ = NotifyPlayerPlaceCard(idPlayer, -1, new CardDTO()
+                        await NotifyPlayerPlaceCard(idPlayer, -1, new CardDTO()
                         {
                             Color = dto.Color,
                             Id = c.Id,
@@ -506,6 +508,13 @@ namespace OnePWA.Models
 
         public async Task NotifyPlayerPlaceCard(int idPlayer, int turn, CardDTO dTO)
         {
+            if (turn != -1)
+            {
+                PlayerstartTime = DateTime.Now;
+                Timer.Start();
+            }
+           
+
             foreach (var player in Players)
             {
                 if (player.Id == idPlayer)
@@ -517,19 +526,14 @@ namespace OnePWA.Models
                     IdPlayer = idPlayer,
                     Card = dTO,
                     IdTurn = turn,
-                    Reverse = IsReversed
+                    Reverse = IsReversed,
+                    Time = (int)(Timer.Interval - (DateTime.Now - PlayerstartTime).TotalMilliseconds),
+
                 });
-            }
-            if (turn != -1)
-            {
-                PlayerstartTime = DateTime.Now;
-                Timer.Start();
-            }
-            else
-            {
-                await Task.Delay(1000);
 
             }
+
+            
 
         }
 
@@ -563,8 +567,15 @@ namespace OnePWA.Models
 
         public async Task NotifyPlayerTakeCard(int idPlayer, int turn, int cardid)
         {
-            await Task.Delay(1000);
+            await Task.Delay(1500);
 
+            if (turn != -1)
+            {
+
+
+                PlayerstartTime = DateTime.Now;
+                Timer.Start();
+            }
             foreach (var player in Players)
             {
                 if (player.Id == idPlayer)
@@ -577,29 +588,22 @@ namespace OnePWA.Models
                             Id = cardid,
                             Color = Cards.First(ca => ca.Id == cardid).Color,
                             Name = Cards.First(ca => ca.Id == cardid).Name
-                        }
+
+                        },
+                        Time = (int)(Timer.Interval - (DateTime.Now - PlayerstartTime).TotalMilliseconds),
+
                     });
                     continue;
                 }
                 await Notifications.PlayerTakeCard(player.Id.ToString(), new TakedCard()
                 {
                     IdPlayer = idPlayer,
-                    IdTurn = turn
+                    IdTurn = turn,
+                    Time = (int)(Timer.Interval - (DateTime.Now - PlayerstartTime).TotalMilliseconds),
                 });
             }
-            if (turn != -1)
-            {
-                PlayerstartTime = DateTime.Now;
-                Timer.Start();
-            }
-            else
-            {
-                await Task.Delay(1000);
 
-            }
-
-
-
+           
 
         }
 
@@ -801,7 +805,7 @@ namespace OnePWA.Models
 
         public async Task NotifyPlayerLeft(int idPlayer, int turn)
         {
-            await Task.Delay(1000);
+           // await Task.Delay(1000);
 
             foreach (var player in Players)
             {
@@ -809,7 +813,8 @@ namespace OnePWA.Models
                 await Notifications.PlayerLeft(player.Id.ToString(), new PlayerLeftDTO()
                 {
                     IdPlayer = idPlayer,
-                    IdTurn = turn
+                    IdTurn = turn,
+                    Time = (int)(Timer.Interval - (DateTime.Now - PlayerstartTime).TotalMilliseconds),
                 });
 
             }
@@ -883,10 +888,10 @@ namespace OnePWA.Models
             if (NextTurn())
             {
 
-
-                await NotifyPlayerLeft(idPlayer, IdTurn);
                 PlayerstartTime = DateTime.Now;
                 Timer.Start();
+                await NotifyPlayerLeft(idPlayer, IdTurn);
+                
 
 
             }
