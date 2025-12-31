@@ -5,6 +5,8 @@
         public CardDTO Card { get; set; }
         public int IdTurn { get; set; }
 
+        public int Time { get; set; }
+
 
 
         

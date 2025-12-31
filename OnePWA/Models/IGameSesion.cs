@@ -42,6 +42,8 @@ namespace OnePWA.Models
         Task PlayCard(int idPlayer, int card);
         Task BlackCard(int idPlayer, ChangeColorDTO dto);
 
+        Task playerOut(int idPlayer);
+
         void Close();
         bool NextTurn();
 

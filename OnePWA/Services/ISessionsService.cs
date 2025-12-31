@@ -14,13 +14,13 @@ namespace OnePWA.Services
 
         IWaittingSessionDTO PlayerSession(int id);
         IPlayingSessionDTO PlayingSession(int id);
-        bool CreateSession(ICreateSesionDTO sesionDTO, int idHost);
-        void JoinSessionByCode(string code,int id);
+        Task<bool> CreateSession(ICreateSesionDTO sesionDTO, int idHost);
+        Task JoinSessionByCode(string code,int id);
 
         Task StartGame(int id);
         Task PlayCard(int idPlayer, int cardId);
         Task BlackCard(int idPlayer, ChangeColorDTO dto);
-        void JoinRandomSession(int id);
+        Task JoinRandomSession(int id);
         void PlayAgain(int id);
         void RemovePlayerFromSession(int idPlayer, int idPlayerForRemove);
         void LeaveSession(int idPlayer);

@@ -61,7 +61,7 @@ namespace OnePWA.Controllers.Api
         }
 
         [HttpPost]
-        public IActionResult New(CreateSessionDTO dto)
+        public async Task<IActionResult> New(CreateSessionDTO dto)
         {
             var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -69,25 +69,25 @@ namespace OnePWA.Controllers.Api
             if (string.IsNullOrEmpty(userId))
                 return Unauthorized(new { message = "No se encontró el ID del usuario en el token." });
 
-            var session = service.CreateSession(dto, int.Parse(userId));
+            var session = await service.CreateSession(dto, int.Parse(userId));
 
             return Ok(session);
         }
 
         [HttpPost]
         [Route("joinByCode/{code}")]
-        public IActionResult JoinByCode(string code)
+        public async Task<IActionResult> JoinByCode(string code)
         {
             var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userId))
                 return Unauthorized(new { message = "No se encontró el ID del usuario en el token." });
-            service.JoinSessionByCode(code, int.Parse(userId));
+            await service.JoinSessionByCode(code, int.Parse(userId));
 
             return Ok();
         }
         [HttpPost]
         [Route("joinRandom")]
-        public IActionResult JoinRandom()
+        public async Task<IActionResult> JoinRandom()
         {
             var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier);
             if (string.IsNullOrEmpty(userId))
@@ -95,7 +95,7 @@ namespace OnePWA.Controllers.Api
 
             try
             {
-                service.JoinRandomSession(int.Parse(userId));
+                await service.JoinRandomSession(int.Parse(userId));
             }
             catch {
                 return NotFound();

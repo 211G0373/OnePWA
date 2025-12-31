@@ -38,12 +38,14 @@ namespace OnePWA.Services
                 Name = session.Name,
                 Code = session.Code,
                 IdHost = session.IdHost,
+                PlayerCount = session.Players.Count(),
+                Time = (int)(session.AutoStartTimer.Interval - (DateTime.Now - session.AutostartTime).TotalMilliseconds),
                 Players = session.Players.Select(p => new PlayerDTO
                 {
                     Id = p.Id,
                     UserName = usersRepository.Get(p.Id).Name,
                     CardsCount = p.Cards.Count(),
-                    FotoPerfil = usersRepository.Get(p.Id).ProfilePictures
+                    FotoPerfil = usersRepository.Get(p.Id).ProfilePictures,
                 }).ToList()
             };
         }
@@ -81,8 +83,14 @@ namespace OnePWA.Services
 
         }
 
-        public bool CreateSession(ICreateSesionDTO sesionDTO, int idHost)
+        public async Task<bool> CreateSession(ICreateSesionDTO sesionDTO, int idHost)
         {
+            var existingSession = sessionsRepository.GetByPlayerId(idHost);
+            if (existingSession != null)
+            {
+                await existingSession.playerOut(idHost);
+            }
+
             GameSession newSession = new GameSession(signalrService, sessionsRepository.Context)
             {
                 Name = sesionDTO.Name,
@@ -148,22 +156,23 @@ namespace OnePWA.Services
 
         }
 
-        public void JoinRandomSession(int id)
+        public async Task JoinRandomSession(int id)
         {
             var session = sessionsRepository.GetPublic();
             if (session == null)
             {
                 throw new Exception("No public sessions available");
             }
-            JoinSessionByCode(session.Code, id);
+            await JoinSessionByCode(session.Code, id);
         }
 
-        public void JoinSessionByCode(string code, int id)
+        public async Task JoinSessionByCode(string code, int id)
         {
-            //if(PlayerSession(id) != null)
-            //{
-            //    throw new Exception("Player already in a session");
-            //}
+            var existingSession = sessionsRepository.GetByPlayerId(id);
+            if (existingSession!=null)
+            {
+                await existingSession.playerOut(id);
+            }
 
             var session = sessionsRepository.GetByCode(code);
             if (session == null)
@@ -181,7 +190,8 @@ namespace OnePWA.Services
             var playerDTO = new PlayerDTO
             {
                 Id = newPlayer.Id,
-                UserName = usersRepository.Get(newPlayer.Id).Name
+                UserName = usersRepository.Get(newPlayer.Id).Name,
+                FotoPerfil = usersRepository.Get(newPlayer.Id).ProfilePictures
             };
 
             foreach (var player in session.Players)
@@ -189,7 +199,7 @@ namespace OnePWA.Services
                 if (player.Id != id)
                 {
 
-                    signalrService.PlayerJoined(player.Id.ToString(), playerDTO);
+                    await signalrService.PlayerJoined(player.Id.ToString(), playerDTO);
                 }
             }
 

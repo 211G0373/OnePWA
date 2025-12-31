@@ -9,6 +9,9 @@
         #qrcode{
             width: 100%;
         }
+        #clock{
+            text-align:center;
+        }
     </style>
 </head>
 <body class="login-page start-match-page">
@@ -57,15 +60,17 @@
         <div class="players-section">
             <div class="players-card">
                 <h1 class="match-name">Partida</h1>
+                <h3 id="clock">5:00</h3>
+
                 <h2 class="players-subtitle">Jugadores en la partida</h2>
 
                 <div class="players-list-container">
                     <div class="players-list">
                         <!--<div class="player-item">
-                            <img src="Assets/profilePic.png" alt="Avatar" class="player-avatar">
-                            <span class="player-name">Pato (yo)</span>
-                            <span class="host-badge">Host</span>
-                        </div>-->
+                <img src="Assets/profilePic.png" alt="Avatar" class="player-avatar">
+                <span class="player-name">Pato (yo)</span>
+                <span class="host-badge">Host</span>
+            </div>-->
 
                         <template>
                             <div class="player-item">
@@ -79,9 +84,10 @@
                                 </button>
                             </div>
                         </template>
-                      
-                        
+
+
                     </div>
+
 
                     <div class="players-count">2/8 Jugadores</div>
 
@@ -91,7 +97,7 @@
             </div>
         </div>
     </div>
-    <!--<script src="script.js"></script>-->
+    <script src="script.js"></script>
 
 
 
@@ -114,6 +120,10 @@
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             };
+
+            let serverRemainingMs = 0;
+            let serverTimestamp = 0;
+            let timerInterval = null;
 
             playerTemplate = document.querySelector("template");
 
@@ -160,16 +170,30 @@
 
                     console.log('Sesión creada:', Session);
 
+                    serverRemainingMs = Session.time;
+                    serverTimestamp = Date.now();
+
+                    if (!timerInterval) {
+                        startLocalTimer();
+                    }
+
+
+
 
 
                     for (let i = 0; i < Session.players.length; i++) {
-                        console.log(playerTemplate);
-                        const clon = playerTemplate.content.cloneNode(true);;
-                        const root = clon.firstElementChild;     
+                        const card = playerTemplate.content.firstElementChild.cloneNode(true);
+                        //const card = clon.querySelector("div");
+                        //card.textContent = Session.myCards[j].color + " " + Session.myCards[j].name;
+                        //card.querySelector(".player-name").textContent = plrys[i].userName;
 
-                        root.children[1].textContent = Session.players[i].userName;
+                        card.querySelector("img").src = "Assets/avatars/" + Session.players[i].fotoPerfil;
+                        //card.querySelector(".player-cards-count").textContent = plrys[i].cardsCount;
+                        card.dataset.id = Session.players[i].id;
 
-                        document.querySelector(".players-list").appendChild(root);
+                        card.children[1].textContent = Session.players[i].userName;
+
+                        document.querySelector(".players-list").appendChild(card);
                     };
                     document.querySelector(".match-name").textContent = Session.name;
                    // document.getElementById("host").textContent = "El jefe es " + Session.players.find(u => u.id === Session.idHost).userName;
@@ -184,6 +208,7 @@
                         colorLight: "#ffffff",
                         correctLevel: QRCode.CorrectLevel.H
                     });
+                    document.querySelector(".players-count").textContent = Session.players.length + "/8 Jugadores"
 
 
 
@@ -204,7 +229,29 @@
 
             cargar();
 
+            function startLocalTimer() {
+                timerInterval = setInterval(() => {
+                    const elapsed = Date.now() - serverTimestamp;
+                    const remaining = Math.max(0, serverRemainingMs - elapsed);
 
+                    updateUI(remaining);
+
+                    if (remaining === 0) {
+                        clearInterval(timerInterval);
+                        timerInterval = null;
+                    }
+                }, 200); // 200ms = fluido y ligero
+            }
+
+
+            function updateUI(ms) {
+                const totalSeconds = Math.ceil(ms / 1000);
+                const minutes = Math.floor(totalSeconds / 60);
+                const seconds = totalSeconds % 60;
+
+                document.getElementById("clock").textContent =
+                    `${minutes}:${seconds.toString().padStart(2, '0')}`;
+            }
 
             const connection = new signalR.HubConnectionBuilder()
                 .withUrl("/hubs/Signalr?access_token=" + token)
@@ -229,16 +276,49 @@
 
             connection.on("PlayerJoined", (player) => {
                 console.log(player);
-                const clon = playerTemplate.content.cloneNode(true);;
-                const root = clon.firstElementChild;
+                if (Session.players.find(x => x.id == player.id) ==null) {
 
-                root.children[1].textContent = player.userName;
 
-                document.querySelector(".players-list").appendChild(root);
+                    const card = playerTemplate.content.firstElementChild.cloneNode(true);
+                    //const card = clon.querySelector("div");
+                    //card.textContent = Session.myCards[j].color + " " + Session.myCards[j].name;
+                    //card.querySelector(".player-name").textContent = plrys[i].userName;
+
+                    card.querySelector("img").src = "Assets/avatars/" + player.fotoPerfil;
+                    //card.querySelector(".player-cards-count").textContent = plrys[i].cardsCount;
+                    card.dataset.id = player.id;
+
+                    card.children[1].textContent = player.userName;
+
+                    document.querySelector(".players-list").appendChild(card);
+
+                    Session.players.push(player);
+
+                    document.querySelector(".players-count").textContent = Session.players.length + "/8 Jugadores"
+                }
+               
+              
             });
             connection.on("PlayerLeft", (player) => {
                 console.log(player);
+                if (Session.players.find(x => x.id == player.id) == null) {
+
+
+                    document.querySelector('[data-id="' + player.idPlayer + '"]').remove();
+                    Session.players = Session.players.filter(s => s.id != player.idPlayer);
+                    document.querySelector(".players-count").textContent = Session.players.length + "/8 Jugadores"
+
+                }
+
+
             });
+
+            connection.on("Close", () => {
+                window.location.href = 'index.html';
+
+            });
+
+
         }
 
     </script>
