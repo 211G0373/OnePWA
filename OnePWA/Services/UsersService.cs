@@ -121,7 +121,7 @@ namespace OnePWA.Services
         {
             var entidad = Mapper.Map<Users>(dto);
             entidad.Password = EncriptacionHelper.GetHash(entidad.Password);
-            entidad.ProfilePictures = "1.png";
+            entidad.ProfilePictures = "1.jpg";
             Repository.Insert(entidad);
         }
 
@@ -153,8 +153,8 @@ namespace OnePWA.Services
         public void UpdateProfile(IProfileDTO dto)
         {
             var user = Repository.Get(dto.Id);
-            user.Password = dto.Contraseña == "Contraseña" ? user.Password : EncriptacionHelper.GetHash(dto.Contraseña);
             user.Name = dto.Nombre;
+            user.ProfilePictures=dto.FotoPerfil;
             Repository.Update(user);
 
         }

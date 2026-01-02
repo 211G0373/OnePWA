@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ONE - Inicio</title>
-    <link rel="stylesheet" href="styles.css" >
+    <link href="manifest.json" rel="manifest" />
+
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body class="login-page index-page">
 
@@ -60,7 +62,45 @@
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <!--<script src="script.js"></script>-->
+    <script>
+        if ('serviceWorker' in navigator) {
+            try {
+                navigator.serviceWorker.register('/sw.js');
+                console.log("JALAAAAAAA");
+                navigator.serviceWorker.ready.then(reg =>
+                    //Avisame cuando se vaya y regrese el internet
+                    reg.sync.register("one")
+                );
+            }
+            catch (error) {
+                    console.log('Error registrando Service Worker:', error);
 
+            }
+            //try {
+            //    navigator.serviceWorker.register('/sw.js?v=2');
+
+            //    navigator.serviceWorker.ready.then(reg =>
+            //        //Avisame cuando se vaya y regrese el internet
+            //        reg.sync.register("one")
+            //    );
+            //    console.log("SW WORKING");
+            //    //navigator.serviceWorker.addEventListener('message', (event) => {
+            //    //    if (event.data.type === 'TOKEN_EXPIRADO') {
+            //    //        console.log('Token expirado detectado por SW');
+            //    //        let token = event.data.jwt;
+            //    //        localStorage.setItem('jwtToken', token);
+            //    //        headers = {
+            //    //            'Content-Type': 'application/json',
+            //    //            'Authorization': `Bearer ${token}`
+            //    //        };
+            //    //        //renovarToken();
+            //    //    }
+            //    });
+            //} catch (error) {
+            //    console.log('Error registrando Service Worker:', error);
+            //}
+        }
+    </script>
 </body>
 </html>
 

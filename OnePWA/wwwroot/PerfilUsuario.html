@@ -141,7 +141,7 @@
 
                 const datos = await response.json();
                 console.log(datos);
-                pic.src = "Assets/avatars/" + datos.fotoPerfil;
+                pic.src = datos.fotoPerfil;
                 user.value = datos.nombre;
 
             }
@@ -169,18 +169,17 @@
                     let img = text.split("/");
                     let source = img[5];
                     console.log(source);
-                    const response = await fetch('/api/Users/ProfilePic/', {
-                        method: 'POST',
-                        headers,
-                        body: JSON.stringify({
-                            id: datos.nameid,
-                            picture: source,
-                        })
-                    })
+                    //const response = await fetch('/api/Users/ProfilePic/', {
+                    //    method: 'POST',
+                    //    headers,
+                    //    body: JSON.stringify({
+                    //        id: datos.nameid,
+                    //        picture: source,
+                    //    })
+                    //})
 
-                    if (response.ok) {
                         pic.src = "Assets/avatars/" + source;
-                    }
+                 
 
 
                 })
