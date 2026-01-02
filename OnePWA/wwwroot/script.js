@@ -117,20 +117,20 @@ function openEndgameModal(state = 'win', hero = {}, standings = []) {
     //const finalStandings = standings.length > 0 ? standings : defaultStandings;
 
     // Actualizar título
-    const titleEl = document.getElementById('endgameTitle');
-    if (titleEl) titleEl.textContent = state === 'lose' ? 'Perdiste' : '¡Ganaste!';
+    //const titleEl = document.getElementById('endgameTitle');
+    //if (titleEl) titleEl.textContent = state === 'lose' ? 'Perdiste' : '¡Ganaste!';
 
-    // Actualizar hero
-    const heroNameEl = document.getElementById('endgameHeroName');
-    const heroPlaceEl = document.getElementById('endgameHeroPlace');
-    const heroAvatarEl = document.getElementById('endgameHeroAvatar');
+    //// Actualizar hero
+    //const heroNameEl = document.getElementById('endgameHeroName');
+    //const heroPlaceEl = document.getElementById('endgameHeroPlace');
+    //const heroAvatarEl = document.getElementById('endgameHeroAvatar');
     
-    if (heroNameEl) heroNameEl.textContent = finalHero.name;
-    if (heroPlaceEl) heroPlaceEl.textContent = `${finalHero.place}º lugar`;
-    if (heroAvatarEl) {
-        heroAvatarEl.src = "Assets/avatars/"+finalHero.avatar;
-        heroAvatarEl.alt = `Avatar de ${finalHero.name}`;
-    }
+    //if (heroNameEl) heroNameEl.textContent = finalHero.name;
+    //if (heroPlaceEl) heroPlaceEl.textContent = `${finalHero.place}º lugar`;
+    //if (heroAvatarEl) {
+    //    heroAvatarEl.src = "Assets/avatars/"+finalHero.avatar;
+    //    heroAvatarEl.alt = `Avatar de ${finalHero.name}`;
+    //}
 
     // Actualizar standings
     //const standingsContainer = document.getElementById('endgameStandings');

@@ -67,10 +67,10 @@
             opacity: 0.5;
         }
 
-        #clock{
+        #clock {
             text-align: center;
-            justify-content:center;
-            align-self:center;
+            justify-content: center;
+            align-self: center;
             color: white;
         }
 
@@ -82,7 +82,6 @@
             padding: 0px;
             animation: girar 30s linear infinite;
             transform-origin: center center;
-            
         }
 
         .reverse #Capa_1 {
@@ -112,7 +111,8 @@
         .turn-label {
             white-space: pre-line;
         }
-        .turn-indicator{
+
+        .turn-indicator {
             display: flex;
             flex-direction: column;
         }
@@ -534,8 +534,9 @@
                 </div>
             </div>
 
-            <template id="player-end-template">
-                <div class="endgame-standings" id="endgameStandings">
+          
+            <div class="endgame-standings" id="endgameStandings">
+                <template id="player-end-template">
                     <div class="endgame-row">
                         <div class="endgame-row-left">
                             <span class="endgame-position">1</span>
@@ -544,12 +545,12 @@
                         </div>
                         <span class="endgame-row-cards">Sin cartas</span>
                     </div>
-                </div>
-            </template>
-            
+                </template>
+            </div>
 
 
-         
+
+
 
             <div class="endgame-actions profile-actions">
                 <button type="button" class="login-button profile-secondary-btn" onclick="closeEndgameModal()">Salir</button>
@@ -590,12 +591,17 @@
 
             function obtenerDatosDelToken() {
 
+                console.log("d");
+
                 const token = localStorage.getItem('jwtToken');
+                console.log(token);
                 const payload = token.split('.')[1];
+                console.log(payload);
 
 
                 const decoded = JSON.parse(atob(payload));
 
+                console.log(decoded);
                 return decoded;
             }
 
@@ -885,7 +891,6 @@
             }
 
             cargar();
-            openEndgameModal('win');
 
 
 
@@ -1023,8 +1028,8 @@
 
 
 
-                console.log("ss");
-                console.log(card);
+                //console.log("ss");
+                //console.log(card);
                 myCards.appendChild(card);
 
 
@@ -1099,7 +1104,92 @@
 
 
 
-                openEndgameModal('win');
+                
+                //<div class="endgame-header">
+                //    <h2 class="endgame-title" id="endgameTitle">¡Ganaste!</h2>
+                //    <div class="endgame-hero">
+                //        <div class="endgame-hero-avatar">
+                //            <img id="endgameHeroAvatar" src="Assets/avatars/4.jpg" alt="Avatar del jugador destacado" />
+                //            <!--<span class="endgame-hero-badge" id="endgameBadge">★</span>-->
+                //            <img src="Assets/svgs&icons/trophy.png" class="endgame-hero-badge" id="endgameBadge" />
+                //        </div> 
+                //        <p class="endgame-hero-name" id="endgameHeroName">Pato</p>
+                //        <p class="endgame-hero-place" id="endgameHeroPlace">1º lugar</p>
+                //    </div>
+                //</div>
+
+                const Winner = document.querySelector(".endgame-header");
+                const PlayerList = document.querySelector("#player-end-template");
+
+                if (ganador.ganador == datos.nameid) {
+                    openEndgameModal('win');
+
+                    //mensaje
+                    //la copa
+
+                } else {
+                    openEndgameModal('lose');
+                    //mensaje
+                    Winner.querySelector(".endgame-title").textContent = "Perdiste...";
+
+                    //la copa
+                }
+
+                Winner.querySelector("img").src = "Assets/avatars/" + Session.players.find(x => x.id == datos.nameid).fotoPerfil;
+                Winner.querySelector(".endgame-hero-name").textContent = Session.players.find(x => x.id == datos.nameid).userName;
+
+                Session.players.sort((a, b) => {
+                    if (a.cardsCount !== b.cardsCount)
+                        return a.cardsCount - b.cardsCount;
+
+                    return a.userName.localeCompare(b.userName);
+                });
+                
+                for (let i = 0; i < Session.players.length; i++) {
+                    const p = PlayerList.content.firstElementChild.cloneNode(true);
+                    p.querySelector(".endgame-position").textContent = i+1;
+                    p.querySelector("img").src = "Assets/avatars/"+ Session.players[i].fotoPerfil;
+                    p.querySelector(".endgame-row-name").textContent = Session.players[i].userName;
+
+                    if (i == 0) {
+                        p.querySelector(".endgame-row-cards").textContent = "Sin cartas";
+                    } else {
+                        const c = Session.players[i].cardsCount;
+
+                        p.querySelector(".endgame-row-cards").textContent =
+                            `${c} carta${c !== 1 ? "s" : ""}`;
+
+
+                    }
+                    document.querySelector(".endgame-standings").appendChild(p);
+
+                }
+
+
+                //<template id="player-end-template">
+                //    <div class="endgame-standings" id="endgameStandings">
+                //        <div class="endgame-row">
+                //            <div class="endgame-row-left">
+                //                <span class="endgame-position">1</span>
+                //                <img class="endgame-row-avatar" src="Assets/avatars/4.jpg" alt="Pato" />
+                //                <span class="endgame-row-name">Pato</span>
+                //            </div>
+                //            <span class="endgame-row-cards">Sin cartas</span>
+                //        </div>
+                //    </div>
+                //</template>
+
+
+
+                //foto
+                //nombre
+                //lugar
+
+
+
+
+
+
 
 
 

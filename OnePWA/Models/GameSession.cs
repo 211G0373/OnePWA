@@ -551,6 +551,7 @@ namespace OnePWA.Models
                 }
                 await Notifications.GameFinished(player.Id.ToString(), new GanadorDTO()
                 {
+                    Ganador = idPlayer,
                     players = playersIds
                 });
             }
