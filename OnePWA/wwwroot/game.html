@@ -126,8 +126,8 @@
 
     <div id="arrows" class="arrows">
         <?xml version="1.0" encoding="iso-8859-1" ?>
-        <svg version="1.1" id="Capa_1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-            viewBox="0 0 79.536 79.536"
+        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+             viewBox="0 0 79.536 79.536"
              xml:space="preserve">
 <g>
         <path style="fill:currentColor; stroke:white" d="M19.545,25.655l-7.104-4.969c5.631-8.055,14.507-13.129,24.172-14.051V0.008L55.323,10.81
@@ -169,7 +169,7 @@
 </g>
 </svg>
     </div>
-    
+
 
 
     <div class="pruebadiv">
@@ -200,7 +200,7 @@
                 </section>
             </template>
 
-           
+
 
 
 
@@ -399,12 +399,12 @@
 
             <!-- Pila de descartes (stack) -->
             <!--<div class="discard-pile">
-        <div class="stacked-cards">
-            <img class="card stacked-card stacked-1" src="Assets/Cards/Normal/Green/card0=green.png" alt="Carta verde" />
-            <img class="card stacked-card stacked-2" src="Assets/Cards/Normal/Blue/card0=blue.png" alt="Carta azul" />
-            <img class="card stacked-card top-card" src="Assets/Cards/Normal/Green/card0=green.png" alt="Carta verde 3" />
-        </div>
-    </div>-->
+                <div class="stacked-cards">
+                    <img class="card stacked-card stacked-1" src="Assets/Cards/Normal/Green/card0=green.png" alt="Carta verde" />
+                    <img class="card stacked-card stacked-2" src="Assets/Cards/Normal/Blue/card0=blue.png" alt="Carta azul" />
+                    <img class="card stacked-card top-card" src="Assets/Cards/Normal/Green/card0=green.png" alt="Carta verde 3" />
+                </div>
+            </div>-->
             <!-- Carta actual grande -->
             <div class="current-card">
                 <img id="currentCard" class="card current" src="Assets/Cards/Number Cards/Red/card0=red.png" alt="Carta roja actual" />
@@ -527,24 +527,29 @@
                     <div class="endgame-hero-avatar">
                         <img id="endgameHeroAvatar" src="Assets/avatars/4.jpg" alt="Avatar del jugador destacado" />
                         <!--<span class="endgame-hero-badge" id="endgameBadge">★</span>-->
-                        <img src="Assets/svgs&icons/trophy.png" class="endgame-hero-badge" id="endgameBadge">
+                        <img src="Assets/svgs&icons/trophy.png" class="endgame-hero-badge" id="endgameBadge" />
                     </div>
                     <p class="endgame-hero-name" id="endgameHeroName">Pato</p>
                     <p class="endgame-hero-place" id="endgameHeroPlace">1º lugar</p>
                 </div>
             </div>
 
-            <div class="endgame-standings" id="endgameStandings">
-                <div class="endgame-row">
-                    <div class="endgame-row-left">
-                        <span class="endgame-position">1</span>
-                        <img class="endgame-row-avatar" src="Assets/avatars/4.jpg" alt="Pato" />
-                        <span class="endgame-row-name">Pato</span>
+            <template id="player-end-template">
+                <div class="endgame-standings" id="endgameStandings">
+                    <div class="endgame-row">
+                        <div class="endgame-row-left">
+                            <span class="endgame-position">1</span>
+                            <img class="endgame-row-avatar" src="Assets/avatars/4.jpg" alt="Pato" />
+                            <span class="endgame-row-name">Pato</span>
+                        </div>
+                        <span class="endgame-row-cards">Sin cartas</span>
                     </div>
-                    <span class="endgame-row-cards">Sin cartas</span>
                 </div>
-               
-            </div>
+            </template>
+            
+
+
+         
 
             <div class="endgame-actions profile-actions">
                 <button type="button" class="login-button profile-secondary-btn" onclick="closeEndgameModal()">Salir</button>
@@ -555,9 +560,10 @@
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+    <script src="script.js"></script>
+
     <script>
         const token = localStorage.getItem('jwtToken');
-        console.log(token);
 
 
 
@@ -579,21 +585,17 @@
 
             let specialcard;
 
-            
+
 
 
             function obtenerDatosDelToken() {
-                console.log("d");
 
                 const token = localStorage.getItem('jwtToken');
-                console.log(token);
                 const payload = token.split('.')[1];
-                console.log(payload);
 
 
                 const decoded = JSON.parse(atob(payload));
 
-                console.log(decoded);
                 return decoded;
             }
 
@@ -603,7 +605,6 @@
 
 
             document.querySelector(".color-options").addEventListener("click", async function (e) {
-                console.log(e.target.dataset.color);
                 const response = await fetch('/api/sessions/blackcard/',
                     {
                         method: 'POST',
@@ -669,18 +670,15 @@
             const centerPlayer = document.querySelector(".center-player");
             const arrows = document.querySelector("#arrows");
             const svg = document.querySelector("#Capa_1");
-            
+
 
 
             myCards.addEventListener("click", async function (e) {
                 if (e.target.tagName === "IMG") {
-                    console.log("xd");
-                    console.log(e.target.parentElement);
 
-                    console.log(e.target.parentElement.dataset.color);
 
                     if (e.target.parentElement.dataset.color != "black") {
-                        console.log("ss");
+
                         console.log("Carta jugada:", e.target.parentElement.dataset.id);
                         const response = await fetch('/api/Sessions/PlayCard/' + e.target.parentElement.dataset.id, {
                             method: 'POST',
@@ -736,29 +734,24 @@
                     //let indice = 0;
 
                     let sideleftplayers;
-                    let centerplayer=0;
+                    let centerplayer = 0;
 
                     if (Session.playerCount % 2 == 0) {
                         centerplayer = 1;
                     }
 
-                    sideleftplayers = Math.floor((Session.playerCount - 1-centerplayer)/2);
-                    console.log(sideleftplayers + "sdsdsd" + centerplayer);
-                    
-                    let indice =  Session.players.findIndex(x => x.id == datos.nameid);
+                    sideleftplayers = Math.floor((Session.playerCount - 1 - centerplayer) / 2);
+
+                    let indice = Session.players.findIndex(x => x.id == datos.nameid);
                     let plrys = [];
 
-                    console.log(indice);
 
                     for (let i = indice; i < Session.players.length; i++) {
-                        console.log("ja");
                         plrys.push(Session.players[i]);
                     };
                     for (let i = 0; i < indice; i++) {
-                        console.log("JA");
                         plrys.push(Session.players[i]);
                     };
-                    console.log(plrys);
 
                     svg.style.color = Session.lastColor;
 
@@ -772,24 +765,22 @@
 
                     let indiceJugadorRecorrido = 1;
 
-                    for (let i = indiceJugadorRecorrido; i < (indiceJugadorRecorrido+sideleftplayers); i++) {
+                    for (let i = indiceJugadorRecorrido; i < (indiceJugadorRecorrido + sideleftplayers); i++) {
                         const card = playerTemplate.content.firstElementChild.cloneNode(true);
                         card.querySelector("#avatar").src = "Assets/avatars/" + plrys[i].fotoPerfil;
                         card.querySelector(".player-cards-count").textContent = plrys[i].cardsCount;
                         card.dataset.id = plrys[i].id;
 
 
-                        console.log("left");
 
                         card.querySelector(".player-name").textContent = plrys[i].userName;
 
 
 
 
-                        console.log("ss");
-                        console.log(card);
+
                         leftPlayers.appendChild(card);
-                       
+
                     }
                     indiceJugadorRecorrido += sideleftplayers;
                     for (let i = indiceJugadorRecorrido; i < indiceJugadorRecorrido + centerplayer; i++) {
@@ -797,14 +788,14 @@
                         //const card = clon.querySelector("div");
                         //card.textContent = Session.myCards[j].color + " " + Session.myCards[j].name;
                         card.querySelector(".player-name").textContent = plrys[i].userName;
-                        
+
                         card.querySelector("#avatar").src = "Assets/avatars/" + plrys[i].fotoPerfil;
                         card.querySelector(".player-cards-count").textContent = plrys[i].cardsCount;
                         card.dataset.id = plrys[i].id;
 
 
 
-                        
+
 
 
 
@@ -862,7 +853,7 @@
                     for (let j = 0; j < Session.myCards.length; j++) {
                         console.log("XDDDD")
                         const card = handCardTemplate.content.firstElementChild.cloneNode(true);
-                    //  = clon.querySelector("div");
+                        //  = clon.querySelector("div");
                         //card.textContent = Session.myCards[j].color + " " + Session.myCards[j].name;
                         card.dataset.id = Session.myCards[j].id;
                         card.dataset.color = Session.myCards[j].color;
@@ -884,7 +875,7 @@
 
                 }
                 else {
-                   window.location.href = 'index.html';
+                    window.location.href = 'index.html';
 
                 }
 
@@ -894,6 +885,7 @@
             }
 
             cargar();
+            openEndgameModal('win');
 
 
 
@@ -916,7 +908,7 @@
 
             connection.on("PlayerLeft", (carta) => {
                 turnlabel.textContent = Session.players.find(u => u.id === carta.idPlayer).userName + " Abandono la partida";
-               
+
 
                 if (carta.idPlayer != datos.nameid) {
                     const el = document.querySelector('[data-id="' + carta.idPlayer + '"]');
@@ -936,7 +928,7 @@
                         turnlabel.textContent += "\nEs tu turno"
                     }
                     else {
-                        turnlabel.textContent += "\nEs turno de " + Session.players.find(u => u.id === carta.idTurn).userName; 
+                        turnlabel.textContent += "\nEs turno de " + Session.players.find(u => u.id === carta.idTurn).userName;
                         //current-turn
                         document.querySelector('[data-id="' + carta.idPlayer + '"]').querySelector(".player-avatar").classList.remove("current-turn");
                     }
@@ -949,7 +941,7 @@
                     }
                 } catch { };
 
-                
+
 
 
             });
@@ -1007,12 +999,12 @@
                 turnlabel.textContent = "Tomaste una carta";
 
                 try {
-                    let turn =  Session.players.find(u => u.id === carta.idTurn);
+                    let turn = Session.players.find(u => u.id === carta.idTurn);
                     if (turn.id == datos.nameid) {
                         turnlabel.textContent += "\nEs tu turno"
                     }
                     else {
-                        turnlabel.textContent += "\nEs turno de "+ Session.players.find(u => u.id === carta.idTurn).userName;
+                        turnlabel.textContent += "\nEs turno de " + Session.players.find(u => u.id === carta.idTurn).userName;
                     }
 
 
@@ -1023,7 +1015,7 @@
                         startLocalTimer();
                     }
 
-                   
+
 
 
 
@@ -1095,7 +1087,7 @@
                     arrows.classList.remove("reverse");
                 }
 
-               
+
 
             });
 
@@ -1103,8 +1095,12 @@
 
                 //console.log("gganador", Session.players.find(u => u.id === ganador.id).userName);
                 // currentCard.src = "/Assets/Cards/" + carta.card.id + ".png";
-                
-                testEndgameModal('win');
+
+
+
+
+                openEndgameModal('win');
+
 
 
 
@@ -1123,7 +1119,6 @@
 
     </script>
 
-    <script src="script.js"></script>
 </body>
 </html>
 
