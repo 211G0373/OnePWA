@@ -1,0 +1,24 @@
+{
+  "name": "ONE",
+  "short_name": "ONE",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "Assets/512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    },
+    {
+      "src": "Assets/192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "Assets/144.png",
+      "type": "image/png",
+      "sizes": "144x144"
+    }
+  ]
+}
