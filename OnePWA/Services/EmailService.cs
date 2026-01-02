@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using MimeKit;
+using OnePWA.Helpers;
 using OnePWA.Models.Entities;
+using System.Globalization;
 using System.Net;
 using System.Net.Mail;
 
@@ -27,6 +29,9 @@ namespace OnePWA.Services
             var username = smtpSettings["Username"];
             var password = smtpSettings["Password"];
 
+            var datos = Context.Users.FirstOrDefault(x=>x.Email == toEmail);
+            string newPassword = ContraseñaHelper.GenerarContraseña(datos);
+
             using (var client = new SmtpClient(server, port))
             {
                 client.Credentials = new NetworkCredential(username, password);
@@ -36,7 +41,7 @@ namespace OnePWA.Services
                 {
                     From = new MailAddress(senderEmail, senderName),
                     Subject = "Restablecer Contraseña",
-                    Body = "<h1>CODIGOOOO</h1>",
+                    Body = $"<h1>Tu nueva contrasela es:</h1> <h2>{newPassword}</h2>",
                     IsBodyHtml = true
                 };
                 message.To.Add(toEmail);
