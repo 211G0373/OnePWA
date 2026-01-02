@@ -179,7 +179,11 @@
                     })
 
                     if (response.ok) {
+                        closeAvatarModal()
+
                         pic.src = "Assets/avatars/" + source;
+                       
+                        
                     }
 
 
@@ -198,13 +202,13 @@
                 headers,
                 body: JSON.stringify({
                     id: datos.nameid,
-                    nombre:user.value,
-                    contraseña:password.value,
-                    fotoPerfil:pic.src
+                    nombre: user.value,
+                    contraseña: password.value,
+                    fotoPerfil: pic.src
                 })
 
 
-            })
+            });
 
         });
 
