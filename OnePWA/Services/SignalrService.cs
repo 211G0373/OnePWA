@@ -82,6 +82,13 @@ namespace OnePWA.Services
         }
 
 
+        public async Task PlayerHostChanged(string targetUserId, HostChangedDTO dTO)
+        {
+
+            if (Users.TryGetValue(targetUserId, out var connId))
+                await Clients.Client(connId).SendAsync("HostChanged", dTO);
+        }
+
 
 
         public async Task PlayerJoined(string targetUserId, IPlayerDTO dTO)

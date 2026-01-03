@@ -449,6 +449,7 @@
         </button>
     </div>-->
     <!-- Modal Overlay -->
+
     <div class="modal-overlay" id="logoutModal" onclick="closeModalOnOverlay(event)">
         <div class="generic-modal">
             <button class="close-button" onclick="closeModal()">
@@ -553,8 +554,8 @@
 
 
             <div class="endgame-actions profile-actions">
-                <button type="button" class="login-button profile-secondary-btn" onclick="closeEndgameModal()">Salir</button>
-                <button type="button" class="login-button profile-primary-btn" onclick="playAgainFromModal()">Jugar de Nuevo</button>
+                <button type="button" class="login-button profile-secondary-btn">Salir</button>
+                <button type="button" class="login-button profile-primary-btn">Jugar de Nuevo</button>
             </div>
         </div>
     </div>
@@ -676,7 +677,21 @@
             const centerPlayer = document.querySelector(".center-player");
             const arrows = document.querySelector("#arrows");
             const svg = document.querySelector("#Capa_1");
+            const endGameButtons = document.querySelector(".endgame-actions");
 
+
+            endGameButtons.addEventListener("click", async function (e) {
+                if (e.target.classList.contains("profile-primary-btn")) {
+                    const response = await fetch('/api/Sessions/Replay/', {
+                        method: 'POST',
+                        headers
+
+                    });
+                    if (response.ok) {
+                        window.location.href = "crearpartida2.html";
+                    }
+                }
+            })
 
 
             myCards.addEventListener("click", async function (e) {
@@ -847,8 +862,13 @@
                     //    //playersDiv.appendChild(clone);
                     console.log("XDDDD")
 
+                    if (Session.idTurn == datos.nameid) {
+                        turnlabel.textContent = "Es tu turno";
+                    } else {
+                        turnlabel.textContent = "Turno de " + Session.players.find(u => u.id === Session.idTurn).userName;
 
-                    turnlabel.textContent = Session.players.find(u => u.id === Session.idTurn).userName;
+                    }
+
 
 
                     console.log("XDDDD")
@@ -1045,10 +1065,15 @@
                 let p = Session.players.find(u => u.id === carta.idPlayer);
                 p.cardsCount--;
 
+                
 
-                turnlabel.textContent = p.userName + " coloco una carta";
+
                 if (carta.idPlayer != datos.nameid) {
                     document.querySelector('[data-id="' + carta.idPlayer + '"]').querySelector(".player-cards-count").textContent = p.cardsCount;
+                    turnlabel.textContent = p.userName + " coloco una carta";
+
+                } else {
+                    turnlabel.textContent = "Colocaste una carta";
 
                 }
 
@@ -1098,25 +1123,6 @@
 
             connection.on("GameFinished", (ganador) => {
 
-                //console.log("gganador", Session.players.find(u => u.id === ganador.id).userName);
-                // currentCard.src = "/Assets/Cards/" + carta.card.id + ".png";
-
-
-
-
-                
-                //<div class="endgame-header">
-                //    <h2 class="endgame-title" id="endgameTitle">¡Ganaste!</h2>
-                //    <div class="endgame-hero">
-                //        <div class="endgame-hero-avatar">
-                //            <img id="endgameHeroAvatar" src="Assets/avatars/4.jpg" alt="Avatar del jugador destacado" />
-                //            <!--<span class="endgame-hero-badge" id="endgameBadge">★</span>-->
-                //            <img src="Assets/svgs&icons/trophy.png" class="endgame-hero-badge" id="endgameBadge" />
-                //        </div> 
-                //        <p class="endgame-hero-name" id="endgameHeroName">Pato</p>
-                //        <p class="endgame-hero-place" id="endgameHeroPlace">1º lugar</p>
-                //    </div>
-                //</div>
 
                 const Winner = document.querySelector(".endgame-header");
                 const PlayerList = document.querySelector("#player-end-template");
@@ -1131,7 +1137,6 @@
                     openEndgameModal('lose');
                     //mensaje
                     Winner.querySelector(".endgame-title").textContent = "Perdiste...";
-
                     //la copa
                 }
 
@@ -1164,32 +1169,6 @@
                     document.querySelector(".endgame-standings").appendChild(p);
 
                 }
-
-
-                //<template id="player-end-template">
-                //    <div class="endgame-standings" id="endgameStandings">
-                //        <div class="endgame-row">
-                //            <div class="endgame-row-left">
-                //                <span class="endgame-position">1</span>
-                //                <img class="endgame-row-avatar" src="Assets/avatars/4.jpg" alt="Pato" />
-                //                <span class="endgame-row-name">Pato</span>
-                //            </div>
-                //            <span class="endgame-row-cards">Sin cartas</span>
-                //        </div>
-                //    </div>
-                //</template>
-
-
-
-                //foto
-                //nombre
-                //lugar
-
-
-
-
-
-
 
 
 

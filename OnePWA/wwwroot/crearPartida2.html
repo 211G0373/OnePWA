@@ -66,10 +66,12 @@
 
                 <div class="players-list-container">
                     <div class="players-list">
+
+
+
                         <!--<div class="player-item">
                 <img src="Assets/profilePic.png" alt="Avatar" class="player-avatar">
                 <span class="player-name">Pato (yo)</span>
-                <span class="host-badge">Host</span>
             </div>-->
 
                         <template>
@@ -82,6 +84,8 @@
                                         <line x1="6" y1="6" x2="18" y2="18"></line>
                                     </svg>
                                 </button>
+                                <span class="host-badge">Host</span>
+
                             </div>
                         </template>
 
@@ -121,6 +125,26 @@
                 'Authorization': `Bearer ${token}`
             };
 
+            function obtenerDatosDelToken() {
+
+                console.log("d");
+
+                const token = localStorage.getItem('jwtToken');
+                console.log(token);
+                const payload = token.split('.')[1];
+                console.log(payload);
+
+
+                const decoded = JSON.parse(atob(payload));
+
+                console.log(decoded);
+                return decoded;
+            }
+
+
+            const datos = obtenerDatosDelToken();
+
+
             let serverRemainingMs = 0;
             let serverTimestamp = 0;
             let timerInterval = null;
@@ -145,6 +169,26 @@
             });
 
 
+            document.querySelector(".players-list").addEventListener("click", async function (e) {
+
+                if (e.target.classList.contains("remove-player-btn") || e.target.tagName === "svg" || e.target.tagName === "line") {
+                    // let id=e.target.parentElement
+
+                    let id = e.target.closest('.player-item').dataset.id;
+
+                    const response = await fetch('/api/Sessions/RemovePlayer/'+id, {
+                        method: 'POST',
+                        headers
+                    });
+                    
+                }
+
+            })
+
+
+
+
+
 
             //const connection = new signalR.HubConnectionBuilder()
             //    .withUrl("https://localhost:44355/hubs/Signalr", {
@@ -158,6 +202,15 @@
             //    headers,
             //    body: JSON.stringify(formData)
             //});
+
+
+
+
+
+
+
+
+
             async function cargar() {
                 const response = await fetch('/api/Sessions', {
                     method: 'GET',
@@ -179,7 +232,7 @@
 
 
 
-
+                    document.querySelector(".players-list").replaceChildren();
 
                     for (let i = 0; i < Session.players.length; i++) {
                         const card = playerTemplate.content.firstElementChild.cloneNode(true);
@@ -189,6 +242,20 @@
 
                         card.querySelector("img").src = "Assets/avatars/" + Session.players[i].fotoPerfil;
                         //card.querySelector(".player-cards-count").textContent = plrys[i].cardsCount;
+
+                        card.querySelector(".host-badge").style.display = "none";
+
+                        if (Session.idHost != datos.nameid) {
+                            card.querySelector("button").style.display = "none";
+                        }
+                        if (Session.idHost == Session.players[i].id) {
+                            card.querySelector("button").style.display = "none";
+
+                            card.querySelector(".host-badge").style.display = "block";
+
+                        }
+
+
                         card.dataset.id = Session.players[i].id;
 
                         card.children[1].textContent = Session.players[i].userName;
@@ -200,6 +267,8 @@
                     document.getElementById("gameCode").textContent = Session.code;
 
 
+                    document.getElementById("qrcode").replaceChildren();
+
                     new QRCode(document.getElementById("qrcode"), {
                         text: Session.code,
                         width: 128,
@@ -208,6 +277,10 @@
                         colorLight: "#ffffff",
                         correctLevel: QRCode.CorrectLevel.H
                     });
+
+
+
+
                     document.querySelector(".players-count").textContent = Session.players.length + "/8 Jugadores"
 
 
@@ -285,6 +358,21 @@
                     //card.querySelector(".player-name").textContent = plrys[i].userName;
 
                     card.querySelector("img").src = "Assets/avatars/" + player.fotoPerfil;
+
+                    card.querySelector(".host-badge").style.display = "none";
+
+
+                    if (Session.idHost != datos.nameid) {
+                        card.querySelector("button").style.display = "none";
+                    }
+
+                    if (Session.idHost == player.id) {
+                        card.querySelector("button").style.display = "none";
+                        card.querySelector(".host-badge").style.display = "block";
+                    }
+
+
+
                     //card.querySelector(".player-cards-count").textContent = plrys[i].cardsCount;
                     card.dataset.id = player.id;
 
@@ -301,17 +389,39 @@
             });
             connection.on("PlayerLeft", (player) => {
                 console.log(player);
-                if (Session.players.find(x => x.id == player.id) == null) {
+                if (Session.players.find(x => x.id == player.idPlayer) != null) {
 
 
                     document.querySelector('[data-id="' + player.idPlayer + '"]').remove();
                     Session.players = Session.players.filter(s => s.id != player.idPlayer);
                     document.querySelector(".players-count").textContent = Session.players.length + "/8 Jugadores"
 
+                    //if (Session.idHost == player.idPlayer) {
+                    //    cargar();
+                    //}
+
                 }
 
 
             });
+
+            connection.on("HostChanged", (player) => {
+                console.log(player);
+
+                if (Session.players.find(x => x.id == player.hostId) != null) {
+
+
+                    //document.querySelector('[data-id="' + player.idPlayer + '"]').remove();
+                    //Session.players = Session.players.filter(s => s.id != player.idPlayer);
+                    //document.querySelector(".players-count").textContent = Session.players.length + "/8 Jugadores"
+
+                }
+                cargar();
+
+            });
+
+
+
 
             connection.on("Close", () => {
                 window.location.href = 'index.html';

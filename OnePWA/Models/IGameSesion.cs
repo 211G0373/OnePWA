@@ -12,6 +12,9 @@ namespace OnePWA.Models
         string Code { get; set; }
         int IdHost { get; set; }
         LinkedList<IPlayer> Players { get; set; }
+        LinkedList<IPlayer> NoReplayPlayers { get; set; }
+
+        void RePlayGame(int idplayer);
         bool Started { get; set; }
         bool Private { get; set; }
         bool NewRules { get; set; }

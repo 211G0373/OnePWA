@@ -41,7 +41,7 @@ namespace OnePWA.Repositories
 
         public IGameSesion GetByPlayerId(int id)
         {
-            var session = Context.Sesions.FirstOrDefault(x => x.Players.Any(p => p.Id == id));
+            var session = Context.Sesions.FirstOrDefault(x => x.Players.Any(p => p.Id == id) || x.NoReplayPlayers.Any(p => p.Id == id));
             return session;
         }
 

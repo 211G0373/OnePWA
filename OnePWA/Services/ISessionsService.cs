@@ -11,7 +11,7 @@ namespace OnePWA.Services
         ISessionsRepository sessionsRepository { get; }
 
         SignalrService signalrService { get; }
-
+        void Replay(int idPlayer);
         IWaittingSessionDTO PlayerSession(int id);
         IPlayingSessionDTO PlayingSession(int id);
         Task<bool> CreateSession(ICreateSesionDTO sesionDTO, int idHost);

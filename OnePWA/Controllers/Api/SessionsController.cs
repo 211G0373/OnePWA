@@ -40,6 +40,27 @@ namespace OnePWA.Controllers.Api
         }
 
 
+        [HttpPost]
+        [Route("Replay")]
+        public IActionResult Replay()
+        {
+            var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized(new { message = "No se encontró el ID del usuario en el token." });
+            try
+            {
+                service.Replay(int.Parse(userId));
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new { message = ex.Message });
+            }
+        }
+
+
+
+
         [HttpGet]
         [Route("Playing")]
         public IActionResult GetPlaying()
@@ -58,6 +79,31 @@ namespace OnePWA.Controllers.Api
             {
                 return NotFound(new { message = ex.Message });
             }
+        }
+
+        [HttpPost]
+        [Route("RemovePlayer/{id}")]
+        public IActionResult RemovePlayer(int id)
+        {
+            var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized(new { message = "No se encontró el ID del usuario en el token." });
+            try
+            {
+                service.RemovePlayerFromSession(int.Parse(userId), id);
+                return Ok();
+            }
+            catch
+            {
+                return NotFound();
+
+            }
+
+
+
+
+
+
         }
 
         [HttpPost]

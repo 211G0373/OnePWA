@@ -38,6 +38,7 @@ namespace OnePWA.Services
                 Name = session.Name,
                 Code = session.Code,
                 IdHost = session.IdHost,
+                Started = session.Started,
                 PlayerCount = session.Players.Count(),
                 Time = (int)(session.AutoStartTimer.Interval - (DateTime.Now - session.AutostartTime).TotalMilliseconds),
                 Players = session.Players.Select(p => new PlayerDTO
@@ -84,6 +85,14 @@ namespace OnePWA.Services
 
         }
 
+        public async Task EliminarUsuario(int idPlayer)
+        {
+
+        }
+
+
+
+
         public async Task<bool> CreateSession(ICreateSesionDTO sesionDTO, int idHost)
         {
             var existingSession = sessionsRepository.GetByPlayerId(idHost);
@@ -115,6 +124,35 @@ namespace OnePWA.Services
 
             sessionsRepository.Insert(newSession);
             return true;
+
+        }
+
+        public void Replay(int idPlayer)
+        {
+            var session = sessionsRepository.GetByPlayerId(idPlayer);
+            if (session == null)
+            {
+                throw new Exception("Session not found");
+            }
+            session.RePlayGame(idPlayer);
+
+
+            var playerDTO = new PlayerDTO
+            {
+                Id = idPlayer,
+                UserName = usersRepository.Get(idPlayer).Name,
+                FotoPerfil = usersRepository.Get(idPlayer).ProfilePictures
+            };
+
+            foreach (var player in session.Players)
+            {
+                if (player.Id != idPlayer)
+                {
+
+                    _= signalrService.PlayerJoined(player.Id.ToString(), playerDTO);
+                }
+            }
+
 
         }
 
@@ -233,19 +271,45 @@ namespace OnePWA.Services
 
         }
 
+
         public void LeaveSession(int idPlayer)
         {
             throw new NotImplementedException();
         }
+        public void RemovePlayerFromSession(int idPlayer, int idPlayerForRemove)
+        {
+            var session = sessionsRepository.GetByPlayerId(idPlayer);
+            if (session == null)
+            {
+                throw new Exception("Session not found");
+            }
+            if (session.IdHost != idPlayer)
+            {
+                throw new Exception("Only the host can start the game");
+            }
+            if (!session.Players.Any(X => X.Id == idPlayerForRemove))
+            {
+                throw new Exception("EL jugador no esta en la partida");
+            }
+            if (session.Started)
+            {
+                throw new Exception("La partida ya inicio");
+            }
+            session.playerOut(idPlayerForRemove);
+
+
+
+
+        }
+
+
+
 
         public void PlayAgain(int id)
         {
             throw new NotImplementedException();
         }
 
-        public void RemovePlayerFromSession(int idPlayer, int idPlayerForRemove)
-        {
-            throw new NotImplementedException();
-        }
+       
     }
 }
