@@ -141,7 +141,7 @@
 
                 const datos = await response.json();
                 console.log(datos);
-                pic.src = datos.fotoPerfil;
+                pic.src = "Assets/avatars/"+ datos.fotoPerfil;
                 user.value = datos.nombre;
 
             }
@@ -161,7 +161,7 @@
 
         for (var i = 0; i < pics.length; i++) {
 
-            ( function (index) {
+            (function (index) {
                 pics[index].addEventListener("click", async function (e) {
                     console.log("you pic region number " + pics[index].children[0].src);
 
@@ -169,22 +169,25 @@
                     let img = text.split("/");
                     let source = img[5];
                     console.log(source);
-                    //const response = await fetch('/api/Users/ProfilePic/', {
-                    //    method: 'POST',
-                    //    headers,
-                    //    body: JSON.stringify({
-                    //        id: datos.nameid,
-                    //        picture: source,
-                    //    })
-                    //})
+                    const response = await fetch('/api/Users/ProfilePic/', {
+                        method: 'POST',
+                        headers,
+                        body: JSON.stringify({
+                            id: datos.nameid,
+                            picture: source,
+                        })
 
+
+
+                    });
                     if (response.ok) {
                         closeAvatarModal()
 
                         pic.src = "Assets/avatars/" + source;
-                       
-                        
+
+
                     }
+                    
 
 
                 })
