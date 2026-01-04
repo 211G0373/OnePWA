@@ -604,9 +604,9 @@ namespace OnePWA.Models
 
         public async Task GameFinished(int idPlayer)
         {
-            await Task.Delay(1000);
-
             Timer.Stop();
+
+            await Task.Delay(1000);
 
             List<int> playersIds = Players.OrderBy(x => x.Cards.Count()).Select(x => x.Id).ToList();
 
@@ -927,6 +927,11 @@ namespace OnePWA.Models
 
         public async Task playerOut(int idPlayer)
         {
+            if (Players.Count == 2)
+            {
+                Timer.Stop();
+            }
+
             if (NoReplayPlayers.Any(p => p.Id == idPlayer))
             {
                 var node = NoReplayPlayers.First;
@@ -967,8 +972,21 @@ namespace OnePWA.Models
                 await NotificarCierreDePartida(idPlayer);
                 Players.Remove(node);
                 await NotifyPlayerLeft(idPlayer, IdTurn);
+
+                if (Players.Count == 1 && Started)
+                {
+                    //terminar juego
+                    Timer.Stop();
+
+                  
+
+
+                    await GameFinished(Players.First.Value.Id);
+
+                }
+
             }
-            if (Players.Count == 0)
+            if (Players.Count == 0 && NoReplayPlayers.Count==0)
             {
 
                 Close();
@@ -1034,10 +1052,6 @@ namespace OnePWA.Models
                 //terminar juego
                 Timer.Stop();
 
-                if (idPlayer == IdHost)
-                {
-                    await CambiarHost();
-                }
 
 
                 await GameFinished(Players.First.Value.Id);
