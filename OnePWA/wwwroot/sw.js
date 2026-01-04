@@ -28,7 +28,9 @@ self.addEventListener('fetch', (event) => {
         else {
             event.respondWith(cacheFirst(event.request));
         }
-    } console.log("FETCH APIS WORKING");
+    } else { //POST, PUT o DELETE
+        event.respondWith(manejarModificaciones(event.request));
+    }
 });
 
 
@@ -80,3 +82,117 @@ const cacheFirst = async (request) => {
     return await fetch(request);
 };
 
+
+
+async function openDatabase() {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open('oneIDB', 1);
+        request.onerror = () => reject(request.error);
+        request.onsuccess = () => resolve(request.result);
+
+        request.onupgradeneeded = (event) => {
+            const db = event.target.result;
+            if (!db.objectStoreNames.contains('one')) {
+                const store = db.createObjectStore('one', {
+                    keyPath: 'id',
+                    autoIncrement: true
+                });
+                //store.createIndex('indexName', 'objectProperty', { unique: false });
+            }
+        };
+    });
+}
+
+async function manejarModificaciones(request) {
+    let clon = request.clone();
+
+    try {
+        return await fetch(request);
+    }
+    catch (error) {
+        //No pudo enviarlo
+
+
+        let objeto = {
+            method: request.method,
+            url: request.url,
+            headers: Array.from(request.headers.entries())
+        };
+
+        if (request.method == "POST" || request.method == "PUT") {
+            let datos = await clon.text();
+            objeto.body = datos;
+        }
+
+
+        await actualizarObjeto('one', objeto); 
+        console.log("INDEXED WORKS");
+
+        return new Response(null, { status: 200 }); //ok
+
+    }
+}
+
+
+
+async function actualizarObjeto(storeName, objetoActualizado) {
+
+    const db = await openDatabase(); // Función que abre la DB 
+
+    const transaction = db.transaction([storeName], 'readwrite');
+
+    const store = transaction.objectStore(storeName);
+
+    const request = store.put(objetoActualizado); // Reemplaza completamente el objeto 
+
+    return new Promise((resolve, reject) => {
+
+        request.onsuccess = () => resolve(request.result); // Retorna el ID 
+
+        request.onerror = () => reject(request.error);
+
+    });
+
+} 
+
+async function obtenerTodos(storeName) {
+    const db = await openDatabase(); // Función que abre la DB 
+    const transaction = db.transaction(storeName, 'readonly');
+    const store = transaction.objectStore(storeName);
+    const request = store.getAll();
+    return new Promise((resolve, reject) => {
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+    });
+}
+
+
+async function enviarAlReconectar() {
+
+    let one = await obtenerTodos("one");
+    for (let p of one) {
+        //Enviar de uno por uno a internet
+        try {
+            let response = await fetch(p.url, {
+                method: p.method,
+                headers: Array.from(p.headers.entries()),
+                body: p.method == "DELETE" ? null : p.body
+            });
+
+            if (response.ok) {
+                await eliminarObjeto("one", p.id);
+                console.log("ID INDEXED DELETE"+p.id);
+
+            }
+        } catch (error) {
+            break;
+        }
+    }
+}
+
+//Cuando cambia el estado del internet
+self.addEventListener("sync", function (event) {
+    if (event.tag == "one") {
+        event.waitUntil(enviarAlReconectar());
+    }
+});

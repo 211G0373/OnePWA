@@ -95,6 +95,7 @@
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script src="script.js"></script>
+    <script src="sw.js"></script>
         <script>
 
 
@@ -128,7 +129,7 @@
 
         async function cargar() {
 
-            console.log("ID " + datos.nameid);
+            console.log("DATOS " + datos);
 
             const response = await fetch('/api/Users/perfil/' + datos.nameid, {
                 method: 'GET',
@@ -139,11 +140,11 @@
             if (response.ok) {
                 console.log("FETCH THINGY WORKS");
 
-                const datos = await response.json();
-                console.log(datos);
-                pic.src = "Assets/avatars/"+ datos.fotoPerfil;
-                user.value = datos.nombre;
-
+                const data = await response.json();
+                console.log( "DATA"+data);
+                pic.src = data.fotoPerfil;
+                user.value = data.nombre;
+                
             }
             else {
                 console.log("FETCH DONT WORK");
@@ -214,7 +215,6 @@
             });
 
         });
-
 
 
 
