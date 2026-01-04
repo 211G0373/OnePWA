@@ -18,6 +18,11 @@ const cacheAssets = async () => {
 self.addEventListener('install', (event) => {
     event.waitUntil(cacheAssets());
 });
+self.addEventListener("sync", function (event) {
+    if (event.tag == "one") {
+        event.waitUntil(enviarAlReconectar());
+    }
+});
 self.addEventListener('fetch', (event) => {
     if (event.request.method === "GET") {
         // Network First para APIs
@@ -190,9 +195,3 @@ async function enviarAlReconectar() {
     }
 }
 
-//Cuando cambia el estado del internet
-self.addEventListener("sync", function (event) {
-    if (event.tag == "one") {
-        event.waitUntil(enviarAlReconectar());
-    }
-});
