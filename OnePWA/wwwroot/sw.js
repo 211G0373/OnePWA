@@ -195,3 +195,54 @@ async function enviarAlReconectar() {
     }
 }
 
+self.addEventListener("push", function (event) {
+    event.waitUntil(mostrarNotificacion(event));
+});
+
+async function mostrarNotificacion(event) {
+    //en data viene el json que mandamos desde el service
+    if (event.data) {
+        let data = event.data.json();
+
+        if (data) {
+            //buscar las ventanas (o pestañas) que registraron el service worker
+            const windows = await clients.matchAll({ type: "window" });
+
+            //verificar si alguna esta actualmente visible
+            const appVisible = windows.some(w => w.visibilityState == "visible");
+
+            if (appVisible) {
+                // Enviar mensaje a las ventanas visibles, no saldra la ventanita
+                //de notificaciones
+                for (let w of windows) {
+                    if (w.visibilityState == "visible") {
+                        w.postMessage({
+                            tipo: "RECIBIDA",
+                            titulo: data.titulo,
+                            mensaje: data.mensaje
+                        });
+                    }
+                }
+
+                // Mostrar notificación aunque la app esté visible
+                //descomenten esto para se vea la notificación aun si esta abierta
+                await self.registration.showNotification(data.titulo,
+                    {
+                        body: data.mensaje
+                    }
+                );
+            }
+            else {
+                // Mostrar ventana notificación del sistema si no hay cerradas
+                await self.registration.showNotification(data.titulo,
+                    {
+                        body: data.mensaje,
+                        data: {} //por si queiren mandar mas datos
+                    }
+                );
+            }
+
+        }
+    }
+}
+
