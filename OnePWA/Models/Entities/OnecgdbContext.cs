@@ -18,13 +18,11 @@ public partial class OnecgdbContext : DbContext
 
     public virtual DbSet<Cards> Cards { get; set; }
 
+    public virtual DbSet<PushSusbcrption> PushSusbcrption { get; set; }
+
     public virtual DbSet<RefreshTokens> RefreshTokens { get; set; }
 
     public virtual DbSet<Users> Users { get; set; }
-
-//    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-//#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-//        => optionsBuilder.UseMySql("server=localhost;user=root;password=root;database=onecgdb", ServerVersion.Parse("11.5.2-mariadb"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -48,6 +46,36 @@ public partial class OnecgdbContext : DbContext
                 .HasMaxLength(45)
                 .HasColumnName("name");
             entity.Property(e => e.Special).HasColumnName("special");
+        });
+
+        modelBuilder.Entity<PushSusbcrption>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("push_susbcrption");
+
+            entity.Property(e => e.Id)
+                .HasColumnType("int(11)")
+                .HasColumnName("id");
+            entity.Property(e => e.Activo).HasColumnName("activo");
+            entity.Property(e => e.Auth)
+                .HasMaxLength(100)
+                .HasColumnName("auth");
+            entity.Property(e => e.Endpoint)
+                .HasMaxLength(500)
+                .HasColumnName("endpoint");
+            entity.Property(e => e.FechaCreacion)
+                .HasColumnType("timestamp")
+                .HasColumnName("fecha_creacion");
+            entity.Property(e => e.FechaUltimaNotificacion)
+                .HasColumnType("timestamp")
+                .HasColumnName("fecha_ultima_notificacion");
+            entity.Property(e => e.P256dh)
+                .HasMaxLength(200)
+                .HasColumnName("p256dh");
+            entity.Property(e => e.UserAgent)
+                .HasMaxLength(500)
+                .HasColumnName("user_agent");
         });
 
         modelBuilder.Entity<RefreshTokens>(entity =>
@@ -75,7 +103,7 @@ public partial class OnecgdbContext : DbContext
                 .HasMaxLength(500)
                 .HasColumnName("token");
             entity.Property(e => e.Usado)
-                .HasColumnType("tinyint(4)")
+                .HasColumnType("tinyint(2)")
                 .HasColumnName("usado");
 
             entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.RefreshTokens)

@@ -73,6 +73,7 @@ builder.Services.AddTransient<ILoginDTO, LoginDTO>();
 builder.Services.AddTransient<ISessionsService, SessionsService>();
 builder.Services.AddTransient<EmailService>();
 //builder.Services.AddSingleton<IGameService, GameService>();
+builder.Services.AddScoped<IPushNotificationServices, PushNotificationsServices>();
 
 
 

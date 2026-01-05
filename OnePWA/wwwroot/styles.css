@@ -2626,3 +2626,26 @@ h2 {
     }
 }
 
+
+#toast {
+    position: absolute;
+    left: 50%;
+    bottom: 50px;
+    transform: translateX(-50%) translateY(100%);
+    background: #333;
+    color: #fff;
+    padding: 10px 14px;
+    border-radius: 6px;
+    box-shadow: 0 6px 18px rgba(0,0,0,.25);
+    opacity: 0;
+    transition: transform .28s ease,opacity .28s ease;
+    pointer-events: none;
+    font-family: system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+}
+
+    #toast.show {
+        transform: translateX(-50%) translateY(0);
+        opacity: 1;
+        pointer-events: auto;
+    }
+
