@@ -59,7 +59,7 @@ namespace OnePWA.Services
                     Token = refreshToken,
                     Usado = 0
                 };
-                //RefreshTokenRepository.Insert(entidadRefreshToken);
+                RefreshTokenRepository.Insert(entidadRefreshToken);
                 
                 return (token, refreshToken);
             }
@@ -75,7 +75,7 @@ namespace OnePWA.Services
             if (entidad!=null && entidad.Usado==0 && entidad.Expiracion > DateTime.Now)
             {
                 entidad.Usado = 1;
-                //RefreshTokenRepository.Update(entidad);
+                RefreshTokenRepository.Update(entidad);
 
                 //Crear las claims, elegir entre ClaimType o nombre personalizado
                 //No se usan las dos formas, aqui estan con proposito de ejemplo

@@ -19,11 +19,15 @@ self.addEventListener('install', (event) => {
     event.waitUntil(cacheAssets());
 });
 self.addEventListener("sync", function (event) {
+    console.log("sync")
     if (event.tag == "one") {
         event.waitUntil(enviarAlReconectar());
     }
+    console.log("sync2")
 });
 self.addEventListener('fetch', (event) => {
+    console.log("problems");
+
     if (event.request.method === "GET") {
         // Network First para APIs
         if (event.request.url.includes('/api/')) {
@@ -34,7 +38,14 @@ self.addEventListener('fetch', (event) => {
             event.respondWith(cacheFirst(event.request));
         }
     } else { //POST, PUT o DELETE
-        event.respondWith(manejarModificaciones(event.request));
+
+        if (event.request.url.includes('/api/Sessions')) {
+            event.respondWith(networkFirst(event.request));
+        } else {
+            event.respondWith(manejarModificaciones(event.request));
+
+        }
+
     }
 });
 
@@ -45,27 +56,36 @@ const networkFirst = async (request) => {
         let clone = request.clone();
 
         let networkResponse = await fetch(request);
+        console.log("mas problems1");
+
 
          //Detectar 401: Unauthorized
-        //if (networkResponse.status === 401) {
-        //    //Si detecto 401, es porque el token ya caduco
-        //    let response = await fetch("api/usuarios/renew");
-        //    if (response.ok) {
-        //        const token = await response.text();
+        if (networkResponse.status === 401) {
+            //Si detecto 401, es porque el token ya caduco
+            console.log("mas problems2");
 
-        //        const clients = await self.clients.matchAll();
-        //        for (const client of clients) {
-        //            client.postMessage({
-        //                type: 'TOKEN_EXPIRADO',
-        //                jwt: token
-        //            });
-        //        }
-        //        clone.headers.set("Authorization", "Bearer " + token)
-        //        networkResponse = await fetch(clone);
+            let response = await fetch("/api/users/renew");
+            if (response.ok) {
+                const token = await response.text();
 
-        //    }
+                const clients = await self.clients.matchAll();
+                for (const client of clients) {
+                    client.postMessage({
+                        type: 'TOKEN_EXPIRADO',
+                        jwt: token
+                    });
+                }
+                console.log("mas problems");
 
-        //}
+                clone.headers.set("Authorization", "Bearer " + token)
+                networkResponse = await fetch(clone);
+                console.log("mas problems");
+
+            }
+            console.log("mas problems3");
+
+
+        }
 
         if (networkResponse.ok) {
             const cache = await caches.open(cacheName);
@@ -113,6 +133,7 @@ async function manejarModificaciones(request) {
 
     try {
         return await fetch(request);
+
     }
     catch (error) {
         //No pudo enviarlo
@@ -177,6 +198,7 @@ async function enviarAlReconectar() {
     let one = await obtenerTodos("one");
     for (let p of one) {
         //Enviar de uno por uno a internet
+
         try {
             let response = await fetch(p.url, {
                 method: p.method,
