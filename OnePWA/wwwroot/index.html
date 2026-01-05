@@ -148,7 +148,7 @@
 
                 navigator.serviceWorker.addEventListener("message", function (event) {
                     if (event.data.tipo === "RECIBIDA") {
-                        showToast(event.data.titulo);
+                        //showToast(event.data.titulo);
                         console.log("MENSAJE RECIBIDO");
                       
                     }
@@ -156,13 +156,13 @@
             }
 
         }
-        function showToast(text) {
-            const t = document.getElementById("toast");
-            t.textContent = text;
-            t.classList.add('show');
-            clearTimeout(t._hide);
-            t._hide = setTimeout(() => t.classList.remove("show"), 3000);
-        }
+        //function showToast(text) {
+        //    const t = document.getElementById("toast");
+        //    t.textContent = text;
+        //    t.classList.add('show');
+        //    clearTimeout(t._hide);
+        //    t._hide = setTimeout(() => t.classList.remove("show"), 3000);
+        //}
 
         //Metodo auxiliar para codificar la url a un arreglo de bytes
         function urlBase64ToUint8Array(base64String) {
