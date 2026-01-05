@@ -535,7 +535,7 @@
                 </div>
             </div>
 
-          
+
             <div class="endgame-standings" id="endgameStandings">
                 <template id="player-end-template">
                     <div class="endgame-row">
@@ -563,6 +563,8 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
     <script src="script.js"></script>
+    <script src="updatetoken.js"></script>
+
 
     <script>
         const token = localStorage.getItem('jwtToken');
@@ -1065,7 +1067,7 @@
                 let p = Session.players.find(u => u.id === carta.idPlayer);
                 p.cardsCount--;
 
-                
+
 
 
                 if (carta.idPlayer != datos.nameid) {
@@ -1149,11 +1151,11 @@
 
                     return a.userName.localeCompare(b.userName);
                 });
-                
+
                 for (let i = 0; i < Session.players.length; i++) {
                     const p = PlayerList.content.firstElementChild.cloneNode(true);
-                    p.querySelector(".endgame-position").textContent = i+1;
-                    p.querySelector("img").src = "Assets/avatars/"+ Session.players[i].fotoPerfil;
+                    p.querySelector(".endgame-position").textContent = i + 1;
+                    p.querySelector("img").src = "Assets/avatars/" + Session.players[i].fotoPerfil;
                     p.querySelector(".endgame-row-name").textContent = Session.players[i].userName;
 
                     if (i == 0) {

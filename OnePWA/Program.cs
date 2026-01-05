@@ -22,6 +22,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     {
         options.TokenValidationParameters = new TokenValidationParameters
         {
+            ClockSkew = TimeSpan.FromSeconds(5),
             ValidateAudience = true,
             ValidateIssuer = true,
             ValidateLifetime = true,

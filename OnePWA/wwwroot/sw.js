@@ -28,25 +28,33 @@ self.addEventListener("sync", function (event) {
 self.addEventListener('fetch', (event) => {
     console.log("problems");
 
+  
+
     if (event.request.method === "GET") {
         // Network First para APIs
         if (event.request.url.includes('/api/')) {
-            event.respondWith(networkFirst(event.request));
+            event.respondWith(manejarSessiones(event.request));
         }
         // Cache First para archivos estáticos
         else {
             event.respondWith(cacheFirst(event.request));
         }
-    } else { //POST, PUT o DELETE
+    }
+      else { //POST, PUT o DELETE
 
-        if (event.request.url.includes('/api/Sessions')) {
-            event.respondWith(networkFirst(event.request));
+        //Manejo de sesiones
+        if (event.request.url.includes('/api/')) {
+            event.respondWith(manejarSessiones(event.request));
         } else {
             event.respondWith(manejarModificaciones(event.request));
 
         }
 
-    }
+
+
+        }
+
+    
 });
 
 
@@ -94,6 +102,7 @@ const networkFirst = async (request) => {
 
         return networkResponse;
     } catch (error) {
+        console.log(error);
         const cachedResponse = await caches.match(request);
         return cachedResponse || new Response('Offline', { status: 503 });
     }
@@ -127,6 +136,73 @@ async function openDatabase() {
         };
     });
 }
+async function manejarSessiones(request) {
+
+    const requestClone = request.clone();
+    let body = null;
+
+    // Leer body SOLO si existe
+    if (request.method !== "GET" && request.method !== "HEAD") {
+        body = await requestClone.text();
+    }
+
+    let networkResponse;
+
+    try {
+        networkResponse = await fetch(request);
+    } catch {
+        return new Response(
+            JSON.stringify({ offline: true }),
+            { status: 202, headers: { "Content-Type": "application/json" } }
+        );
+    }
+
+    if (networkResponse.status !== 401) {
+        return networkResponse;
+    }
+
+    // 🔁 Renovar token
+    const renewResponse = await fetch("/api/users/renew");
+
+    if (!renewResponse.ok) {
+        return networkResponse;
+    }
+
+    const token = await renewResponse.text();
+
+    // Avisar a las pestañas
+    const clients = await self.clients.matchAll();
+    for (const client of clients) {
+        client.postMessage({
+            type: "TOKEN_EXPIRADO",
+            jwt: token
+        });
+    }
+
+    // 🔥 Reconstruir request ORIGINAL
+    const headers = Object.fromEntries(request.headers.entries());
+
+    // 🔥 eliminar cualquier authorization previo (case-insensitive)
+    for (const key in headers) {
+        if (key.toLowerCase() === "authorization") {
+            delete headers[key];
+        }
+    }
+
+    // agregar el nuevo token
+    headers.Authorization = `Bearer ${token}`;
+
+    const newRequest = new Request(request.url, {
+        method: request.method,
+        headers,
+        body
+    });
+
+    return await fetch(newRequest);
+}
+
+
+
 
 async function manejarModificaciones(request) {
     let clon = request.clone();
@@ -202,7 +278,7 @@ async function enviarAlReconectar() {
         try {
             let response = await fetch(p.url, {
                 method: p.method,
-                headers: Array.from(p.headers.entries()),
+                headers: Object.fromEntries(p.headers),
                 body: p.method == "DELETE" ? null : p.body
             });
 

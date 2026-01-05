@@ -109,6 +109,8 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
 
+    <script src="updatetoken.js"></script>
+
 
     <script>
         const token = localStorage.getItem('jwtToken');
@@ -163,6 +165,7 @@
                     window.location.href = 'game.html';
                 }
                 else {
+
                     console.log("Error al iniciar la partida");
                 }
 
