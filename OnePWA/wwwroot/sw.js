@@ -25,13 +25,23 @@ self.addEventListener("sync", function (event) {
     }
     console.log("sync2")
 });
+
+
+
 self.addEventListener('fetch', (event) => {
     console.log("problems");
+    if (event.request.url.includes('/api/Users')) {
+        console.log("xddddd");
+    }
+    if (event.request.url.includes('/api/')) {
+        console.log("jaja");
+    }
 
   
 
     if (event.request.method === "GET") {
         // Network First para APIs
+
         if (event.request.url.includes('/api/')) {
             event.respondWith(manejarSessiones(event.request));
         }
@@ -40,21 +50,17 @@ self.addEventListener('fetch', (event) => {
             event.respondWith(cacheFirst(event.request));
         }
     }
-      else { //POST, PUT o DELETE
+    else { //POST, PUT o DELETE
+        if (event.request.url.includes('/api/Users') && event.request.method === "PUT") {
+            console.log("xddddd");
 
-        //Manejo de sesiones
-        if (event.request.url.includes('/api/')) {
-            event.respondWith(manejarSessiones(event.request));
-        } else {
             event.respondWith(manejarModificaciones(event.request));
 
+        } else {
+            //Manejo de sesiones
+            event.respondWith(manejarSessiones(event.request));
         }
-
-
-
-        }
-
-    
+    }
 });
 
 
@@ -236,6 +242,19 @@ async function manejarModificaciones(request) {
 }
 
 
+async function eliminarObjeto(storeName, id) {
+    const db = await openDatabase(); // Función que abre la DB 
+    const transaction = db.transaction(storeName, 'readwrite');
+    const store = transaction.objectStore(storeName);
+    const request = store.delete(id);
+    return new Promise((resolve, reject) => {
+        request.onsuccess = () => resolve(); // Confirmación de eliminación 
+        request.onerror = () => reject(request.error);
+    });
+
+}
+
+
 
 async function actualizarObjeto(storeName, objetoActualizado) {
 
@@ -269,6 +288,71 @@ async function obtenerTodos(storeName) {
 }
 
 
+//
+//const requestClone = request.clone();
+//let body = null;
+
+//// Leer body SOLO si existe
+//if (request.method !== "GET" && request.method !== "HEAD") {
+//    body = await requestClone.text();
+//}
+
+//let networkResponse;
+
+//try {
+//    networkResponse = await fetch(request);
+//} catch {
+//    return new Response(
+//        JSON.stringify({ offline: true }),
+//        { status: 202, headers: { "Content-Type": "application/json" } }
+//    );
+//}
+
+//if (networkResponse.status !== 401) {
+//    return networkResponse;
+//}
+
+//// 🔁 Renovar token
+//const renewResponse = await fetch("/api/users/renew");
+
+//if (!renewResponse.ok) {
+//    return networkResponse;
+//}
+
+//const token = await renewResponse.text();
+
+//// Avisar a las pestañas
+//const clients = await self.clients.matchAll();
+//for (const client of clients) {
+//    client.postMessage({
+//        type: "TOKEN_EXPIRADO",
+//        jwt: token
+//    });
+//}
+
+//// 🔥 Reconstruir request ORIGINAL
+//const headers = Object.fromEntries(request.headers.entries());
+
+//// 🔥 eliminar cualquier authorization previo (case-insensitive)
+//for (const key in headers) {
+//    if (key.toLowerCase() === "authorization") {
+//        delete headers[key];
+//    }
+//}
+
+//// agregar el nuevo token
+//headers.Authorization = `Bearer ${token}`;
+
+//const newRequest = new Request(request.url, {
+//    method: request.method,
+//    headers,
+//    body
+//});
+
+//return await fetch(newRequest);
+////
+
+
 async function enviarAlReconectar() {
 
     let one = await obtenerTodos("one");
@@ -278,15 +362,48 @@ async function enviarAlReconectar() {
         try {
             let response = await fetch(p.url, {
                 method: p.method,
-                headers: Object.fromEntries(p.headers),
+                headers: new Headers(p.headers),
                 body: p.method == "DELETE" ? null : p.body
             });
 
             if (response.ok) {
+                console.log("hasta aqui bien");
                 await eliminarObjeto("one", p.id);
-                console.log("ID INDEXED DELETE"+p.id);
+                console.log("ID INDEXED DELETE" + p.id);
 
+            } else if (response.status === 401) {
+                //Si recibo 401, lo reintento actualizando el token
+                let renewResponse = await fetch("/api/users/renew");
+                if (renewResponse.ok) {
+                    const token = await renewResponse.text();
+                    const clients = await self.clients.matchAll();
+                    for (const client of clients) {
+                        client.postMessage({
+                            type: "TOKEN_EXPIRADO",
+                            jwt: token
+                        });
+                    }
+
+                    //Reintentar la petición original con el nuevo token
+                    p.headers = p.headers.filter(h => h[0].toLowerCase() !== "authorization");
+                    p.headers.push(["Authorization", "Bearer " + token]);
+                    let retryResponse = await fetch(p.url, {
+                        method: p.method,
+                        headers: new Headers(p.headers),
+                        body: p.method == "DELETE" ? null : p.body
+                    });
+                    if (retryResponse.ok) {
+                        await eliminarObjeto("one", p.id);
+                        console.log("ID INDEXED DELETE AFTER RENEW" + p.id);
+                    }
+                }
             }
+
+
+
+
+
+
         } catch (error) {
             break;
         }

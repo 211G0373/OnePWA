@@ -2,10 +2,10 @@
             try {
         navigator.serviceWorker.register('/sw.js?v=1');
 
-                //navigator.serviceWorker.ready.then(reg =>
-                //    //Avisame cuando se vaya y regrese el internet
-                //    //reg.sync.register("tareas")
-                //);
+                navigator.serviceWorker.ready.then(reg =>
+                    //Avisame cuando se vaya y regrese el internet
+                    reg.sync.register("one")
+                );
 
                 navigator.serviceWorker.addEventListener('message', (event) => {
                     if (event.data.type === 'TOKEN_EXPIRADO') {

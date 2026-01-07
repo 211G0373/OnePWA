@@ -114,7 +114,7 @@ namespace OnePWA.Controllers.Api
 
         }
 
-        [HttpPost("UpdateProfile")]
+        [HttpPut("UpdateProfile")]
         public IActionResult Update(IProfileDTO dto)
         {
             service.UpdateProfile(dto);

@@ -144,7 +144,7 @@
 
                 const data = await response.json();
                 console.log("DATA" + data);
-                pic.src = data.fotoPerfil;
+                pic.src = "Assets/avatars/"+ data.fotoPerfil;
                 user.value = data.nombre;
 
             }
@@ -159,7 +159,7 @@
 
 
         let pics = document.getElementsByClassName("avatar-option");
-
+       
         console.log(pics);
 
         for (var i = 0; i < pics.length; i++) {
@@ -172,24 +172,24 @@
                     let img = text.split("/");
                     let source = img[5];
                     console.log(source);
-                    const response = await fetch('/api/Users/ProfilePic/', {
-                        method: 'POST',
-                        headers,
-                        body: JSON.stringify({
-                            id: datos.nameid,
-                            picture: source,
-                        })
+                    //const response = await fetch('/api/Users/ProfilePic/', {
+                    //    method: 'POST',
+                    //    headers,
+                    //    body: JSON.stringify({
+                    //        id: datos.nameid,
+                    //        picture: source,
+                    //    })
 
 
 
-                    });
-                    if (response.ok) {
+                    //});
+                    //if (response.ok) {
                         closeAvatarModal()
 
                         pic.src = "Assets/avatars/" + source;
 
 
-                    }
+                    //}
 
 
 
@@ -203,14 +203,18 @@
             e.preventDefault();
             console.log("HOLA");
 
+            let text = pic.src;
+            let img = text.split("/");
+            let source = img[5];
+
             const response = await fetch('/api/Users/UpdateProfile/', {
-                method: 'POST',
+                method: 'PUT',
                 headers,
                 body: JSON.stringify({
                     id: datos.nameid,
                     nombre: user.value,
                     contraseña: password.value,
-                    fotoPerfil: pic.src
+                    fotoPerfil: source
                 })
 
 
