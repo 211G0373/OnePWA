@@ -22,6 +22,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     {
         options.TokenValidationParameters = new TokenValidationParameters
         {
+            ClockSkew = TimeSpan.FromSeconds(5),
             ValidateAudience = true,
             ValidateIssuer = true,
             ValidateLifetime = true,
@@ -73,6 +74,7 @@ builder.Services.AddTransient<ILoginDTO, LoginDTO>();
 builder.Services.AddTransient<ISessionsService, SessionsService>();
 builder.Services.AddTransient<EmailService>();
 //builder.Services.AddSingleton<IGameService, GameService>();
+builder.Services.AddScoped<IPushNotificationServices, PushNotificationsServices>();
 
 
 

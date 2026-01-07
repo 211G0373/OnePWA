@@ -20,11 +20,11 @@
         </svg>
     </a>-->
 
-     <a class="back-button" href="login.html">
+    <a class="back-button" href="login.html">
         <svg viewBox="0 0 24 24">
-          <polyline points="15 18 9 12 15 6"></polyline>
+            <polyline points="15 18 9 12 15 6"></polyline>
         </svg>
-     </a>
+    </a>
 
     <div class="container">
 
@@ -39,7 +39,7 @@
 
         <form class="form-container" id="signUpForm">
             <div class="input-group">
-                <input type="text" class="input-field" placeholder="Nombre de Usuario" id="username" required >
+                <input type="text" class="input-field" placeholder="Nombre de Usuario" id="username" required>
             </div>
 
             <div class="input-group">
@@ -60,6 +60,8 @@
     <script src="script.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <script src="updatetoken.js"></script>
+
     <script>
 
         const headers = {
@@ -87,7 +89,7 @@
             })
 
             if (response.ok) {
-                window.location.href = "login.html";                
+                window.location.href = "login.html";
             }
 
             console.log(username.value);

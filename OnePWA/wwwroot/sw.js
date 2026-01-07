@@ -19,23 +19,42 @@ self.addEventListener('install', (event) => {
     event.waitUntil(cacheAssets());
 });
 self.addEventListener("sync", function (event) {
+    console.log("sync")
     if (event.tag == "one") {
         event.waitUntil(enviarAlReconectar());
     }
+    console.log("sync2")
 });
 self.addEventListener('fetch', (event) => {
+    console.log("problems");
+
+  
+
     if (event.request.method === "GET") {
         // Network First para APIs
         if (event.request.url.includes('/api/')) {
-            event.respondWith(networkFirst(event.request));
+            event.respondWith(manejarSessiones(event.request));
         }
         // Cache First para archivos estáticos
         else {
             event.respondWith(cacheFirst(event.request));
         }
-    } else { //POST, PUT o DELETE
-        event.respondWith(manejarModificaciones(event.request));
     }
+      else { //POST, PUT o DELETE
+
+        //Manejo de sesiones
+        if (event.request.url.includes('/api/')) {
+            event.respondWith(manejarSessiones(event.request));
+        } else {
+            event.respondWith(manejarModificaciones(event.request));
+
+        }
+
+
+
+        }
+
+    
 });
 
 
@@ -45,27 +64,36 @@ const networkFirst = async (request) => {
         let clone = request.clone();
 
         let networkResponse = await fetch(request);
+        console.log("mas problems1");
+
 
          //Detectar 401: Unauthorized
-        //if (networkResponse.status === 401) {
-        //    //Si detecto 401, es porque el token ya caduco
-        //    let response = await fetch("api/usuarios/renew");
-        //    if (response.ok) {
-        //        const token = await response.text();
+        if (networkResponse.status === 401) {
+            //Si detecto 401, es porque el token ya caduco
+            console.log("mas problems2");
 
-        //        const clients = await self.clients.matchAll();
-        //        for (const client of clients) {
-        //            client.postMessage({
-        //                type: 'TOKEN_EXPIRADO',
-        //                jwt: token
-        //            });
-        //        }
-        //        clone.headers.set("Authorization", "Bearer " + token)
-        //        networkResponse = await fetch(clone);
+            let response = await fetch("/api/users/renew");
+            if (response.ok) {
+                const token = await response.text();
 
-        //    }
+                const clients = await self.clients.matchAll();
+                for (const client of clients) {
+                    client.postMessage({
+                        type: 'TOKEN_EXPIRADO',
+                        jwt: token
+                    });
+                }
+                console.log("mas problems");
 
-        //}
+                clone.headers.set("Authorization", "Bearer " + token)
+                networkResponse = await fetch(clone);
+                console.log("mas problems");
+
+            }
+            console.log("mas problems3");
+
+
+        }
 
         if (networkResponse.ok) {
             const cache = await caches.open(cacheName);
@@ -74,6 +102,7 @@ const networkFirst = async (request) => {
 
         return networkResponse;
     } catch (error) {
+        console.log(error);
         const cachedResponse = await caches.match(request);
         return cachedResponse || new Response('Offline', { status: 503 });
     }
@@ -107,12 +136,80 @@ async function openDatabase() {
         };
     });
 }
+async function manejarSessiones(request) {
+
+    const requestClone = request.clone();
+    let body = null;
+
+    // Leer body SOLO si existe
+    if (request.method !== "GET" && request.method !== "HEAD") {
+        body = await requestClone.text();
+    }
+
+    let networkResponse;
+
+    try {
+        networkResponse = await fetch(request);
+    } catch {
+        return new Response(
+            JSON.stringify({ offline: true }),
+            { status: 202, headers: { "Content-Type": "application/json" } }
+        );
+    }
+
+    if (networkResponse.status !== 401) {
+        return networkResponse;
+    }
+
+    // 🔁 Renovar token
+    const renewResponse = await fetch("/api/users/renew");
+
+    if (!renewResponse.ok) {
+        return networkResponse;
+    }
+
+    const token = await renewResponse.text();
+
+    // Avisar a las pestañas
+    const clients = await self.clients.matchAll();
+    for (const client of clients) {
+        client.postMessage({
+            type: "TOKEN_EXPIRADO",
+            jwt: token
+        });
+    }
+
+    // 🔥 Reconstruir request ORIGINAL
+    const headers = Object.fromEntries(request.headers.entries());
+
+    // 🔥 eliminar cualquier authorization previo (case-insensitive)
+    for (const key in headers) {
+        if (key.toLowerCase() === "authorization") {
+            delete headers[key];
+        }
+    }
+
+    // agregar el nuevo token
+    headers.Authorization = `Bearer ${token}`;
+
+    const newRequest = new Request(request.url, {
+        method: request.method,
+        headers,
+        body
+    });
+
+    return await fetch(newRequest);
+}
+
+
+
 
 async function manejarModificaciones(request) {
     let clon = request.clone();
 
     try {
         return await fetch(request);
+
     }
     catch (error) {
         //No pudo enviarlo
@@ -177,10 +274,11 @@ async function enviarAlReconectar() {
     let one = await obtenerTodos("one");
     for (let p of one) {
         //Enviar de uno por uno a internet
+
         try {
             let response = await fetch(p.url, {
                 method: p.method,
-                headers: Array.from(p.headers.entries()),
+                headers: Object.fromEntries(p.headers),
                 body: p.method == "DELETE" ? null : p.body
             });
 
@@ -191,6 +289,57 @@ async function enviarAlReconectar() {
             }
         } catch (error) {
             break;
+        }
+    }
+}
+
+self.addEventListener("push", function (event) {
+    event.waitUntil(mostrarNotificacion(event));
+});
+
+async function mostrarNotificacion(event) {
+    //en data viene el json que mandamos desde el service
+    if (event.data) {
+        let data = event.data.json();
+
+        if (data) {
+            //buscar las ventanas (o pestañas) que registraron el service worker
+            const windows = await clients.matchAll({ type: "window" });
+
+            //verificar si alguna esta actualmente visible
+            const appVisible = windows.some(w => w.visibilityState == "visible");
+
+            if (appVisible) {
+                // Enviar mensaje a las ventanas visibles, no saldra la ventanita
+                //de notificaciones
+                for (let w of windows) {
+                    if (w.visibilityState == "visible") {
+                        w.postMessage({
+                            tipo: "RECIBIDA",
+                            titulo: data.titulo,
+                            mensaje: data.mensaje
+                        });
+                    }
+                }
+
+                // Mostrar notificación aunque la app esté visible
+                //descomenten esto para se vea la notificación aun si esta abierta
+                await self.registration.showNotification(data.titulo,
+                    {
+                        body: data.mensaje
+                    }
+                );
+            }
+            else {
+                // Mostrar ventana notificación del sistema si no hay cerradas
+                await self.registration.showNotification(data.titulo,
+                    {
+                        body: data.mensaje,
+                        data: {} //por si queiren mandar mas datos
+                    }
+                );
+            }
+
         }
     }
 }

@@ -116,7 +116,7 @@ namespace OnePWA.Controllers.Api
                 return Unauthorized(new { message = "No se encontró el ID del usuario en el token." });
 
             var session = await service.CreateSession(dto, int.Parse(userId));
-
+            
             return Ok(session);
         }
 

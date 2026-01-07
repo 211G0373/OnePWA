@@ -64,15 +64,47 @@
 
     </div>
 
-    <!--<script src="script.js"></script>-->
+    <script src="script.js"></script>
+    <!-- <script src="sw.js"></script>-->
+    <script src="updatetoken.js"></script>
+
+    <!--<script>
+        if ('serviceWorker' in navigator) {
+            try {
+                navigator.serviceWorker.register('/sw.js?v=1');
+
+                //navigator.serviceWorker.ready.then(reg =>
+                //    //Avisame cuando se vaya y regrese el internet
+                //    //reg.sync.register("tareas")
+                //);
+
+                navigator.serviceWorker.addEventListener('message', (event) => {
+                    if (event.data.type === 'TOKEN_EXPIRADO') {
+                        console.log('Token expirado detectado por SW');
+                        let token = event.data.jwt;
+                        localStorage.setItem('jwtToken', token);
+                        headers = {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        };
+                        
+                    }
+                });
+            } catch (error) {
+                console.log('Error registrando Service Worker:', error);
+            }
+        }
+    </script>-->
+
+
     <script>
-        const token = localStorage.getItem('jwtToken');
+        let token = localStorage.getItem('jwtToken');
         if (false) {
             window.location.href = 'login.html';
         }
         else {
 
-            const headers = {
+            let headers = {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
             };
@@ -86,7 +118,6 @@
 
                 //const submitButton = e.target.querySelector('button[type="submit"]');
                 //const originalText = submitButton.textContent;
-                console.log("xd");
 
                 try {
                     //submitButton.textContent = 'Iniciando sesión...';
@@ -103,7 +134,6 @@
                         headers,
                         body: JSON.stringify(formData)
                     });
-                    console.log("xd");
 
                     if (response.ok) {
                         //    const token = await response.text();
@@ -115,6 +145,32 @@
                         //    emailInput.reportValidity();
                         //}
                     }
+                    //} else {
+
+                    //        let response2 = await fetch("/api/users/renew");
+                    //        if (response2.ok) {
+                    //            newtoken = await response2.text();
+                    //            localStorage.setItem('jwtToken', token);
+                    //            headers = {
+                    //                'Content-Type': 'application/json',
+                    //                'Authorization': `Bearer ${newtoken}`
+                    //            };
+                    //            //window.location.href = 'index.html';
+                    //            console.log("reintentar");
+
+                    //            const response3 = await fetch('/api/Sessions/', {
+                    //                method: 'POST',
+                    //                headers,
+                    //                body: JSON.stringify(formData)
+                    //            });
+
+                    //            if (response3.ok) {
+                    //                console.log("xd");
+
+                    //            }
+
+                    //        }
+                    //}
                 } catch (error) {
                     //const emailInput = document.getElementById('email');
                     //emailInput.setCustomValidity('Error de conexión');

@@ -12,14 +12,17 @@ namespace OnePWA.Services
 
 
         public IRepository<Users> usersRepository { get; }
+        public IPushNotificationServices NotificationsServices { get; }
         public ISessionsRepository sessionsRepository { get; }
 
         public SignalrService signalrService { get; }
         public ICardsService Cards { get; }
 
-        public SessionsService(IRepository<Users> repository, ISessionsRepository sessionsRepository, SignalrService signalrService, ICardsService cards)
+        public SessionsService(IRepository<Users> repository, IPushNotificationServices notificationsServices,
+            ISessionsRepository sessionsRepository, SignalrService signalrService, ICardsService cards)
         {
             usersRepository = repository;
+            NotificationsServices=notificationsServices;
             this.sessionsRepository = sessionsRepository;
             this.signalrService = signalrService;
             Cards = cards;
@@ -123,6 +126,18 @@ namespace OnePWA.Services
             newSession.Players.AddLast(hostPlayer);
 
             sessionsRepository.Insert(newSession);
+            if (sesionDTO.Private==false)
+            {
+                try
+                {
+                    await NotificationsServices.EnviarMensaje("Partida random disponible", sesionDTO.Name);
+
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+            }
             return true;
 
         }

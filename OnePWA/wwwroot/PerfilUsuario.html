@@ -6,7 +6,8 @@
     <title>ONE - PERFIL</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body class="login-page"><!-- profile-page-->
+<body class="login-page">
+    <!-- profile-page-->
     <a class="back-button" href="index.html">
         <svg viewBox="0 0 24 24">
             <polyline points="15 18 9 12 15 6"></polyline>
@@ -38,8 +39,7 @@
                 <!--<label for="password">Contraseña Nueva</label>-->
                 <div class="profile-input-wrapper">
                     <input type="password" class="profile-input"
-                           placeholder="Contraseña" id="password"
-                           >
+                           placeholder="Contraseña" id="password">
                     <button type="button" class="password-toggle" aria-label="Mostrar contraseña">
                         <ion-icon name="eye-outline"></ion-icon>
                     </button>
@@ -95,8 +95,10 @@
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     <script src="script.js"></script>
+    <script src="updatetoken.js"></script>
+
     <script src="sw.js"></script>
-        <script>
+    <script>
 
 
         const token = localStorage.getItem('jwtToken');
@@ -141,10 +143,10 @@
                 console.log("FETCH THINGY WORKS");
 
                 const data = await response.json();
-                console.log( "DATA"+data);
+                console.log("DATA" + data);
                 pic.src = data.fotoPerfil;
                 user.value = data.nombre;
-                
+
             }
             else {
                 console.log("FETCH DONT WORK");
@@ -188,7 +190,7 @@
 
 
                     }
-                    
+
 
 
                 })
@@ -197,9 +199,9 @@
 
 
 
-        let btn = document.getElementById("cambios").addEventListener("click", async function(e){
+        let btn = document.getElementById("cambios").addEventListener("click", async function (e) {
             e.preventDefault();
-                 console.log("HOLA");
+            console.log("HOLA");
 
             const response = await fetch('/api/Users/UpdateProfile/', {
                 method: 'POST',

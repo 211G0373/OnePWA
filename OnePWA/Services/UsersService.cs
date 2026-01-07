@@ -59,7 +59,7 @@ namespace OnePWA.Services
                     Token = refreshToken,
                     Usado = 0
                 };
-                //RefreshTokenRepository.Insert(entidadRefreshToken);
+                RefreshTokenRepository.Insert(entidadRefreshToken);
                 
                 return (token, refreshToken);
             }
@@ -75,18 +75,19 @@ namespace OnePWA.Services
             if (entidad!=null && entidad.Usado==0 && entidad.Expiracion > DateTime.Now)
             {
                 entidad.Usado = 1;
-                //RefreshTokenRepository.Update(entidad);
+                RefreshTokenRepository.Update(entidad);
 
                 //Crear las claims, elegir entre ClaimType o nombre personalizado
                 //No se usan las dos formas, aqui estan con proposito de ejemplo
                 List<Claim> claims = [
                     new Claim(ClaimTypes.Name, entidad.IdUsuarioNavigation.Name),
-                    new Claim("Nombre", entidad.IdUsuarioNavigation.Name),
+                   // new Claim("Nombre", entidad.IdUsuarioNavigation.Name),
 
                     new Claim(ClaimTypes.NameIdentifier,entidad.IdUsuarioNavigation.Id.ToString()),
-                    new Claim("Id", entidad.IdUsuarioNavigation.Id.ToString()),
+                    //new Claim("Id", entidad.IdUsuarioNavigation.Id.ToString()),
+                    new Claim(ClaimTypes.Email, entidad.IdUsuarioNavigation.Email)];
 
-                    new Claim("Correo", entidad.IdUsuarioNavigation.Email)];
+                //new Claim("Correo", entidad.IdUsuarioNavigation.Email)];
                 //Generar el token
                 var token = jwtHelper.GenerateJwtToken(claims);
 
@@ -95,18 +96,18 @@ namespace OnePWA.Services
 
                 var entidadRefreshToken = new RefreshTokens
                 {
-                    IdUsuario = entidad.Id,
+                    IdUsuario = entidad.IdUsuario,
                     Creado = DateTime.Now,
                     Expiracion = DateTime.Now.AddMonths(3),
                     Token = refreshtoken,
                     Usado = 0
                 };
-                //RefreshTokenRepository.Insert(entidadRefreshToken);
+                RefreshTokenRepository.Insert(entidadRefreshToken);
 
 
 
                 //Regresa el token
-                return (token, refreshToken);
+                return (token, refreshtoken);
 
             }
             else

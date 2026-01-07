@@ -33,7 +33,10 @@
         <button id="joinButton" class="create-match-btn">Unirse</button>
 
     </div>
-    <script>const token = localStorage.getItem('jwtToken');
+    <script src="updatetoken.js"></script>
+
+    <script>
+    const token = localStorage.getItem('jwtToken');
 
         if (!token) {
             window.location.href = 'login.html';
