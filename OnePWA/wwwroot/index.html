@@ -357,8 +357,8 @@
     <!--<script src="script.js"></script>-->
     <script>
         const token = localStorage.getItem('jwtToken');
-
         if (!token) {
+            console.log("no token");
             window.location.href = 'login.html';
         }
         else {

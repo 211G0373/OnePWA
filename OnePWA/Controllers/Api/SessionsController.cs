@@ -116,7 +116,6 @@ namespace OnePWA.Controllers.Api
                 return Unauthorized(new { message = "No se encontró el ID del usuario en el token." });
 
             var session = await service.CreateSession(dto, int.Parse(userId));
-            
             return Ok(session);
         }
 
@@ -169,6 +168,31 @@ namespace OnePWA.Controllers.Api
             }
             return Ok();
         }
+
+
+        [HttpPost]
+        [Route("leave")]
+        public async Task<IActionResult> Abandonar()
+        {
+            var userId = User?.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (string.IsNullOrEmpty(userId))
+                return Unauthorized(new { message = "No se encontró el ID del usuario en el token." });
+
+            try
+            {
+                service.LeaveSession(int.Parse(userId));
+            }
+            catch (Exception ex)
+            {
+                return Unauthorized(new { message = ex.Message });
+            }
+            return Ok();
+        }
+
+
+
+
+
 
         [HttpPost]
         [Route("PLayCard/{id}")]

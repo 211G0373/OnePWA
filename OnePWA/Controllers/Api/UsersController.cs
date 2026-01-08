@@ -34,6 +34,7 @@ namespace OnePWA.Controllers.Api
         [HttpPost("login")]
         public IActionResult Login(LoginDTO dto)
         {
+            dto.Email=dto.Email.ToLower().Replace(" ","");
             var token = service.Login(dto);
             if (token.Item1 == string.Empty)
             {

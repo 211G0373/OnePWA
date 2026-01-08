@@ -289,7 +289,15 @@ namespace OnePWA.Services
 
         public void LeaveSession(int idPlayer)
         {
-            throw new NotImplementedException();
+            var session = sessionsRepository.GetByPlayerId(idPlayer);
+            if (session == null)
+            {
+                throw new Exception("Session not found");
+            }
+          
+           
+           
+            session.playerOut(idPlayer);
         }
         public void RemovePlayerFromSession(int idPlayer, int idPlayerForRemove)
         {

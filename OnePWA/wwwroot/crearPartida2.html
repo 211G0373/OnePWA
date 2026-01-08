@@ -270,6 +270,9 @@
                         startLocalTimer();
                     }
 
+                    if (Session.idHost != datos.nameid) {
+                        document.getElementById("start").style.display = "none";
+                    }
 
 
                     document.querySelector(".players-list").replaceChildren();
