@@ -29,6 +29,211 @@
                 opacity: 1;
                 pointer-events: auto;
             }
+
+        /* Modal Overlay */
+        .modal-change-device {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+            visibility:hidden;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* Modal Content */
+        .modal-content {
+            background: white;
+            border-radius: 24px;
+            padding: 32px 24px;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            animation: slideUp 0.4s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Icon */
+        .modal-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 24px;
+            background: linear-gradient(135deg, #7209b7 0%, #4361ee 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
+        }
+
+            .modal-icon svg {
+                width: 40px;
+                height: 40px;
+                stroke: white;
+                stroke-width: 2;
+                fill: none;
+            }
+
+        /* Title */
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin-bottom: 12px;
+        }
+
+        /* Description */
+        .modal-description {
+            font-size: 1rem;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+
+        /* Device info */
+        .device-info {
+            background: #f5f5f5;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 20px 0 24px;
+            text-align: left;
+        }
+
+        .device-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+            .device-item:last-child {
+                margin-bottom: 0;
+            }
+
+            .device-item svg {
+                width: 24px;
+                height: 24px;
+                stroke: #666;
+                stroke-width: 2;
+                fill: none;
+                flex-shrink: 0;
+            }
+
+        .device-item-content {
+            flex: 1;
+        }
+
+        .device-label {
+            font-size: 0.75rem;
+            color: #999;
+            margin-bottom: 2px;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .device-name {
+            font-size: 0.95rem;
+            color: #1a1a1a;
+            font-weight: 600;
+        }
+
+        /* Buttons */
+        .modal-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #7209b7 0%, #4361ee 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+            .btn-primary:active {
+                transform: translateY(0);
+            }
+
+        .btn-secondary {
+            background: #f5f5f5;
+            color: #666;
+        }
+
+            .btn-secondary:active {
+                transform: scale(0.98);
+            }
+
+        .btn svg {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .modal-content {
+                padding: 28px 20px;
+            }
+
+            .modal-title {
+                font-size: 1.3rem;
+            }
+
+            .modal-description {
+                font-size: 0.95rem;
+            }
+
+            .btn {
+                padding: 14px;
+            }
+        }
     </style>
 </head>
 
@@ -83,6 +288,69 @@
             </a>
         </div>
     </div>
+
+    <!------------------ MODAL DIFFRENT DEVICE -------------------------->
+    <div class="modal-change-device">
+        <div class="modal-content">
+            <!-- Icon -->
+            <div class="modal-icon">
+                <svg viewBox="0 0 24 24">
+                    <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                    <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                </svg>
+            </div>
+
+            <!-- Title -->
+            <h2 class="modal-title">¿Cambiar de dispositivo?</h2>
+
+            <!-- Description -->
+            <p class="modal-description">
+                Detectamos que iniciaste sesión en otro celular
+            </p>
+
+            <!-- Device info (OPTIONAL) -->
+            <!--<div class="device-info">
+                <div class="device-item">
+                    <svg viewBox="0 0 24 24">
+                        <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                    </svg>
+                    <div class="device-item-content">
+                        <div class="device-label">Dispositivo anterior</div>
+                        <div class="device-name">iPhone 12 Pro</div>
+                    </div>
+                </div>
+
+                <div class="device-item">
+                    <svg viewBox="0 0 24 24">
+                        <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                        <circle cx="12" cy="18" r="1" fill="currentColor"></circle>
+                    </svg>
+                    <div class="device-item-content">
+                        <div class="device-label">Dispositivo actual</div>
+                        <div class="device-name">Samsung Galaxy S21</div>
+                    </div>
+                </div>
+            </div>-->
+            <!-- Buttons -->
+            <div class="modal-buttons">
+                <button class="btn btn-primary" onclick="switchDevice()">
+                    <svg viewBox="0 0 24 24">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    Usar este dispositivo
+                </button>
+
+                <button class="btn btn-secondary" onclick="keepOldDevice()">
+                    <svg viewBox="0 0 24 24">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                    Mantener anterior
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
@@ -106,6 +374,7 @@
 
         //    }
         //}
+
 
 
         async function registrar() {
@@ -150,7 +419,7 @@
                     if (event.data.tipo === "RECIBIDA") {
                         //showToast(event.data.titulo);
                         console.log("MENSAJE RECIBIDO");
-                      
+
                     }
                 });
             }

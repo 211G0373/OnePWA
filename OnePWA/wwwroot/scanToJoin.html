@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escanear QR - ONE</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="scanner-page">
+    <div class="scanner-container">
+        <!-- Header -->
+        <div class="scanner-header">
+            <h1 class="scanner-title">Escanear para unirse</h1>
+            <button class="scanner-close-btn" onclick="closeScanner()">
+                <svg viewBox="0 0 24 24" fill="none">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Camera view -->
+        <div class="camera-view">
+            <video id="video" autoplay playsinline></video>
+
+            <!-- Scan overlay -->
+            <div class="scan-overlay">
+                <div class="scan-frame">
+                    <div class="scan-frame-bottom"></div>
+                    <div class="scan-line"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="scanner-controls">
+            <button class="capture-btn" onclick="captureQR()">
+                <!--<svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="12" r="10" fill="currentColor" />
+                </svg>-->
+                <img src="Assets/svgs&icons/Camera.png" />
+            </button>
+        </div>
+    </div>
+</body>
+</html>

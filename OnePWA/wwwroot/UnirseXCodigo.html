@@ -6,7 +6,7 @@
     <title>ONE - Unirse</title>
     <link rel="stylesheet" href="styles.css" >
 </head>
-<body class="login-page">
+<body class="login-page scan-to-join-page">
     <a class="back-button" href="index.html">
         <svg viewBox="0 0 24 24">
             <polyline points="15 18 9 12 15 6"></polyline>
@@ -22,7 +22,7 @@
 
         <div class="welcome-section">
             <h1 class="welcome-title">¡Unete a una Partida!</h1>
-            <p class="welcome-subtitle">Partida mediante codigo</p>
+            <!--<p class="welcome-subtitle">Partida mediante codigo</p>-->
         </div>
 
         <form class="form-container" id="loginForm">
@@ -31,6 +31,8 @@
             </div>
         </form>
         <button id="joinButton" class="create-match-btn">Unirse</button>
+        <span class="orSpan"> o </span>
+        <button id="scanToJoinBtn" class="scan-to-join-btn">Escanear para unirse</button>
 
     </div>
     <script src="updatetoken.js"></script>
