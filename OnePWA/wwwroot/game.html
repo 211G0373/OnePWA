@@ -225,14 +225,14 @@
         }
 
             .side-players-left > :nth-child(2) {
-                margin-right: 30%;
                 margin-left: 0%;
             }
 
             .side-players-right > :nth-child(2) {
                 margin-right: 0%;
-                margin-left: 30%;
             }
+
+
 
         .player-slot {
             width:100%;
@@ -691,7 +691,7 @@
                     <button class="btn btn-cancel" onclick="closeModal()">
                         Cancelar
                     </button>
-                    <button class="btn btn-confirm" onclick="confirmLogout()">
+                    <button class="btn btn-confirm">
                         Sí
                     </button>
                 </div>
@@ -855,6 +855,8 @@
                 }
             });
 
+
+
             function startLocalTimer() {
                 timerInterval = setInterval(() => {
                     const elapsed = Date.now() - serverTimestamp;
@@ -917,7 +919,22 @@
                         window.location.href = "crearpartida2.html";
                     }
                 }
-            })
+            });
+
+            document.querySelector(".btn-confirm").addEventListener("click", async function () {
+                const response = await fetch('/api/Sessions/leave/', {
+                    method: 'POST',
+                    headers
+
+                });
+                if (response.ok) {
+                    window.location.href = "index.html";
+                }
+
+
+
+
+            });
 
 
             myCards.addEventListener("click", async function (e) {
@@ -1202,7 +1219,7 @@
                 console.log("jugador tomo carta:", carta);
                 //budvst el contador de cartas del jugador
 
-
+                
                 let p = Session.players.find(u => u.id === carta.idPlayer);
                 p.cardsCount++;
                 document.querySelector('[data-id="' + carta.idPlayer + '"]').querySelector(".player-cards-count").textContent = p.cardsCount;
