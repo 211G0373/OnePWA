@@ -7,6 +7,9 @@
     <title>ONE - Game</title>
     <link rel="stylesheet" href="styles.css" />
     <style>
+        html{
+            overflow-x:hidden;
+        }
         .player-slot {
             position: relative;
         }
@@ -15,6 +18,195 @@
             height: 100%;
         }
 
+
+
+        .player-hand {
+            position: absolute;
+            bottom: clamp(10px, 1.5vw, 16px);
+            
+            left: 50%;
+            transform: translateX(-70%);
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: clamp(0px, 0.4vw, 6px);
+        }
+
+        .hand-card {
+            transform-origin: center bottom;
+            filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.7));
+            position: relative;
+            width: clamp(78px, 10vw, 100px);
+            height: auto;
+            display: inline-block;
+            margin-right: -55px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+            .hand-card:first-child {
+                margin-left: 0; /* La primera carta no se desplaza */
+            }
+
+            .hand-card:hover {
+                transform: translateY(-20px) scale(1.1); /* Efecto cuando pasas el mouse */
+                z-index: 100 !important;
+            }
+
+            .hand-card img {
+                width: clamp(78px, 10vw, 118px);
+                height: auto;
+            }
+
+      /*  .hand-card-1 {
+            transform: translateY(10px) rotate(-28deg);
+            z-index: 1;
+        }
+
+        .hand-card-2 {
+            transform: translateY(6px) rotate(-18deg);
+            z-index: 2;
+        }
+
+        .hand-card-3 {
+            transform: translateY(3px) rotate(-8deg);
+            z-index: 3;
+        }
+
+        .hand-card-4 {
+            transform: translateY(0) rotate(0deg);
+            z-index: 4;
+        }
+
+        .hand-card-5 {
+            transform: translateY(3px) rotate(8deg);
+            z-index: 3;
+        }
+
+        .hand-card-6 {
+            transform: translateY(6px) rotate(18deg);
+            z-index: 2;
+        }
+
+        .hand-card-7 {
+            transform: translateY(10px) rotate(28deg);
+            z-index: 1;
+        }*/
+
+
+
+     /*   .draw-pile {
+            grid-row: 1 / 2;
+            grid-column: 1 / 2;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+            .draw-pile .card-base {
+                width: clamp(68px, 8vw, 90px);
+                height: auto;
+                filter: drop-shadow(0 12px 18px rgba(0, 0, 0, 0.6));
+            }
+
+            .draw-pile:hover .card-base {
+                transform: translateY(-10px);
+                transition: transform 0.3s ease;
+                cursor: pointer;
+            }
+
+        .draw-count {
+            position: absolute;
+            bottom: -9px;
+            width: 85%;
+            text-align: center;
+            background: var(--bright-gray);
+            border: 2px solid #ccc;
+            color: #111;
+            padding: 2px 10px;
+            border-radius: 2em;
+            font-size: 0.9rem;
+            font-weight: 900;
+            letter-spacing: 0.06em;
+        }*/
+
+       /*
+        .current-card {
+            background-color: red;
+             grid-row: 1 / 2;
+  grid-column: 2 / 3;
+            display: flex;
+        }
+
+            .current-card .card.current {
+                   width: clamp(90px, 10.5vw, 130px);
+    height: auto;
+    filter: drop-shadow(0 14px 26px rgba(0, 0, 0, 0.85));
+            }*/
+
+        .table-center {
+            /*background:orange;*/
+            width: 40%;
+            max-width: 300px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            /*display: grid;*/
+            /* grid-template-columns: 50% 50%;
+            grid-template-rows: auto auto;*/
+            gap: 5%;
+            justify-items: center;
+            align-items: center;
+            justify-content: center;
+            display: flex;
+            /*flex-direction:column;*/
+            /* column-gap: clamp(24px, 3vw, 36px);
+            row-gap: clamp(16px, 2vw, 24px);*/
+        }
+
+        .current, .card-base {
+            transform-origin: center bottom;
+            position: absolute;
+            z-index: 200;
+            width: 20%;
+            max-width: 200px;
+            left: 50%;
+            top: 50%;
+            transform: translateY(-50%) translateX(-110%);
+            filter: drop-shadow(5px 5px 5px rgba(0,0,0,0.4));
+        }
+        .current {
+            transform: translateX(10%) translateY(-50%);
+            --rot: 0deg;
+            --rot2: 0px;
+            animation: cart 1s ease-in forwards;
+        }
+
+        .current-card, .c2 {
+            background:red;
+            width: 50%;
+
+        }
+        
+        .table-center img{
+            top:0;
+            left:0;
+            position:absolute;
+            width:100%;
+            
+        }
+        @keyframes cart {
+            from {
+                transform: scale(10) rotateX(180deg) rotateZ(180deg) translateX(0px) translateY(var(--rot2));
+            }
+
+            to {
+                transform: translateX(10%) translateY(-50%) rotate(var(--rot));
+            }
+        }
+        
         .pruebadiv {
             position: absolute;
             top: 0;
@@ -25,7 +217,7 @@
         }
 
         .side-players-left, .side-players-right, .center-player {
-            padding-top: 10%;
+            padding-top: 10dvh;
             width: 33.3333%;
         }
 
@@ -39,7 +231,8 @@
                 margin-left: 30%;
             }
 
-        .side-players .player-slot {
+        .player-slot {
+            width:100%;
         }
 
         .side-players-left, .side-players-right {
@@ -55,15 +248,12 @@
         .arrows {
             position: absolute;
             display: flex;
-            /*background: red;*/
             width: 100%;
             height: 100%;
-            left: 0px;
+            max-width: 500px;
+            left: 50%;
+            transform:translate(-50%);
             top: 0px;
-            align-content: center;
-            justify-items: center;
-            justify-content: center;
-            align-items: center;
             opacity: 0.5;
         }
 
@@ -123,6 +313,8 @@
     </style>
 </head>
 <body class="game-page">
+    <img id="currentCard" class="card current" src="Assets/Cards/Number Cards/Red/card0=red.png" alt="Carta roja actual" />
+    <img class="card-base" src="Assets/Cards/Wild/card-backwards.png" alt="Mazo para robar" />
 
     <div id="arrows" class="arrows">
         <?xml version="1.0" encoding="iso-8859-1" ?>
@@ -392,34 +584,25 @@
         <!-- Zona central con mazo, descartes y carta actual -->
         <section class="table-center" aria-label="Zona central de cartas">
             <!-- Mazo para robar -->
-            <div class="draw-pile">
-                <img class="card-base" src="Assets/Cards/Wild/card-backwards.png" alt="Mazo para robar" />
-                <span class="draw-count">80</span>
+            <div class="c2">
+
             </div>
 
-            <!-- Pila de descartes (stack) -->
-            <!--<div class="discard-pile">
-                <div class="stacked-cards">
-                    <img class="card stacked-card stacked-1" src="Assets/Cards/Normal/Green/card0=green.png" alt="Carta verde" />
-                    <img class="card stacked-card stacked-2" src="Assets/Cards/Normal/Blue/card0=blue.png" alt="Carta azul" />
-                    <img class="card stacked-card top-card" src="Assets/Cards/Normal/Green/card0=green.png" alt="Carta verde 3" />
-                </div>
-            </div>-->
-            <!-- Carta actual grande -->
             <div class="current-card">
-                <img id="currentCard" class="card current" src="Assets/Cards/Number Cards/Red/card0=red.png" alt="Carta roja actual" />
+
             </div>
 
             <!-- Indicador de turno central -->
-            <div class="turn-indicator" aria-hidden="true">
-                <span class="turn-label">Turno de Pedro</span>
-                <h3 class="turn-indicator" id="clock">5:00</h3>
 
-            </div>
 
 
 
         </section>
+
+        <div class="turn-indicator" aria-hidden="true">
+            <span class="turn-label">Turno de Pedro</span>
+            <h3 class="turn-indicator" id="clock">5:00</h3>
+        </div>
 
         <!-- Mano del jugador principal -->
         <section class="player-hand" aria-label="Tus cartas">
@@ -624,7 +807,7 @@
                         })
                     });
                 if (response.ok) {
-                    currentCard.src = "/assets/cards/" + specialcard.parentElement.dataset.id + ".png";
+                    //  currentCard.src = "/assets/cards/" + specialcard.parentElement.dataset.id + ".png";
                     specialcard.parentElement.remove()
                     closeColorPickerModal();
 
@@ -709,7 +892,7 @@
 
                         });
                         if (response.ok) {
-                            currentCard.src = "/Assets/Cards/" + e.target.parentElement.dataset.id + ".png";
+                            //currentCard.src = "/Assets/Cards/" + e.target.parentElement.dataset.id + ".png";
                             e.target.parentElement.remove()
 
                         }
@@ -978,6 +1161,7 @@
                 console.log("jugador tomo carta:", carta);
                 //budvst el contador de cartas del jugador
 
+
                 let p = Session.players.find(u => u.id === carta.idPlayer);
                 p.cardsCount++;
                 document.querySelector('[data-id="' + carta.idPlayer + '"]').querySelector(".player-cards-count").textContent = p.cardsCount;
@@ -1009,6 +1193,8 @@
                 console.log("tomaste la carta:", carta);
 
 
+
+
                 let p = Session.players.find(u => u.id == datos.nameid);
                 p.cardsCount++;
 
@@ -1019,7 +1205,7 @@
                 card.dataset.color = carta.card.color;
                 card.dataset.name = carta.card.name;
 
-                card.firstElementChild.src = "/Assets/Cards/" + carta.card.id + ".png";
+               
                 // currentCard.src = "/Assets/Cards/" + carta.card.id + ".png";
                 //datos.nameid
 
@@ -1052,15 +1238,95 @@
 
                 //console.log("ss");
                 //console.log(card);
+                card.replaceChildren();
                 myCards.appendChild(card);
+                let elemento = document.querySelector(".card-base").cloneNode();
+                elemento.src = "/Assets/Cards/" + carta.card.id + ".png";
+
+                document.querySelector("body").appendChild(elemento);
+                
+                moverConAnimacion(elemento, card, 700);
 
 
             });
 
-            connection.on("PlayerPlaceCard", (carta) => {
+            async function dats(carta){
+                const newcard = document.createElement("img");
+                const rot = (Math.random() * 20 - 10).toFixed(2); // -10° a +10°
+
+                console.log(rot);
+                newcard.style.setProperty('--rot', `${rot}deg`);
+
+                newcard.src = "/Assets/Cards/Wild/card-backwards.png";
+                document.querySelector("body").appendChild(newcard);
+                newcard.classList.add("current");
+                await new Promise(r => setTimeout(r, 500));
+                newcard.src = "/Assets/Cards/" + carta.card.id + ".png";
+            }
+
+
+            function moverConAnimacion(elemento, nuevoContenedor, duracion = 500) {
+                // Guardar transform original
+
+                
+                const transformOriginal = elemento.style.transform || "";
+               
+
+                // FIRST
+                const first = elemento.getBoundingClientRect();
+
+                // Mover en el DOM
+                nuevoContenedor.appendChild(elemento);
+
+                // LAST
+                const last = elemento.getBoundingClientRect();
+
+                // Diferencia
+                const dx = first.left - last.left;
+                const dy = first.top - last.top;
+
+                // Invertir SIN romper el transform existente
+                elemento.style.transition = "none";
+                elemento.style.transform = `translate(${dx}px, ${dy}px) ${transformOriginal}`;
+
+                // Play
+                requestAnimationFrame(() => {
+                    elemento.style.transition = `all ${duracion}ms ease`;
+                    elemento.style.transform = transformOriginal || "translate(0, 0)";
+                });
+                elemento.classList.remove("card-base");
+
+
+                console.log("movido");
+            }
+
+
+            connection.on("PlayerPlaceCard", async (carta) => {
 
                 console.log("Carta jugada por otro jugador:", carta.card.id);
-                currentCard.src = "/Assets/Cards/" + carta.card.id + ".png";
+
+                const newcard = document.createElement("img");
+                const rot = (Math.random() * 20 - 10).toFixed(2); // -10° a +10°
+
+                console.log(rot);
+                if (carta.idPlayer == datos.nameid) {
+                    newcard.style.setProperty('--rot2', `200px`);
+                } else {
+                    newcard.style.setProperty('--rot2', `-100px`);
+                }
+
+
+                newcard.style.setProperty('--rot', `${rot}deg`);
+
+                newcard.src = "/Assets/Cards/Wild/card-backwards.png";
+                document.querySelector("body").appendChild(newcard);
+                newcard.classList.add("current");
+                await new Promise(r => setTimeout(r, 500));
+                newcard.src = "/Assets/Cards/" + carta.card.id + ".png";
+
+
+
+                //currentCard.src =
                 svg.style.color = carta.card.color;
 
 
@@ -1133,12 +1399,14 @@
                     openEndgameModal('win');
 
                     //mensaje
+
                     //la copa
 
                 } else {
                     openEndgameModal('lose');
                     //mensaje
                     Winner.querySelector(".endgame-title").textContent = "Perdiste...";
+                    Winner.querySelector(".endgame-hero-place").textContent = "";
                     //la copa
                 }
 

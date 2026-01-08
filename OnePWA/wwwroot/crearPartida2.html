@@ -5,6 +5,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ONE - Iniciar Partida</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        .qr-container{
+            
+
+            align-content:center;
+            justify-content:center;
+            align-items:center;
+            justify-items:center;
+        }
+        #qrcode{
+           
+          
+        }
+    </style>
 
 </head>
 <body class="login-page start-match-page">
@@ -27,7 +41,7 @@
             <div class="qr-container">
                 <div id="qrcode"></div>
                 <!--<img id="qrcode" alt="Codigo QR para unirse a la partida" />-->
-                <img src="Assets/qr-code.png" id="qrcode" alt="Codigo QR para unirse a la partida" />
+
             </div>
 
             <div class="code-box">
@@ -267,8 +281,8 @@
 
                     new QRCode(document.getElementById("qrcode"), {
                         text: Session.code,
-                        width: 128,
-                        height: 128,
+                        width: 150,
+                        height: 150,
                         colorDark: "#000000",
                         colorLight: "#ffffff",
                         correctLevel: QRCode.CorrectLevel.H

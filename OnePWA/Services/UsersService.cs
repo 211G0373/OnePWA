@@ -28,7 +28,7 @@ namespace OnePWA.Services
 
 
 
-        public (string, string) Login(ILoginDTO dto)
+        public (string, string, DateTime?) Login(ILoginDTO dto)
         {
             //Regresa el JWT si le permite iniciar sesion
             var hash = EncriptacionHelper.GetHash(dto.Password);
@@ -36,7 +36,7 @@ namespace OnePWA.Services
                 .FirstOrDefault(x => x.Email == dto.Email
                 && x.Password == hash);
             if (entidad == null)
-            { return (string.Empty, string.Empty); }
+            { return (string.Empty, string.Empty, null); }
             else
             {
                 //Crear las claims, elegir entre ClaimType o nombre personalizado
@@ -61,10 +61,10 @@ namespace OnePWA.Services
                 };
                 RefreshTokenRepository.Insert(entidadRefreshToken);
                 
-                return (token, refreshToken);
+                return (token, refreshToken, entidadRefreshToken.Expiracion);
             }
         }
-        public (string, string) RenovarToken(string refreshToken)
+        public (string, string, DateTime?) RenovarToken(string refreshToken)
         {
             //Verificar que exista el refresh token
 
@@ -107,12 +107,12 @@ namespace OnePWA.Services
 
 
                 //Regresa el token
-                return (token, refreshtoken);
+                return (token, refreshtoken, entidadRefreshToken.Expiracion);
 
             }
             else
             {
-                return ("", "");
+                return ("", "", null);
             }
         }
 

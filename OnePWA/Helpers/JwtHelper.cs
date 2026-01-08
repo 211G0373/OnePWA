@@ -25,7 +25,7 @@ namespace OnePWA.Helpers
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
                     Subject = new ClaimsIdentity(claims),
-                    Expires = DateTime.Now.AddMinutes(1), // Establecer tiempo de expiración
+                    Expires = DateTime.Now.AddMinutes(10), // Establecer tiempo de expiración
                     NotBefore = DateTime.Now,
                     Issuer = _issuer,
                     Audience = _audience,

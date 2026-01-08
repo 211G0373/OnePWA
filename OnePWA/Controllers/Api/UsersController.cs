@@ -42,7 +42,9 @@ namespace OnePWA.Controllers.Api
 
             HttpContext.Response.Cookies.Append("refreshtoken", token.Item2, new CookieOptions
             {
-                HttpOnly = true
+                HttpOnly = true,
+                Expires = token.Item3
+
             });
             return Ok(token.Item1);
         }
@@ -66,6 +68,7 @@ namespace OnePWA.Controllers.Api
                     HttpContext.Response.Cookies.Append("refreshtoken", token.Item2, new CookieOptions
                     {
                         HttpOnly = true,
+                        Expires = token.Item3
                     });
 
                     return Ok(token.Item1);
