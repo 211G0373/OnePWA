@@ -356,100 +356,135 @@
 
     <!--<script src="script.js"></script>-->
     <script>
+        const token = localStorage.getItem('jwtToken');
 
-        ////let registro = await navigator.serviceWorker.register("sw.js");
-        //if ('serviceWorker' in navigator) {
-        //    try {
-        //        let registro = navigator.serviceWorker.register('sw.js');
-        //        console.log(registro);
-        //        registrar(registro);
-        //        navigator.serviceWorker.ready.then(reg =>
-        //            //Avisame cuando se vaya y regrese el internet
-        //            reg.sync.register("one")
+        if (!token) {
+            window.location.href = 'login.html';
+        }
+        else {
 
-        //        );
-        //    }
-        //    catch (error) {
-        //        console.log('Error registrando Service Worker:', error);
-
-        //    }
-        //}
+            const headers = {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            };
 
 
+            ////let registro = await navigator.serviceWorker.register("sw.js");
+            //if ('serviceWorker' in navigator) {
+            //    try {
+            //        let registro = navigator.serviceWorker.register('sw.js');
+            //        console.log(registro);
+            //        registrar(registro);
+            //        navigator.serviceWorker.ready.then(reg =>
+            //            //Avisame cuando se vaya y regrese el internet
+            //            reg.sync.register("one")
 
-        async function registrar() {
-            let llave;
+            //        );
+            //    }
+            //    catch (error) {
+            //        console.log('Error registrando Service Worker:', error);
 
-            let registro = await navigator.serviceWorker.register("sw.js");
-            navigator.serviceWorker.ready.then(reg =>
-                //Avisame cuando se vaya y regrese el internet
-                reg.sync.register("one")
+            //    }
+            //}
 
-            );
-            //pedir permiso en el navegador
-            const permission = await Notification.requestPermission();
 
-            if (permission == "granted") {
+            async function cargar() {
 
-                //Solicitar la llave publicar para poder suscribirme
-                const response = await fetch("api/notificaciones/publickey");
+                const response = await fetch('/api/Sessions', {
+                    method: 'GET',
+                    headers
+
+                });
+
                 if (response.ok) {
-                    llave = await response.text();
+                    Session = await response.json();
+                    if (Session.started) {
+                        window.location.href = "game.html";
+                    }
+                    else {
+                        window.location.href = "crearpartida2.html";
+                    }
+
                 }
+            }
 
-                if (llave) {
-                    const subscription = await registro.pushManager.subscribe({
-                        userVisibleOnly: true,
-                        applicationServerKey: urlBase64ToUint8Array(llave)
-                    });
+            cargar();
 
-                    let response = await fetch("api/notificaciones/",
-                        {
-                            method: "post",
-                            headers: { "content-type": "application/json" },
-                            body: JSON.stringify(subscription)
+
+            async function registrar() {
+                let llave;
+
+                let registro = await navigator.serviceWorker.register("sw.js");
+                navigator.serviceWorker.ready.then(reg =>
+                    //Avisame cuando se vaya y regrese el internet
+                    reg.sync.register("one")
+
+                );
+                //pedir permiso en el navegador
+                const permission = await Notification.requestPermission();
+
+                if (permission == "granted") {
+
+                    //Solicitar la llave publicar para poder suscribirme
+                    const response = await fetch("api/notificaciones/publickey");
+                    if (response.ok) {
+                        llave = await response.text();
+                    }
+
+                    if (llave) {
+                        const subscription = await registro.pushManager.subscribe({
+                            userVisibleOnly: true,
+                            applicationServerKey: urlBase64ToUint8Array(llave)
                         });
 
-                    if (response.ok) {
-                        console.log("suscrito a notificaciones");
+                        let response = await fetch("api/notificaciones/",
+                            {
+                                method: "post",
+                                headers: { "content-type": "application/json" },
+                                body: JSON.stringify(subscription)
+                            });
+
+                        if (response.ok) {
+                            console.log("suscrito a notificaciones");
+                        }
                     }
+
+                    navigator.serviceWorker.addEventListener("message", function (event) {
+                        if (event.data.tipo === "RECIBIDA") {
+                            //showToast(event.data.titulo);
+                            console.log("MENSAJE RECIBIDO");
+
+                        }
+                    });
                 }
 
-                navigator.serviceWorker.addEventListener("message", function (event) {
-                    if (event.data.tipo === "RECIBIDA") {
-                        //showToast(event.data.titulo);
-                        console.log("MENSAJE RECIBIDO");
+            }
+            //function showToast(text) {
+            //    const t = document.getElementById("toast");
+            //    t.textContent = text;
+            //    t.classList.add('show');
+            //    clearTimeout(t._hide);
+            //    t._hide = setTimeout(() => t.classList.remove("show"), 3000);
+            //}
 
-                    }
-                });
+            //Metodo auxiliar para codificar la url a un arreglo de bytes
+            function urlBase64ToUint8Array(base64String) {
+                const padding = '='.repeat((4 - base64String.length % 4) % 4);
+                const base64 = (base64String + padding)
+                    .replace(/\-/g, '+')
+                    .replace(/_/g, '/');
+
+                const rawData = window.atob(base64);
+                const outputArray = new Uint8Array(rawData.length);
+
+                for (let i = 0; i < rawData.length; ++i) {
+                    outputArray[i] = rawData.charCodeAt(i);
+                }
+                return outputArray;
             }
 
+            registrar();
         }
-        //function showToast(text) {
-        //    const t = document.getElementById("toast");
-        //    t.textContent = text;
-        //    t.classList.add('show');
-        //    clearTimeout(t._hide);
-        //    t._hide = setTimeout(() => t.classList.remove("show"), 3000);
-        //}
-
-        //Metodo auxiliar para codificar la url a un arreglo de bytes
-        function urlBase64ToUint8Array(base64String) {
-            const padding = '='.repeat((4 - base64String.length % 4) % 4);
-            const base64 = (base64String + padding)
-                .replace(/\-/g, '+')
-                .replace(/_/g, '/');
-
-            const rawData = window.atob(base64);
-            const outputArray = new Uint8Array(rawData.length);
-
-            for (let i = 0; i < rawData.length; ++i) {
-                outputArray[i] = rawData.charCodeAt(i);
-            }
-            return outputArray;
-        }
-
-        registrar();
     </script>
 </body>
 </html>

@@ -5,9 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Escanear QR - ONE</title>
     <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <style>
+        #reader{
+            /*height:100dvh;*/
+        }
+    </style>
+
 </head>
 <body class="scanner-page">
-    <div class="scanner-container">
+    <div>
         <!-- Header -->
         <div class="scanner-header">
             <h1 class="scanner-title">Escanear para unirse</h1>
@@ -20,27 +27,112 @@
         </div>
 
         <!-- Camera view -->
-        <div class="camera-view">
-            <video id="video" autoplay playsinline></video>
-
-            <!-- Scan overlay -->
-            <div class="scan-overlay">
-                <div class="scan-frame">
-                    <div class="scan-frame-bottom"></div>
-                    <div class="scan-line"></div>
-                </div>
-            </div>
+        <div id="reader">
+            
         </div>
 
         <!-- Controls -->
-        <div class="scanner-controls">
-            <button class="capture-btn" onclick="captureQR()">
-                <!--<svg viewBox="0 0 24 24">
-                    <circle cx="12" cy="12" r="10" fill="currentColor" />
-                </svg>-->
-                <img src="Assets/svgs&icons/Camera.png" />
-            </button>
-        </div>
+       
     </div>
+    
+
+
+
+    <script>
+        //  const resultDiv = document.getElementById('resultado');
+
+        function closeScanner() {
+            window.location.href = "unirsexcodigo.html";
+        }
+
+        async function onScanSuccess(decodedText) {
+            // Mostrar el texto decodificado
+            // resultDiv.textContent = `✅ Código detectado: ${decodedText}`;
+
+            // Opcional: detener escaneo para no repetir
+            html5QrCode.stop().then(() => {
+                console.log("Escaneo detenido");
+            }).catch(err => console.error("Error al detener el escaneo", err));
+
+            // Opcional: redirigir si el código es una URL
+
+            try {
+                //submitButton.textContent = 'Iniciando sesión...';
+                //submitButton.disabled = true;
+
+                //const formData = {
+                //    Name: document.getElementById('name').value,
+                //    Private: document.getElementById('private').checked,
+                //    NewRules: document.getElementById('newrules').checked
+                //};
+                //document.getElementById('code').value
+                const token = localStorage.getItem('jwtToken');
+
+                const headers = {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                };
+                const response = await fetch('/api/Sessions/joinByCode/' + decodedText, {
+                    method: 'POST',
+                    headers
+
+                });
+
+                if (response.ok) {
+                    //   const token = await response.json;
+                    //   sessionStorage.setItem('session', token);
+                    window.location.href = 'crearpartida2.html';
+
+                }
+                //            else {
+                //    const emailInput = document.getElementById('email');
+                //    emailInput.setCustomValidity('Credenciales incorrectas');
+                //    emailInput.reportValidity();
+                //}
+            } catch (error) {
+                //const emailInput = document.getElementById('email');
+                //emailInput.setCustomValidity('Error de conexión');
+                //emailInput.reportValidity();
+            } finally {
+                //submitButton.textContent = originalText;
+                //submitButton.disabled = false;
+            }
+
+
+        }
+
+        function onScanError(errorMessage) {
+            // Errores normales mientras escanea (ignorar)
+        }
+
+        const html5QrCode = new Html5Qrcode("reader");
+
+        // Obtener cámaras disponibles
+        Html5Qrcode.getCameras().then(devices => {
+            if (devices && devices.length) {
+                // Usa la cámara trasera si existe (ideal en móviles)
+                const cameraId = devices.length > 1
+                    ? devices[devices.length - 1].id
+                    : devices[0].id;
+
+                html5QrCode.start(
+                    cameraId,
+                    {
+                        fps: 10,        // cuadros por segundo
+                        qrbox: { width: 250, height: 250 } // área visible
+                    },
+                    onScanSuccess,
+                    onScanError
+                );
+            } else {
+                resultDiv.textContent = "No se encontraron cámaras 😢";
+            }
+        }).catch(err => {
+            console.error(err);
+            resultDiv.textContent = "Error al acceder a la cámara";
+        });
+    </script>
 </body>
+
+
 </html>

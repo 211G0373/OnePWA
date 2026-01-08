@@ -18,10 +18,40 @@
            
           
         }
+
+        .loading-page {
+            z-index: 2000;
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100dvw;
+            transition: all 0.5s linear;
+        }
+
+        .hide {
+            opacity: 0;
+            display: none;
+        }
     </style>
 
 </head>
 <body class="login-page start-match-page">
+
+    <div class="loading-page">
+        <div class="logo">
+            <img src="Assets/oneLogo.png" alt="Logo de ONE" class="logo-image" />
+        </div>
+
+        <div class="loading-text">
+            Cargando partida<span class="dots" id="dots"></span>
+        </div>
+
+        <div class="spinner"></div>
+       
+        <!--//<script src="script.js"></script>-->
+
+    </div>
 
     <a class="back-button" href="crear-partida.html">
         <svg viewBox="0 0 24 24">
@@ -77,9 +107,9 @@
 
 
                         <!--<div class="player-item">
-                <img src="Assets/profilePic.png" alt="Avatar" class="player-avatar">
-                <span class="player-name">Pato (yo)</span>
-            </div>-->
+                            <img src="Assets/profilePic.png" alt="Avatar" class="player-avatar">
+                            <span class="player-name">Pato (yo)</span>
+                        </div>-->
 
                         <template>
                             <div class="player-item">
@@ -186,11 +216,11 @@
 
                     let id = e.target.closest('.player-item').dataset.id;
 
-                    const response = await fetch('/api/Sessions/RemovePlayer/'+id, {
+                    const response = await fetch('/api/Sessions/RemovePlayer/' + id, {
                         method: 'POST',
                         headers
                     });
-                    
+
                 }
 
             })
@@ -273,7 +303,7 @@
                         document.querySelector(".players-list").appendChild(card);
                     };
                     document.querySelector(".match-name").textContent = Session.name;
-                   // document.getElementById("host").textContent = "El jefe es " + Session.players.find(u => u.id === Session.idHost).userName;
+                    // document.getElementById("host").textContent = "El jefe es " + Session.players.find(u => u.id === Session.idHost).userName;
                     document.getElementById("gameCode").textContent = Session.code;
 
 
@@ -305,6 +335,7 @@
 
                 }
 
+                document.querySelector(".loading-page").classList.add("hide");
 
 
 
@@ -359,7 +390,7 @@
 
             connection.on("PlayerJoined", (player) => {
                 console.log(player);
-                if (Session.players.find(x => x.id == player.id) ==null) {
+                if (Session.players.find(x => x.id == player.id) == null) {
 
 
                     const card = playerTemplate.content.firstElementChild.cloneNode(true);
@@ -394,8 +425,8 @@
 
                     document.querySelector(".players-count").textContent = Session.players.length + "/8 Jugadores"
                 }
-               
-              
+
+
             });
             connection.on("PlayerLeft", (player) => {
                 console.log(player);

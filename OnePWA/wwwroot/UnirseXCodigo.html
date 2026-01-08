@@ -50,6 +50,11 @@
                 'Authorization': `Bearer ${token}`
             };
 
+            document.getElementById("scanToJoinBtn").addEventListener("click", function () {
+                window.location.href = "scantojoin.html";
+            })
+
+
             document.getElementById('joinButton').addEventListener('click', async (e) => {
                 // e.preventDefault();
 
@@ -57,14 +62,7 @@
                 //const originalText = submitButton.textContent;
 
                 try {
-                    //submitButton.textContent = 'Iniciando sesión...';
-                    //submitButton.disabled = true;
-
-                    //const formData = {
-                    //    Name: document.getElementById('name').value,
-                    //    Private: document.getElementById('private').checked,
-                    //    NewRules: document.getElementById('newrules').checked
-                    //};
+                   
                     document.getElementById('code').value
                     const response = await fetch('/api/Sessions/joinByCode/' + document.getElementById('code').value, {
                         method: 'POST',
@@ -73,8 +71,7 @@
                     });
 
                     if (response.ok) {
-                        //   const token = await response.json;
-                        //   sessionStorage.setItem('session', token);
+                      
                         window.location.href = 'crearpartida2.html';
 
                     }
@@ -104,7 +101,7 @@
 
     </script>
 
-    <!--<script src="script.js"></script>-->
+    <script src="script.js"></script>
 
 
 </body>

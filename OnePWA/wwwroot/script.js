@@ -12,17 +12,17 @@ if (dotsElement) {
 
     // Simular conexión y redireccionar al juego
     // En producción, esto se activaría cuando la conexión WebSocket esté lista
-    setTimeout(() => {
-        document.body.style.transition = 'opacity 0.5s';
-        document.body.style.opacity = '0';
+    //setTimeout(() => {
+    //    document.body.style.transition = 'opacity 0.5s';
+    //    document.body.style.opacity = '0';
 
-        setTimeout(() => {
-            // Cambiar a la URL de tu juego
-          //  window.location.href = 'game.html';
-            // O si usas el mismo HTML con diferentes vistas:
-            // window.location.href = '#game';
-        }, 500);
-    }, 3000); // 3 segundos de ejemplo
+    //    setTimeout(() => {
+    //        // Cambiar a la URL de tu juego
+    //      //  window.location.href = 'game.html';
+    //        // O si usas el mismo HTML con diferentes vistas:
+    //        // window.location.href = '#game';
+    //    }, 500);
+    //}, 3000); // 3 segundos de ejemplo
 }
 
 

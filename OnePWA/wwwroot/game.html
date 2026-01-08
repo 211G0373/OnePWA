@@ -37,6 +37,7 @@
             filter: drop-shadow(0 8px 14px rgba(0, 0, 0, 0.7));
             position: relative;
             width: clamp(78px, 10vw, 100px);
+            max-width:100px;
             height: auto;
             display: inline-block;
             margin-right: -55px;
@@ -55,8 +56,10 @@
 
             .hand-card img {
                 width: clamp(78px, 10vw, 118px);
+                max-width:100px;
                 height: auto;
             }
+
 
       /*  .hand-card-1 {
             transform: translateY(10px) rotate(-28deg);
@@ -171,7 +174,7 @@
             position: absolute;
             z-index: 200;
             width: 20%;
-            max-width: 200px;
+            max-width: 100px;
             left: 50%;
             top: 50%;
             transform: translateY(-50%) translateX(-110%);
@@ -300,19 +303,60 @@
 
         .turn-label {
             white-space: pre-line;
+            
         }
 
         .turn-indicator {
+            transform: translateX(-50%);
+            left: 50%;
+            top: 65%;
+            position: absolute;
             display: flex;
             flex-direction: column;
+            z-index:201;
         }
 
         .left {
             filter: grayscale();
         }
+        .loading-page{
+            z-index:2000;
+            position: absolute;
+            top:0;
+            left:0;
+            height:100%;
+            width: 100dvw;
+            transition:all 0.5s linear;
+        }
+
+        .hide {
+            opacity:0;
+            display:none;
+        }
+
     </style>
 </head>
 <body class="game-page">
+    <div class="turn-indicator" aria-hidden="true">
+        <span class="turn-label">Turno de Pedro</span>
+        <h3  id="clock">5:00</h3>
+    </div>
+    <div class="loading-page">
+        <div class="logo">
+            <img src="Assets/oneLogo.png" alt="Logo de ONE" class="logo-image" />
+        </div>
+
+        <div class="loading-text">
+            Cargando partida<span class="dots" id="dots"></span>
+        </div>
+
+        <div class="spinner"></div>
+
+
+        <!--//<script src="script.js"></script>-->
+
+    </div>
+
     <img id="currentCard" class="card current" src="Assets/Cards/Number Cards/Red/card0=red.png" alt="Carta roja actual" />
     <img class="card-base" src="Assets/Cards/Wild/card-backwards.png" alt="Mazo para robar" />
 
@@ -599,10 +643,7 @@
 
         </section>
 
-        <div class="turn-indicator" aria-hidden="true">
-            <span class="turn-label">Turno de Pedro</span>
-            <h3 class="turn-indicator" id="clock">5:00</h3>
-        </div>
+
 
         <!-- Mano del jugador principal -->
         <section class="player-hand" aria-label="Tus cartas">
@@ -743,9 +784,9 @@
         </div>
     </div>
 
+    <script src="script.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
-    <script src="script.js"></script>
     <script src="updatetoken.js"></script>
 
 
@@ -1090,7 +1131,7 @@
 
                 }
 
-
+                document.querySelector(".loading-page").classList.add("hide");
 
 
             }
@@ -1205,7 +1246,7 @@
                 card.dataset.color = carta.card.color;
                 card.dataset.name = carta.card.name;
 
-               
+
                 // currentCard.src = "/Assets/Cards/" + carta.card.id + ".png";
                 //datos.nameid
 
@@ -1244,13 +1285,13 @@
                 elemento.src = "/Assets/Cards/" + carta.card.id + ".png";
 
                 document.querySelector("body").appendChild(elemento);
-                
+
                 moverConAnimacion(elemento, card, 700);
 
 
             });
 
-            async function dats(carta){
+            async function dats(carta) {
                 const newcard = document.createElement("img");
                 const rot = (Math.random() * 20 - 10).toFixed(2); // -10° a +10°
 
@@ -1268,9 +1309,9 @@
             function moverConAnimacion(elemento, nuevoContenedor, duracion = 500) {
                 // Guardar transform original
 
-                
+
                 const transformOriginal = elemento.style.transform || "";
-               
+
 
                 // FIRST
                 const first = elemento.getBoundingClientRect();
