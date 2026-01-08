@@ -834,6 +834,22 @@
         height: 70%;
     }
 
+.winnings-count-div {
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    gap: .5em;
+}
+    .winnings-count-div span {
+        font-size: 20px;
+        font-weight: 600;
+        color: var(--my-gary);
+    }
+.winnings-count-div img{
+    width:2.5em;
+    aspect-ratio:1;
+}
+
 .profile-form {
     width: 100%;
     display: flex;
