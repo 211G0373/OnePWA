@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <Content Remove="wwwroot\Assets\svgs&amp;icons\Camera.png" />
+    <Content Remove="wwwroot\Assets\svgs&amp;icons\oneLogo.ico" />
+    <Content Remove="wwwroot\favicon.ico" />
   </ItemGroup>
 
  
@@ -39,6 +41,8 @@
 
   <ItemGroup>
     <Resource Include="wwwroot\Assets\svgs&amp;icons\Camera.png" />
+    <Resource Include="wwwroot\Assets\svgs&amp;icons\oneLogo.ico" />
+    <Resource Include="wwwroot\favicon.ico" />
   </ItemGroup>
 
 
