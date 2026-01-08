@@ -6,6 +6,10 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Content Remove="wwwroot\Assets\svgs&amp;icons\Camera.png" />
+  </ItemGroup>
+
  
   <ItemGroup>
     <ApplicationDefinition Include="wwwroot\Assets\svgs&amp;icons\oneHand.svg" />
@@ -31,6 +35,10 @@
 
   <ItemGroup>
     <Folder Include="Mappers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="wwwroot\Assets\svgs&amp;icons\Camera.png" />
   </ItemGroup>
 
 

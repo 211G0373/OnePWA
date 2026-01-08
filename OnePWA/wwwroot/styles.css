@@ -1131,11 +1131,11 @@
     box-shadow: 0 4px 15px rgba(77, 64, 227, 0.4);
 }
 
-    .create-match-btn:hover {
+    /*.create-match-btn:hover {
         background-color: #5a4de6;
         transform: translateY(-2px);
         box-shadow: 0 6px 20px rgba(77, 64, 227, 0.5);
-    }
+    }*/
 
 
 /* Media query para ajustar elementos en pantallas pequeñas */
@@ -1594,6 +1594,277 @@
     }
 
 
+/* -------------------------- SCAN TO JOIN SECTION -------------------------- */
+.scan-to-join-btn {
+    text-align: center;
+    width: 100%;
+    padding: 14px;
+    background-color: white;
+    color: var(--secondary-color-blue);
+    border: 2px solid var(--secondary-color-blue);
+    border-radius: 12px;
+    font-size: clamp(0.9rem, 2.6vw, 1.2rem);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+@media (min-width: 768px) {
+    .scan-to-join-btn {
+        display:none;
+    }
+    .orSpan{
+        display: none;
+    }
+}
+
+/* ---------------- CAMERA SECTION -------------- */
+.scanner-page {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: #000;
+    color: white;
+    overflow: hidden;
+    height: 100vh;
+}
+.scanner-container {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    background: #000;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Header */
+.scanner-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.scanner-close-btn {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+    .scanner-close-btn svg {
+        width: 24px;
+        height: 24px;
+        stroke: white;
+        stroke-width: 3;
+    }
+
+.scanner-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+    flex: 1;
+    padding: 10px 20px;
+}
+
+/* Camera/Video area */
+.camera-view {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #1a1a1a;
+}
+
+#video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+/* Scanning frame overlay */
+.scan-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.scan-frame {
+    position: relative;
+    width: min(80vw, 350px);
+    aspect-ratio: 1;
+    border-radius: 24px;
+}
+
+    /* Corner borders */
+    .scan-frame::before,
+    .scan-frame::after {
+        content: '';
+        position: absolute;
+        width: 60px;
+        height: 60px;
+        border: 6px solid white;
+        border-radius: 8px;
+    }
+
+    .scan-frame::before {
+        top: 0;
+        left: 0;
+        border-right: none;
+        border-bottom: none;
+    }
+
+    .scan-frame::after {
+        top: 0;
+        right: 0;
+        border-left: none;
+        border-bottom: none;
+    }
+
+.scan-frame-bottom::before,
+.scan-frame-bottom::after {
+    content: '';
+    position: absolute;
+    width: 60px;
+    height: 60px;
+    border: 6px solid white;
+    border-radius: 8px;
+}
+
+.scan-frame-bottom::before {
+    bottom: 0;
+    left: 0;
+    border-right: none;
+    border-top: none;
+}
+
+.scan-frame-bottom::after {
+    bottom: 0;
+    right: 0;
+    border-left: none;
+    border-top: none;
+}
+
+/* Scanning line animation */
+.scan-line {
+    position: absolute;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #FFD700, #FFD700, transparent );
+    top: 0;
+    animation: scan 2s ease-in-out infinite;
+    box-shadow: 0 0 20px #FFD700;
+}
+
+@keyframes scan {
+    0% {
+        top: 0;
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 1;
+    }
+
+    45% {
+        top: 100%;
+        opacity: 1;
+    }
+
+    55% {
+        top: 100%;
+        opacity: 1;
+    }
+
+    90% {
+        opacity: 1;
+    }
+
+    100% {
+        top: 0;
+        opacity: 0;
+    }
+}
+
+/* Bottom controls */
+.scanner-controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+}
+
+.capture-btn {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: white;
+    border: 6px solid rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+    .capture-btn:active {
+        transform: scale(0.9);
+    }
+
+    .capture-btn img {
+        width: 36px;
+        height: 36px;
+        fill: #000;
+    }
+
+/* Success feedback */
+.success-feedback {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background: rgba(52, 199, 89, 0.95);
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: all 0.3s;
+}
+
+    .success-feedback.show {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
+
+    .success-feedback svg {
+        width: 50px;
+        height: 50px;
+        stroke: white;
+        stroke-width: 4;
+    }
 /* --------------------------------------------------- GAME VIEW --------------------------------------------------- */
 .game-page {
     min-height: 100vh;
