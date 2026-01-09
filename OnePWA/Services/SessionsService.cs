@@ -130,7 +130,7 @@ namespace OnePWA.Services
             {
                 try
                 {
-                    await NotificationsServices.EnviarMensaje("Partida random disponible", sesionDTO.Name);
+                    _= NotificationsServices.EnviarMensaje("Partida random disponible", sesionDTO.Name);
 
                 }
                 catch (Exception ex)

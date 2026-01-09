@@ -61,7 +61,7 @@ namespace OnePWA.Models
 
             Timer.Elapsed += playerOut;
             Timer.AutoReset = false;
-            Timer.Interval = 3000000; // 60 segundos
+            Timer.Interval = 30000; // 60 segundos
 
 
         }

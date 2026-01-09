@@ -33,7 +33,7 @@ namespace OnePWA.Services
             //Regresa el JWT si le permite iniciar sesion
             var hash = EncriptacionHelper.GetHash(dto.Password);
             var entidad = Repository.GetAll()
-                .FirstOrDefault(x => x.Email == dto.Email
+                .FirstOrDefault(x => x.Email.ToLower() == dto.Email
                 && x.Password == hash);
             if (entidad == null)
             { return (string.Empty, string.Empty, null); }

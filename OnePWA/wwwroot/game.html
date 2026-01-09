@@ -233,6 +233,10 @@
             }
 
 
+        .player-avatar.current-turn {
+            box-shadow: 0 0 0 3px rgba(255, 215, 0, 0.85), 0 0 18px rgba(255, 215, 0, 0.85);
+        }
+
 
         .player-slot {
             width:100%;
@@ -246,6 +250,9 @@
 
             align-content: space-between;
             justify-content: space-around;
+        }
+        .side-players-left{
+            flex-direction: column-reverse;
         }
 
         .arrows {
@@ -444,27 +451,6 @@
         <div class="center-player">
 
 
-            <!--<section class="player-slot" aria-label="Jugador Pedro">
-                <div class="player-count-pill">
-                    <img class="mini-card-back" src="Assets/Cards/Wild/card-backwards.png" alt="Cartas" />
-                    <span class="player-cards-count">3</span>
-                </div>
-                <div class="player-avatar current-turn">
-                    <img src="Assets/avatars/4.jpg" alt="Pedro" />
-                </div>
-                <span class="player-name">Pedro</span>
-                <div class="player-timer">
-                    <div class="timer-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <polyline points="12 6 12 12 16 14"></polyline>
-                        </svg>
-                    </div>
-                    <div class="timer-bar-container">
-                        <div class="timer-bar"></div>
-                    </div>
-                </div>
-            </section>-->
 
         </div>
         <div class="side-players-right">
@@ -488,143 +474,7 @@
 
     <!-- MESA PRINCIPAL -->
     <main class="game-table" aria-label="Mesa de juego ONE">
-        <!-- Slots de jugadores alrededor de la mesa (máx 8) -->
-        <!-- Arriba izquierda -->
-        <!--<section class="player-slot slot-top-left" aria-label="Jugador Patricia">
-            <div class="player-count-pill">
-                <img class="mini-card-back" src="Assets/Cards/card-backwards.png" alt="Cartas" />
-                <span class="player-cards-count">5</span>
-            </div>
-            <div class="player-avatar">
-                <img src="Assets/avatars/2.jpg" alt="Patricia" />
-            </div>
-            <span class="player-name">Patricia</span>
-            <div class="player-timer">
-                <div class="timer-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <polyline points="12 6 12 12 16 14"></polyline>
-                    </svg>
-                </div>
-                <div class="timer-bar-container">
-                    <div class="timer-bar"></div>
-                </div>
-            </div>
-
-        </section>-->
-        <!-- Arriba centro -->
-        <!-- Arriba derecha -->
-        <!--<section class="player-slot slot-top-right" aria-label="Jugador Pedro">
-            <div class="player-count-pill">
-                <img class="mini-card-back" src="Assets/Cards/Wild/card-backwards.png" alt="Cartas" />
-                <span class="player-cards-count">3</span>
-            </div>
-            <div class="player-avatar current-turn">
-                <img src="Assets/avatars/4.jpg" alt="Pedro" />
-            </div>
-            <span class="player-name">Pedro</span>
-            <div class="player-timer">
-                <div class="timer-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <polyline points="12 6 12 12 16 14"></polyline>
-                    </svg>
-                </div>
-                <div class="timer-bar-container">
-                    <div class="timer-bar"></div>
-                </div>
-            </div>
-        </section>-->
-        <!-- Mitad izquierda -->
-        <!--<section class="player-slot slot-middle-left" aria-label="Jugador Teo">
-            <div class="player-count-pill">
-                <img class="mini-card-back" src="Assets/Cards/Wild/card-backwards.png" alt="Cartas" />
-                <span class="player-cards-count">3</span>
-            </div>
-            <div class="player-avatar">
-                <img src="Assets/avatars/1.jpg" alt="Teo" />
-            </div>
-            <span class="player-name">Teo</span>
-            <div class="player-timer">
-                <div class="timer-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <polyline points="12 6 12 12 16 14"></polyline>
-                    </svg>
-                </div>
-                <div class="timer-bar-container">
-                    <div class="timer-bar"></div>
-                </div>
-            </div>
-        </section>-->
-        <!-- Mitad derecha -->
-        <!--<section class="player-slot slot-middle-right" aria-label="Jugador Lali">
-            <div class="player-count-pill">
-                <img class="mini-card-back" src="Assets/Cards/Wild/card-backwards.png" alt="Cartas" />
-                <span class="player-cards-count">4</span>
-            </div>
-            <div class="player-avatar">
-                <img src="Assets/avatars/5.jpg" alt="Lali" />
-            </div>
-            <span class="player-name">Lali</span>
-            <div class="player-timer">
-                <div class="timer-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <polyline points="12 6 12 12 16 14"></polyline>
-                    </svg>
-                </div>
-                <div class="timer-bar-container">
-                    <div class="timer-bar"></div>
-                </div>
-            </div>
-        </section>-->
-        <!-- Abajo izquierda -->
-        <!--<section class="player-slot slot-bottom-left" aria-label="Jugador Ikerto">
-            <div class="player-count-pill">
-                <img class="mini-card-back" src="Assets/Cards/Wild/card-backwards.png" alt="Cartas" />
-                <span class="player-cards-count">9</span>
-            </div>
-            <div class="player-avatar">
-                <img src="Assets/avatars/6.jpg" alt="Ikerto" />
-            </div>
-            <span class="player-name">Ikerto</span>
-
-            <div class="player-timer">
-                <div class="timer-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <polyline points="12 6 12 12 16 14"></polyline>
-                    </svg>
-                </div>
-                <div class="timer-bar-container">
-                    <div class="timer-bar"></div>
-                </div>
-            </div>
-        </section>-->
-        <!-- Abajo derecha -->
-        <!--<section class="player-slot slot-bottom-right" aria-label="Jugador Veta">
-            <div class="player-count-pill">
-                <img class="mini-card-back" src="Assets/Cards/Wild/card-backwards.png" alt="Cartas" />
-                <span class="player-cards-count">6</span>
-            </div>
-            <div class="player-avatar">
-                <img src="Assets/avatars/7.jpg" alt="Veta" />
-            </div>
-            <span class="player-name">Veta</span>
-
-            <div class="player-timer">
-                <div class="timer-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <polyline points="12 6 12 12 16 14"></polyline>
-                    </svg>
-                </div>
-                <div class="timer-bar-container">
-                    <div class="timer-bar"></div>
-                </div>
-            </div>
-        </section>-->
+      
         <!-- Zona central con mazo, descartes y carta actual -->
         <section class="table-center" aria-label="Zona central de cartas">
             <!-- Mazo para robar -->
@@ -1091,20 +941,6 @@
                     }
 
 
-                    //console.log(players);
-
-                    //if (Session.players[i].id != datos.nameid) {
-                    //    players[i].querySelector(".player-name").textContent = Session.players[i].userName;
-                    //    players[i].style.display = "block";
-                    //}
-                    //    //let clone = template.content.cloneNode(true);
-                    //    //console.log("sdsds");
-                    //    //// clone.dataset.id = "j";
-                    //    //clone.querySelector(".name").textContent = Session.players[i].userName;
-                    //    //clone.querySelector(".cardsCount").textContent = Session.players[i].cardsCount;
-                    //    //playersDiv.appendChild(clone);
-                    console.log("XDDDD")
-
                     if (Session.idTurn == datos.nameid) {
                         turnlabel.textContent = "Es tu turno";
                     } else {
@@ -1226,6 +1062,15 @@
                 turnlabel.textContent = p.userName + " tomo una carta";
 
 
+
+                if (carta.idPlayer != datos.nameid) {
+                    document.querySelector('[data-id="' + carta.idPlayer + '"]').querySelector(".player-avatar").classList.remove("current-turn");
+                }
+
+
+                
+
+
                 try {
                     let turn = Session.players.find(u => u.id === carta.idTurn);
                     if (turn.id == datos.nameid) {
@@ -1233,6 +1078,9 @@
                     }
                     else {
                         turnlabel.textContent += "\nEs turno de " + Session.players.find(u => u.id === carta.idTurn).userName;
+                        if (carta.idTurn != datos.nameid) {
+                            document.querySelector('[data-id="' + carta.idTurn + '"]').querySelector(".player-avatar").classList.add("current-turn");
+                        }
                     }
 
 
@@ -1250,6 +1098,17 @@
             connection.on("YouTakeCard", (carta) => {
                 console.log("tomaste la carta:", carta);
 
+
+
+
+                //if (carta.idPlayer != datos.nameid) {
+                //    console.log("a");
+                //    document.querySelector('[data-id="' + carta.idPlayer + '"]').querySelector(".player-avatar").classList.remove("current-turn");
+                //    console.log("qui");
+                //}
+
+
+              
 
 
 
@@ -1276,6 +1135,11 @@
                     }
                     else {
                         turnlabel.textContent += "\nEs turno de " + Session.players.find(u => u.id === carta.idTurn).userName;
+
+                        if (carta.idTurn != datos.nameid) {
+                            console.log("a");
+                            document.querySelector('[data-id="' + carta.idTurn + '"]').querySelector(".player-avatar").classList.add("current-turn");
+                        }
                     }
 
 
@@ -1384,6 +1248,9 @@
 
 
 
+
+
+
                 //currentCard.src =
                 svg.style.color = carta.card.color;
 
@@ -1393,6 +1260,14 @@
 
 
 
+
+                if (carta.idPlayer != datos.nameid) {
+                    document.querySelector('[data-id="' + carta.idPlayer + '"]').querySelector(".player-avatar").classList.remove("current-turn");
+                }
+
+               
+
+              
 
                 if (carta.idPlayer != datos.nameid) {
                     document.querySelector('[data-id="' + carta.idPlayer + '"]').querySelector(".player-cards-count").textContent = p.cardsCount;
@@ -1412,6 +1287,10 @@
                         turnlabel.textContent += "\nEs tu turno"
                     }
                     else {
+                        
+                            document.querySelector('[data-id="' + carta.idTurn + '"]').querySelector(".player-avatar").classList.add("current-turn");
+                       
+
 
 
 

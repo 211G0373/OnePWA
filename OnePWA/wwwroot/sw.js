@@ -159,7 +159,7 @@ async function manejarSessiones(request) {
     } catch {
         return new Response(
             JSON.stringify({ offline: true }),
-            { status: 202, headers: { "Content-Type": "application/json" } }
+            { status: 404, headers: { "Content-Type": "application/json" } }
         );
     }
 
