@@ -939,7 +939,7 @@
 
 /* Botón Crear Partida */
 .create-match-btn {
-    text-decoration:none;
+    text-decoration: none;
     text-align: center;
     width: 100%;
     padding: 14px;
@@ -947,7 +947,7 @@
     color: white;
     border: none;
     border-radius: 12px;
-    font-size: 1.15rem;
+    font-size: clamp(0.9rem, 2.6vw, 1.2rem);
     font-weight: 600;
     cursor: pointer;
     margin-top: 10px;
@@ -1433,13 +1433,9 @@
     font-weight: 600;
     cursor: pointer;
 }
-
 @media (min-width: 768px) {
     .scan-to-join-btn {
         display:none;
-    }
-    .orSpan{
-        display: none;
     }
 }
 
